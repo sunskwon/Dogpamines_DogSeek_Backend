@@ -18,4 +18,5 @@ public class DictService {
 
     public List<DictDTO> selectAllDog(){ return dictMapper.selectAllDog();}
 
+    public DictDTO selectByCode(int dogCode) { return dictMapper.selectByCode(dogCode);}
 }

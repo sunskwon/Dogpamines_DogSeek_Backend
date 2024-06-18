@@ -8,4 +8,6 @@ import java.util.List;
 @Mapper
 public interface DictMapper {
     List<DictDTO> selectAllDog();
+
+    DictDTO selectByCode(int dogCode);
 }
