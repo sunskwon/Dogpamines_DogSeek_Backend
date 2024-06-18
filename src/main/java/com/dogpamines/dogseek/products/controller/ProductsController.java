@@ -24,15 +24,29 @@ public class ProductsController {
         this.productsService = productsService;
     }
 
+
     @GetMapping("/products/{prodCode}")
     public ResponseEntity<Map<String, Object>> selectFindByCode(@PathVariable int prodCode) {
+        
+         HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(new MediaType("application", "JSON", Charset.forName("UTF-8")));
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("product", productsService.selectFindByCode(prodCode));
+          
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/products")
+    public ResponseEntity<Map<String, Object>> selectAllProducts() {
 
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(new MediaType("application", "JSON", Charset.forName("UTF-8")));
 
         Map<String, Object> result = new HashMap<>();
-        result.put("product", productsService.selectFindByCode(prodCode));
+        result.put("products", productsService.selectAllProducts());
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }

@@ -1,2 +1,7 @@
+
 ### selectProductsByNo(사료 상세 조회)
 GET http://localhost:8080/products/3
+
+### selectAllProducts(사료 전체 조회)
+GET http://localhost:8080/products
+
