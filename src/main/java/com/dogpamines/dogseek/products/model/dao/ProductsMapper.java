@@ -9,7 +9,7 @@ import java.util.List;
 public interface ProductsMapper {
 
     Object selectFindByCode(int prodCode);
-
     List<ProductsDTO> selectAllProducts();
+    List<ProductsDTO> productsComparison(int prodCode1, int prodCode2);
 
 }

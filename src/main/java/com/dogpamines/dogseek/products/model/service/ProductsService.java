@@ -18,12 +18,15 @@ public class ProductsService {
         this.prouctsMapper = productsMapper;
     }
 
-
     public Object selectFindByCode(int prodCode) {
         return prouctsMapper.selectFindByCode(prodCode);
     }
 
     public List<ProductsDTO> selectAllProducts() {
         return prouctsMapper.selectAllProducts();
+    }
+
+    public List<ProductsDTO> productsComparison(int prodCode1, int prodCode2) {
+        return prouctsMapper.productsComparison(prodCode1, prodCode2);
     }
 }

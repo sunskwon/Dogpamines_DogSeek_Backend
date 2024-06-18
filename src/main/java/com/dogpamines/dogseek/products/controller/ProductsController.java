@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.charset.Charset;
@@ -25,6 +26,19 @@ public class ProductsController {
     }
 
 
+
+    @GetMapping("/products")
+    public ResponseEntity<Map<String, Object>> selectAllProducts() {
+
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(new MediaType("application", "JSON", Charset.forName("UTF-8")));
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("products", productsService.selectAllProducts());
+
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
     @GetMapping("/products/{prodCode}")
     public ResponseEntity<Map<String, Object>> selectFindByCode(@PathVariable int prodCode) {
         
@@ -38,15 +52,15 @@ public class ProductsController {
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
-    @GetMapping("/products")
-    public ResponseEntity<Map<String, Object>> selectAllProducts() {
+    @GetMapping("/products/comparison")
+    public ResponseEntity<Map<String, Object>> comparisonProducts(@RequestParam int prodCode1, int prodCode2) {
 
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(new MediaType("application", "JSON", Charset.forName("UTF-8")));
 
         Map<String, Object> result = new HashMap<>();
-        result.put("products", productsService.selectAllProducts());
+        result.put("products", productsService.productsComparison(prodCode1,prodCode2));
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
