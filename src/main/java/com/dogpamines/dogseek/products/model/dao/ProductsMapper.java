@@ -7,5 +7,9 @@ import java.util.List;
 
 @Mapper
 public interface ProductsMapper {
+
+    Object selectFindByCode(int prodCode);
+
     List<ProductsDTO> selectAllProducts();
+
 }
