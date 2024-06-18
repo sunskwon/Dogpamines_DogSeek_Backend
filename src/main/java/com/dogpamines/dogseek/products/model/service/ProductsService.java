@@ -21,9 +21,9 @@ public class ProductsService {
 
     public Object selectFindByCode(int prodCode) {
         return prouctsMapper.selectFindByCode(prodCode);
+    }
 
     public List<ProductsDTO> selectAllProducts() {
         return prouctsMapper.selectAllProducts();
-
     }
 }
