@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.charset.Charset;
@@ -35,6 +36,19 @@ public class DictController {
         result.put("dict", dictService.selectAllDog());
 
         System.out.println("AllDog");
+
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/dict/{dogCode}")
+    public ResponseEntity<Map<String, Object>> selectByCode(@PathVariable int dogCode){
+
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("dict", dictService.selectByCode(dogCode));
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
