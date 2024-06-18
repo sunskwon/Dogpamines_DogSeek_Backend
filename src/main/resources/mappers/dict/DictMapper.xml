@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dogpamines.dogseek.dict.model.dao.DictMapper">
+    <resultMap id="dictResultMap" type="com.dogpamines.dogseek.dict.model.dto.DictDTO">
+        <id property="dogCode" column="DOG_CODE" />
+        <result property="dogName" column="DOG_NAME" />
+        <result property="dogSize" column="DOG_SIZE" />
+        <result property="dogSummary" column="DOG_SUMMARY" />
+        <result property="dogHeightM" column="DOG_HEIGHT_M" />
+        <result property="dogWeightM" column="DOG_WEIGHT_M" />
+        <result property="dogHeightF" column="DOG_HEIGHT_F" />
+        <result property="dogWeightF" column="DOG_WEIGHT_F" />
+        <result property="dogChild" column="DOG_CHILD" />
+        <result property="dogYouth" column="DOG_YOUTH" />
+        <result property="dogEld" column="DOG_ELD" />
+        <result property="dogDisease" column="DOG_DISEASE" />
+        <result property="dogDrool" column="DOG_DROOL" />
+        <result property="dogSocial" column="DOG_SOCIAL" />
+        <result property="dogShed" column="DOG_SHED" />
+        <result property="dogBark" column="DOG_BARK" />
+        <result property="dogPet" column="DOG_PET" />
+        <result property="dogHot" column="DOG_HOT" />
+        <result property="dogCold" column="DOG_COLD" />
+        <result property="dogHouse" column="DOG_HOUSE" />
+        <result property="dogGroom" column="DOG_GROOM" />
+        <result property="dogActi" column="DOG_ACTI" />
+        <result property="dogImage" column="DOG_IMAGE" />
+        <result property="dogDetail" column="DOG_DETAIL" />
+    </resultMap>
+
+    <select id="selectAllDog" resultMap="dictResultMap">
+        SELECT
+        DOG_CODE
+        , DOG_NAME
+        , DOG_SIZE
+        , DOG_IMAGE
+        FROM DOG
+    </select>
+    <select id="selectByCode" resultMap="dictResultMap">
+        SELECT
+        DOG_CODE
+        , DOG_NAME
+        , DOG_SIZE
+        , DOG_SUMMARY
+        , DOG_HEIGHT_M
+        , DOG_WEIGHT_M
+        , DOG_HEIGHT_F
+        , DOG_WEIGHT_F
+        , DOG_CHILD
+        , DOG_YOUTH
+        , DOG_ELD
+        , DOG_DISEASE
+        , DOG_DROOL
+        , DOG_SOCIAL
+        , DOG_SHED
+        , DOG_BARK
+        , DOG_PET
+        , DOG_HOT
+        , DOG_COLD
+        , DOG_HOUSE
+        , DOG_GROOM
+        , DOG_ACTI
+        , DOG_DETAIL
+        FROM DOG
+        WHERE DOG_CODE = #{ dogCode }
+    </select>
+    <select id="searchDog" resultMap="dictResultMap">
+        SELECT
+        DOG_CODE
+        , DOG_NAME
+        , DOG_SIZE
+        , DOG_IMAGE
+        FROM DOG
+        WHERE DOG_NAME LIKE CONCAT('%', #{dogName}, '%')
+    </select>
+</mapper>
