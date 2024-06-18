@@ -11,22 +11,26 @@ import java.util.List;
 @Service
 public class ProductsService {
 
-    private ProductsMapper prouctsMapper;
+    private ProductsMapper productsMapper;
 
     @Autowired
     public ProductsService(ProductsMapper productsMapper) {
-        this.prouctsMapper = productsMapper;
+        this.productsMapper = productsMapper;
     }
 
     public Object selectFindByCode(int prodCode) {
-        return prouctsMapper.selectFindByCode(prodCode);
+        return productsMapper.selectFindByCode(prodCode);
     }
 
     public List<ProductsDTO> selectAllProducts() {
-        return prouctsMapper.selectAllProducts();
+        return productsMapper.selectAllProducts();
     }
 
     public List<ProductsDTO> productsComparison(int prodCode1, int prodCode2) {
-        return prouctsMapper.productsComparison(prodCode1, prodCode2);
+        return productsMapper.productsComparison(prodCode1, prodCode2);
+    }
+
+    public List<ProductsDTO> searchProducts(String value, String prodRecom, String prodAge, String prodCook, String prodSize, String prodEffi, Integer prodPrice) {
+        return productsMapper.searchProducts(value, prodRecom, prodAge, prodCook, prodSize, prodEffi, prodPrice);
     }
 }

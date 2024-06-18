@@ -1,10 +1,13 @@
 
-### selectProductsByNo(사료 상세 조회)
-GET http://localhost:8080/products/3
-
 ### selectAllProducts(사료 전체 조회)
 GET http://localhost:8080/products
 
+### selectProductsByNo(사료 상세 조회)
+GET http://localhost:8080/products/3
+
 ### comparisonProducts(사료 비교)
 GET http://localhost:8080/products/comparison?prodCode1=2&prodCode2=30
+
+### searchProducts(사료 검색)
+GET http://localhost:8080/products/search?value=&prodRecom=&prodAge=&prodCook=건식&prodSize=&prodEffi=&prodPrice=31000
 
