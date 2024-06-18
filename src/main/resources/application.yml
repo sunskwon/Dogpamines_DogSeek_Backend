@@ -1,0 +1,4 @@
+
+
+mybatis:
+  mapper-locations: mappers/**/*.xml
