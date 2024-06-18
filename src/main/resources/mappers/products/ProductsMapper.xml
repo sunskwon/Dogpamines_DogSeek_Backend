@@ -3,5 +3,30 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dogpamines.dogseek.products.model.dao.ProductsMapper">
+    <resultMap id="productsResultMap" type="com.dogpamines.dogseek.products.model.dto.ProductsDTO">
+        <id property="prodCode" column="PROD_CODE"/>
+        <result property="prodName" column="PROD_NAME"/>
+        <result property="prodManufac" column="PROD_MANUFAC"/>
+        <result property="prodPrice" column="PROD_PRICE"/>
+        <result property="prodAge" column="PROD_AGE"/>
+        <result property="prodEffi" column="PROD_EFFI"/>
+        <result property="prodRecom" column="PROD_RECOM"/>
+        <result property="prodSite" column="PROD_SITE"/>
+        <result property="prodCook" column="PROD_COOK"/>
+        <result property="prodGrade" column="PROD_GRADE"/>
+        <result property="prodIngra" column="PROD_INGRA"/>
+        <result property="prodSize" column="PROD_SIZE"/>
+        <result property="prodImage" column="PROD_IMAGE"/>
+    </resultMap>
+
+    <select id="selectAllProducts" resultMap="productsResultMap">
+        SELECT
+        PROD_CODE
+        , PROD_GRADE
+        , PROD_NAME
+        , PROD_MANUFAC
+        , PROD_IMAGE
+        FROM PROD
+    </select>
 
 </mapper>
