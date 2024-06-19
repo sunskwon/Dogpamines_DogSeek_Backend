@@ -17,3 +17,6 @@ Content-Type: application/json
   "curationCook": "건식",
   "userCode": 3
 }
+
+### curationProducts(사료 추천)
+GET http://localhost:8080/curation?curationAge=&curationIngra=&curationDisease=&curationAllergy=&curationCook=
