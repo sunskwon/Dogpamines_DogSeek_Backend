@@ -1,0 +1,19 @@
+### curation(큐레이션 조건 등록)
+POST http://localhost:8080/curation
+Content-Type: application/json
+
+{
+  "curationAge": "노년기",
+  "curationIngra": "소고기",
+  "curationDisease": "관절",
+  "curationAllergy": "닭고기",
+  "curationBreed": "비글",
+  "curationGender": "남",
+  "curationNeut": "X",
+  "curationWeight": "3.7kg",
+  "curationName": "모루",
+  "curationDate": "2024-06-18",
+  "curationSize": "소형견",
+  "curationCook": "건식",
+  "userCode": 3
+}

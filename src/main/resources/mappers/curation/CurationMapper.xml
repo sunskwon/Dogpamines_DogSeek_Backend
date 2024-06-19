@@ -3,5 +3,59 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dogpamines.dogseek.curation.model.dao.CurationMapper">
+    <resultMap id="curationResultMap" type="com.dogpamines.dogseek.curation.model.dto.CurationDTO">
+        <id property="curationCode" column="CURATION_CODE"/>
+        <result property="curationAge" column="CURATION_AGE"/>
+        <result property="curationIngra" column="CURATION_INGRA"/>
+        <result property="curationDisease" column="CURATION_DISEASE"/>
+        <result property="curationALLERGY" column="CURATION_ALLERGY"/>
+        <result property="curationBreed" column="CURATION_BREED"/>
+        <result property="curationGender" column="CURATION_GENDER"/>
+        <result property="curationNeut" column="CURATION_NEUT"/>
+        <result property="curationWeight" column="CURATION_WEIGHT"/>
+        <result property="curationName" column="CURATION_NAME"/>
+        <result property="curationDate" column="CURATION_DATE"/>
+        <result property="curationSize" column="CURATION_SIZE"/>
+        <result property="curationCook" column="CURATION_COOK"/>
+        <result property="userCode" column="USER_CODE"/>
+    </resultMap>
 
+    <select id="lastCuration" resultType="java.lang.Integer">
+        SELECT
+        MAX(CURATION_CODE)
+        FROM CURATION
+    </select>
+
+    <insert id="insertCuration" parameterType="com.dogpamines.dogseek.curation.model.dto.CurationDTO">
+        INSERT INTO CURATION(
+        CURATION_CODE
+        , CURATION_AGE
+        , CURATION_INGRA
+        , CURATION_DISEASE
+        , CURATION_ALLERGY
+        , CURATION_BREED
+        , CURATION_GENDER
+        , CURATION_NEUT
+        , CURATION_WEIGHT
+        , CURATION_NAME
+        , CURATION_DATE
+        , CURATION_SIZE
+        , CURATION_COOK
+        , USER_CODE)
+        VALUES(
+        #{ curationCode }
+        , #{ curationAge }
+        , #{ curationIngra }
+        , #{ curationDisease }
+        , #{ curationAllergy }
+        , #{ curationBreed }
+        , #{ curationGender }
+        , #{ curationNeut }
+        , #{ curationWeight }
+        , #{ curationName }
+        , #{ curationDate }
+        , #{ curationSize }
+        , #{ curationCook }
+        , #{ userCode })
+    </insert>
 </mapper>
