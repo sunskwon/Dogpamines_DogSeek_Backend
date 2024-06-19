@@ -64,4 +64,19 @@ public class ProductsController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
+
+    @GetMapping("/products/search")
+    public ResponseEntity<Map<String, Object>> searchProducts(@RequestParam String value, String prodRecom,
+                                                              String prodAge, String prodCook, String prodSize,
+                                                              String prodEffi, Integer prodPrice) {
+
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(new MediaType("application", "JSON", Charset.forName("UTF-8")));
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("products", productsService.searchProducts(value, prodRecom, prodAge, prodCook, prodSize, prodEffi, prodPrice));
+
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
 }

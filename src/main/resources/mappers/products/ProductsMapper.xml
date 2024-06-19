@@ -70,4 +70,47 @@
         OR PROD_CODE = #{ prodCode2 }
     </select>
 
+    <select id="searchProducts" resultMap="productsResultMap">
+        SELECT
+        PROD_CODE,
+        PROD_NAME,
+        PROD_MANUFAC,
+        PROD_PRICE,
+        PROD_AGE,
+        PROD_EFFI,
+        PROD_RECOM,
+        PROD_SITE,
+        PROD_COOK,
+        PROD_GRADE,
+        PROD_INGRA,
+        PROD_SIZE,
+        PROD_IMAGE
+        FROM PROD
+        <where>
+            <trim prefixOverrides="AND">
+                <if test="value != null and value != ''">
+                    PROD_NAME Like CONCAT('%', #{ value }, '%')
+                </if>
+                <if test="prodPrice != null and prodPrice != ''">
+                    AND PROD_PRICE &lt;= #{ prodPrice }
+                </if>
+                <if test="prodAge != null and prodAge != ''">
+                    AND PROD_AGE = #{ prodAge }
+                </if>
+                <if test="prodEffi != null and prodEffi != ''">
+                    AND PROD_EFFI = #{ prodEffi }
+                </if>
+                <if test="prodRecom != null and prodRecom != ''">
+                    AND PROD_RECOM = #{ prodRecom }
+                </if>
+                <if test="prodCook != null and prodCook != ''">
+                    AND PROD_COOK = #{ prodCook }
+                </if>
+                <if test="prodSize != null and prodSize != ''">
+                    AND PROD_SIZE = #{ prodSize }
+                </if>
+            </trim>
+        </where>
+    </select>
+
 </mapper>
