@@ -25,8 +25,6 @@ public class ProductsController {
         this.productsService = productsService;
     }
 
-
-
     @GetMapping("/products")
     public ResponseEntity<Map<String, Object>> selectAllProducts() {
 
@@ -76,6 +74,18 @@ public class ProductsController {
 
         Map<String, Object> result = new HashMap<>();
         result.put("products", productsService.searchProducts(value, prodRecom, prodAge, prodCook, prodSize, prodEffi, prodPrice));
+
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/products/prodsearch")
+    public ResponseEntity<Map<String, Object>> productSearch(@RequestParam("type") String type, @RequestParam("input") String input) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("products", productsService.productSearch(type, input));
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }

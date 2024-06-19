@@ -23,9 +23,17 @@
     <select id="selectAllProducts" resultMap="productsResultMap">
         SELECT
         PROD_CODE
-        , PROD_GRADE
         , PROD_NAME
         , PROD_MANUFAC
+        , PROD_PRICE
+        , PROD_AGE
+        , PROD_EFFI
+        , PROD_RECOM
+        , PROD_SITE
+        , PROD_COOK
+        , PROD_GRADE
+        , PROD_INGRA
+        , PROD_SIZE
         , PROD_IMAGE
         FROM PROD
     </select>
@@ -113,4 +121,27 @@
         </where>
     </select>
 
+    <select id="productSearch" parameterType="String" resultMap="productsResultMap">
+        SELECT
+            PROD_CODE
+            , PROD_NAME
+            , PROD_MANUFAC
+            , PROD_PRICE
+            , PROD_AGE
+            , PROD_EFFI
+            , PROD_RECOM
+            , PROD_SITE
+            , PROD_COOK
+            , PROD_GRADE
+            , PROD_INGRA
+            , PROD_SIZE
+            , PROD_IMAGE
+        FROM PROD
+        <if test="type == 'prodName'">
+            WHERE PROD_NAME LIKE CONCAT('%', #{ input }, '%')
+        </if>
+        <if test="type == 'prodManufac'">
+            WHERE PROD_MANUFAC LIKE CONCAT('%', #{ input }, '%')
+        </if>
+    </select>
 </mapper>

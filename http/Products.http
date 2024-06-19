@@ -11,3 +11,5 @@ GET http://localhost:8080/products/comparison?prodCode1=2&prodCode2=30
 ### searchProducts(사료 검색)
 GET http://localhost:8080/products/search?value=&prodRecom=&prodAge=&prodCook=건식&prodSize=&prodEffi=&prodPrice=31000
 
+### productSearch(사료 검색)
+GET http://localhost:8080/products/prodsearch?type=prodName&input=청어
