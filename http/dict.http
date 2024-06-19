@@ -3,3 +3,6 @@ GET http://localhost:8080/dict
 
 ### selectByCode
 GET http://localhost:8080/dict/1
+
+### searchDog
+GET http://localhost:8080/dict/search?dogName=말티
