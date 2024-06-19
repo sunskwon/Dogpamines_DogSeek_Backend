@@ -3,5 +3,44 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dogpamines.dogseek.board.model.dao.BoardMapper">
+    <resultMap id="boardResultMap" type="com.dogpamines.dogseek.board.model.dto.BoardDTO">
+            <id property="postCode" column="POST_CODE"/>
+        <result property="postTitle"  column="POST_TITLE"/>
+        <result property="postContext"  column="POST_CONTEXT"/>
+        <result property="postDate"  column="POST_DATE"/>
+        <result property="postCategory"  column="POST_CATEGORY"/>
+        <result property="postStatus"  column="POST_STATUS"/>
+        <result property="userCode"  column="USER_CODE"/>
+        <result property="userNick"  column="USER_NICK"/>
+    </resultMap>
+    <select id="selectAllPosts" resultMap="boardResultMap">
+        SELECT
+            A.POST_CODE
+        ,   A.POST_TITLE
+        ,   A.POST_CONTEXT
+        ,   A.POST_DATE
+        ,   A.POST_CATEGORY
+        ,   A.POST_STATUS
+        ,   B.USER_CODE
+        ,   B.USER_NICK
+        FROM POST A
+        LEFT JOIN USER B ON (A.USER_CODE = B.USER_CODE)
+        WHERE POST_CATEGORY IN ('공지', '자유')
+    </select>
+
+    <select id="selectPost" resultMap="boardResultMap">
+        SELECT
+        POST_CODE
+        POST_TITLE
+        POST_CONTEXT
+        POST_DATE
+        POST_CATEGORY
+        POST_STATUS
+        USER_CODE
+        USER_NICK
+        FROM POST
+        WHERE POST_CODE = #{ postCode }
+    </select>
+
 
 </mapper>
