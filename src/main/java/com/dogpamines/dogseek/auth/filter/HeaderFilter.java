@@ -2,10 +2,8 @@ package com.dogpamines.dogseek.auth.filter;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.http.MediaType;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 
 public class HeaderFilter implements Filter {
 
