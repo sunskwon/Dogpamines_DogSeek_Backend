@@ -10,4 +10,6 @@ public interface DictMapper {
     List<DictDTO> selectAllDog();
 
     DictDTO selectByCode(int dogCode);
+
+    List<DictDTO> searchDog(String dogName);
 }

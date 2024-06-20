@@ -4,14 +4,15 @@ import com.dogpamines.dogseek.curation.model.dto.CurationDTO;
 import com.dogpamines.dogseek.curation.model.service.CurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class CurationController {
@@ -44,5 +45,19 @@ public class CurationController {
                     .created(URI.create("/curation" + newCuration))
                     .build();
         }
+    }
+
+    @GetMapping("/curation")
+    public ResponseEntity<Map<String, Object>> curationProducts(@RequestParam String curationAge, String curationIngra,
+                                                                String curationDisease, String curationAllergy,
+                                                                String curationSize, String curationCook) {
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(new MediaType("application", "JSON", Charset.forName("UTF-8")));
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("curationProducts", curationService.curationProducts(curationAge, curationIngra, curationDisease, curationAllergy, curationSize, curationCook));
+
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 }

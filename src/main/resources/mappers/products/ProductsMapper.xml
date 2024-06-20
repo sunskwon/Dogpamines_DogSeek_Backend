@@ -19,7 +19,6 @@
         <result property="prodImage" column="PROD_IMAGE"/>
     </resultMap>
 
-
     <select id="selectAllProducts" resultMap="productsResultMap">
         SELECT
         PROD_CODE
@@ -37,7 +36,6 @@
         , PROD_IMAGE
         FROM PROD
     </select>
-
 
     <select id="selectFindByCode" resultMap="productsResultMap">
         SELECT
