@@ -92,8 +92,12 @@ public class ProductsController {
     @PostMapping("/products")
     public ResponseEntity<Map<String, Object>> insertProduct(@RequestBody ProductsDTO product) {
 
-        int newProdCode = productsService.getLastProdCode();
+        int newProdCode = productsService.getLastProdCode() + 1;
         product.setProdCode(newProdCode);
+        product.setProdVolume(product.getProdVolume() + "kg");
+        product.setProdSize(product.getProdSize() + "mm");
+
+        System.out.println("product = " + product);
 
         productsService.insertProduct(product);
 
