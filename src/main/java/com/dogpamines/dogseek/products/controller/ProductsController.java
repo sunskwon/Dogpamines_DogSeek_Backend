@@ -90,7 +90,7 @@ public class ProductsController {
     }
 
     @PostMapping("/products")
-    public ResponseEntity<Map<String, Object>> insertProduct(@RequestBody ProductsDTO product) {
+    public ResponseEntity<?> insertProduct(@RequestBody ProductsDTO product) {
 
         int newProdCode = productsService.getLastProdCode() + 1;
         product.setProdCode(newProdCode);
@@ -103,6 +103,16 @@ public class ProductsController {
 
         return ResponseEntity
                 .created(URI.create("/products/" + newProdCode))
+                .build();
+    }
+
+    @PutMapping("/products")
+    public ResponseEntity<?> updateProduct(@RequestBody ProductsDTO product) {
+
+        System.out.println("product = " + product);
+
+        return ResponseEntity
+                .created(URI.create("/products/" + product.getProdCode()))
                 .build();
     }
 }
