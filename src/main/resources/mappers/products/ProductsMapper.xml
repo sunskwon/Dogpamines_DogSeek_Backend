@@ -142,4 +142,41 @@
             WHERE PROD_MANUFAC LIKE CONCAT('%', #{ input }, '%')
         </if>
     </select>
+
+    <select id="getLastProdCode" resultType="_int">
+        SELECT
+        MAX(PROD_CODE)
+        FROM PROD
+    </select>
+
+    <insert id="insertProduct" parameterType="com.dogpamines.dogseek.products.model.dto.ProductsDTO">
+        INSERT INTO PROD(
+        PROD_CODE
+        , PROD_NAME
+        , PROD_MANUFAC
+        , PROD_PRICE
+        , PROD_AGE
+        , PROD_EFFI
+        , PROD_RECOM
+        , PROD_SITE
+        , PROD_COOK
+        , PROD_GRADE
+        , PROD_INGRA
+        , PROD_SIZE
+        , PROD_IMAGE)
+        VALUES(
+        #{ prodCode }
+        , #{ prodName }
+        , #{ prodManufac }
+        , #{ prodPrice }
+        , #{ prodAge }
+        , #{ prodEffi }
+        , #{ prodRecom }
+        , #{ prodSite }
+        , #{ prodCook }
+        , #{ prodGrade }
+        , #{ prodIngra }
+        , #{ prodSize }
+        , #{ prodImage })
+    </insert>
 </mapper>
