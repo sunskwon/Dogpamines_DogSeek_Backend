@@ -33,4 +33,16 @@ public class ProductsService {
     public List<ProductsDTO> searchProducts(String value, String prodRecom, String prodAge, String prodCook, String prodSize, String prodEffi, Integer prodPrice) {
         return productsMapper.searchProducts(value, prodRecom, prodAge, prodCook, prodSize, prodEffi, prodPrice);
     }
+
+    public List<ProductsDTO> productSearch(String type, String input) {
+        return productsMapper.productSearch(type, input);
+    }
+
+    public int getLastProdCode() {
+        return productsMapper.getLastProdCode();
+    }
+
+    public void insertProduct(ProductsDTO product) {
+        productsMapper.insertProduct(product);
+    }
 }
