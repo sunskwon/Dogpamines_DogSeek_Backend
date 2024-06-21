@@ -5,6 +5,7 @@ import com.dogpamines.dogseek.auth.filter.JwtAuthorizationFilter;
 import com.dogpamines.dogseek.auth.handler.CustomAuthFailureHandler;
 import com.dogpamines.dogseek.auth.handler.CustomAuthSuccessHandler;
 import com.dogpamines.dogseek.auth.handler.CustomAuthenticationProvider;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,11 +21,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Collections;
 
 //public class WebSecurityConfig {}
 
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableWebSecurity
 public class WebSecurityConfig {
 
     /* 정적 자원에 대한 이증된 사용자의 접근을 설정하는 메소드 */
@@ -41,6 +48,36 @@ public class WebSecurityConfig {
                 .formLogin(form -> form.disable())
                 .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(basic -> basic.disable());
+
+        http.authorizeHttpRequests((auth) ->
+                auth
+//                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
+                        .requestMatchers("/**").permitAll() // 메인 페이지 요청 허가
+                        .anyRequest().authenticated() // 그 외 모든 요청 허가 (인증으로 변경 필요)
+        );
+
+        http.cors((corsCustomizer -> corsCustomizer.configurationSource(new CorsConfigurationSource() {
+            @Override
+            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+
+                CorsConfiguration corsConfiguration = new CorsConfiguration();
+
+                corsConfiguration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
+                corsConfiguration.setAllowCredentials(false);
+                corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
+                corsConfiguration.setMaxAge(3600L);
+
+//                corsConfiguration.setExposedHeaders(Collections.singletonList("Authorization"));
+
+                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+//                source.registerCorsConfiguration()
+
+                return corsConfiguration;
+            }
+        })));
+
 
         return http.build();
     }

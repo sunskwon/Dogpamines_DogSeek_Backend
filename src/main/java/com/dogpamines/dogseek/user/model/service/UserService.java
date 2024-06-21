@@ -12,11 +12,17 @@ import java.util.Objects;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserMapper userMapper;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserMapper userMapper;
+
+
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public UserService(UserMapper userMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userMapper = userMapper;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+
+    }
 
     public UserDTO findByUsername(String username) {
 

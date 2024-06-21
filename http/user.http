@@ -12,3 +12,13 @@ Accept: */*
   "userLatest": "2024-06-20",
   "userAuth": "ADMIN"
 }
+
+### 로그인
+POST http://localhost:8080/login
+Content-Type: application/json
+Accept: */*
+
+{
+  "userId": "admin1@gmail.com",
+  "userPass": "user02"
+}

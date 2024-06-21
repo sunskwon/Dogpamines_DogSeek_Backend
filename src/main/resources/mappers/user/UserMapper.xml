@@ -16,6 +16,12 @@
         <result property="userAuth" column="USER_AUTH"/>
     </resultMap>
 
+    <select id="findByUsername" resultMap="login">
+        SELECT *
+        FROM USER
+        WHERE USER_ID = #{ userId }
+    </select>
+
     <insert id="regist" parameterType="com.dogpamines.dogseek.user.model.dto.UserDTO">
         INSERT INTO USER
         (

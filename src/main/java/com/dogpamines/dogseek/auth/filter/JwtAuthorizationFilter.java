@@ -37,13 +37,17 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
+        System.out.println("doFilterInternal...1");
+
         List<String> roleLessList = Arrays.asList("/signup");
 
         if (roleLessList.contains(request.getRequestURI())) {
             chain.doFilter(request, response);
+            return;
         }
 
         String header = request.getHeader(AuthConstants.AUTH_HEADER);
+        System.out.println("header = " + header);
 
         try {
             if (header != null && !header.equalsIgnoreCase("")) {
@@ -69,27 +73,19 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                     authenticationToken.setDetails(new WebAuthenticationDetails(request));
 
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                    chain.doFilter(request, response);
-
                 } else {
-                    throw new RuntimeException("Token이 유효하지 않다니까?");
+                    System.out.println("Token이 유효하지 않다니까?");
                 }
             } else {
-                throw new RuntimeException("token이 유효하지 않아");
+                System.out.println("token이 존재하지 않아");
             }
         } catch (Exception e) {
-
-            response.setContentType("application/json");
-            PrintWriter printWriter = response.getWriter();
-
-            JSONObject jsonObject = jsonResponseWrapper(e);
-
-            printWriter.flush();
-            printWriter.close();
+            System.out.println("Token 검증 중 예외 발생: " + e.getMessage());
         }
 
+        chain.doFilter(request, response);
 
-        super.doFilterInternal(request, response, chain);
+        System.out.println("doFilterInternal...2");
     }
 
     private JSONObject jsonResponseWrapper(Exception e) {
