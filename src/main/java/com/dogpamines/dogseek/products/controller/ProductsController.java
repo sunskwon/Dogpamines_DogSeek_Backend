@@ -94,10 +94,6 @@ public class ProductsController {
 
         int newProdCode = productsService.getLastProdCode() + 1;
         product.setProdCode(newProdCode);
-        product.setProdVolume(product.getProdVolume() + "kg");
-        product.setProdSize(product.getProdSize() + "mm");
-
-        System.out.println("product = " + product);
 
         productsService.insertProduct(product);
 
@@ -109,10 +105,18 @@ public class ProductsController {
     @PutMapping("/products")
     public ResponseEntity<?> updateProduct(@RequestBody ProductsDTO product) {
 
-        System.out.println("product = " + product);
+        productsService.updateProduct(product);
 
         return ResponseEntity
                 .created(URI.create("/products/" + product.getProdCode()))
                 .build();
+    }
+
+    @DeleteMapping("/products/{prodCode}")
+    public ResponseEntity<?> deleteProduct(@PathVariable int prodCode) {
+
+        productsService.deleteProduct(prodCode);
+
+        return ResponseEntity.noContent().build();
     }
 }

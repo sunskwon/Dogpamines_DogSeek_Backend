@@ -31,6 +31,31 @@ Content-Type: application/json
   "prodVolume": "1.6",
   "prodGrade": 1,
   "prodIngra": "prodIngra1",
-  "prodSize": 13,
+  "prodSize": "13",
   "prodImage": "/images/admin/No Image Available.png"
 }
+
+### updateProduct(사료 수정)
+PUT http://localhost:8080/products
+Content-Type: application/json
+
+{
+  "prodCode": 20,
+  "prodName": "prodName",
+  "prodManufac": "prodManufac",
+  "prodPrice": 1000,
+  "prodAge": "전체",
+  "prodEffi": "prodEffi1",
+  "prodRecom": "소형견",
+  "prodSite": "http://localhost:8080/products",
+  "prodCook": "습식",
+  "prodVolume": "1.6",
+  "prodGrade": 1,
+  "prodIngra": "prodIngra1",
+  "prodSize": "13",
+  "prodStatus": "N",
+  "prodImage": "/images/admin/No Image Available.png"
+}
+
+### deleteProduct(사료 삭제)
+DELETE http://localhost:8080/products/34
