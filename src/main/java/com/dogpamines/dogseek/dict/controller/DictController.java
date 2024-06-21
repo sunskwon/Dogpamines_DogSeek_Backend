@@ -7,10 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -68,5 +65,23 @@ public class DictController {
         }
     }
 
+    @GetMapping("/dict/dictsearch")
+    public ResponseEntity<Map<String, Object>> dictSearch(@RequestParam("type") String type, @RequestParam("input") String input) {
 
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("dict", dictService.dictSearch(type, input));
+
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/dict/{dogCode}")
+    public ResponseEntity<?> deleteDict(@PathVariable int dogCode) {
+
+        dictService.deleteDict(dogCode);
+
+        return ResponseEntity.noContent().build();
+    }
 }

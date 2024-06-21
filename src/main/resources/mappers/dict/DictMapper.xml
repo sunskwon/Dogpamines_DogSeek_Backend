@@ -75,4 +75,43 @@
         FROM DOG
         WHERE DOG_NAME LIKE CONCAT('%', #{dogName}, '%')
     </select>
+
+    <select id="dictSearch" resultMap="dictResultMap">
+        SELECT
+            DOG_CODE
+            , DOG_NAME
+            , DOG_SIZE
+            , DOG_SUMMARY
+            , DOG_HEIGHT_M
+            , DOG_WEIGHT_M
+            , DOG_HEIGHT_F
+            , DOG_WEIGHT_F
+            , DOG_CHILD
+            , DOG_YOUTH
+            , DOG_ELD
+            , DOG_DISEASE
+            , DOG_DROOL
+            , DOG_SOCIAL
+            , DOG_SHED
+            , DOG_BARK
+            , DOG_PET
+            , DOG_HOT
+            , DOG_COLD
+            , DOG_HOUSE
+            , DOG_GROOM
+            , DOG_ACTI
+            , DOG_DETAIL
+        FROM DOG
+        <if test="type == 'dogName'">
+            WHERE DOG_NAME LIKE CONCAT('%', #{ input }, '%')
+        </if>
+        <if test="type == 'dogSize'">
+            WHERE DOG_SIZE LIKE CONCAT('%', #{ input }, '%')
+        </if>
+    </select>
+
+    <delete id="deleteDict" parameterType="_int">
+        DELETE FROM DOG
+        WHERE DOG_CODE = #{ dogCode }
+    </delete>
 </mapper>
