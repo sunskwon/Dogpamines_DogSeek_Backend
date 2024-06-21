@@ -40,21 +40,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 
     @Bean
-    public FilterRegistrationBean<HeaderFilter> getFilterRegistrationBean() {
-
-        FilterRegistrationBean<HeaderFilter> registrationBean = new FilterRegistrationBean<HeaderFilter>(createHeaderFilter());
-        registrationBean.setOrder(Integer.MIN_VALUE);
-        registrationBean.addUrlPatterns("/*");
-        return registrationBean;
-    }
-
-    @Bean
-    public HeaderFilter createHeaderFilter() {
-        return new HeaderFilter();
-    }
-
-
-    @Bean
     public JwtTokenInterceptor jwtTokenInterceptor() {
         return new JwtTokenInterceptor();
     }
