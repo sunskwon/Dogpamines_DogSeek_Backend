@@ -18,4 +18,8 @@ public interface ProductsMapper {
     int getLastProdCode();
 
     void insertProduct(ProductsDTO product);
+
+    void updateProduct(ProductsDTO product);
+
+    void deleteProduct(int prodCode);
 }

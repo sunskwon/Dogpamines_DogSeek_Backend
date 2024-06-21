@@ -203,4 +203,59 @@
             , 'Y'
             , #{ prodImage })
     </insert>
+
+    <update id="updateProduct" parameterType="com.dogpamines.dogseek.products.model.dto.ProductsDTO">
+        UPDATE PROD
+        <set>
+            PROD_CODE = #{ prodCode}
+            <if test="prodName != ''">
+            , PROD_NAME = #{ prodName }
+            </if>
+            <if test="prodManufac != ''">
+            , PROD_MANUFAC = #{ prodManufac }
+            </if>
+            <if test="prodPrice != ''">
+            , PROD_PRICE = #{ prodPrice }
+            </if>
+            <if test="prodAge != ''">
+            , PROD_AGE = #{ prodAge }
+            </if>
+            <if test="prodEffi != ''">
+            , PROD_EFFI = #{ prodEffi }
+            </if>
+            <if test="prodRecom != ''">
+            , PROD_RECOM = #{ prodRecom }
+            </if>
+            <if test="prodSite != ''">
+            , PROD_SITE = #{ prodSite }
+            </if>
+            <if test="prodCook != ''">
+            , PROD_COOK = #{ prodCook }
+            </if>
+            <if test="prodVolume != ''">
+            , PROD_VOLUME = #{ prodVolume }
+            </if>
+            <if test="prodGrade != ''">
+            , PROD_GRADE = #{ prodGrade }
+            </if>
+            <if test="prodIngra != ''">
+            , PROD_INGRA = #{ prodIngra }
+            </if>
+            <if test="prodSize != ''">
+            , PROD_SIZE = #{ prodSize }
+            </if>
+            <if test="prodStatus != ''">
+            , PROD_STATUS = #{ prodStatus }
+            </if>
+            <if test="prodImage != ''">
+            , PROD_IMAGE = #{ prodImage }
+            </if>
+        </set>
+        WHERE PROD_CODE = #{ prodCode }
+    </update>
+
+    <delete id="deleteProduct" parameterType="_int">
+        DELETE FROM PROD
+        WHERE PROD_CODE = #{ prodCode }
+    </delete>
 </mapper>
