@@ -13,3 +13,24 @@ GET http://localhost:8080/products/search?value=&prodRecom=&prodAge=&prodCook=�
 
 ### productSearch(사료 검색)
 GET http://localhost:8080/products/prodsearch?type=prodName&input=청어
+
+### insertProduct(사료 입력)
+POST http://localhost:8080/products
+Content-Type: application/json
+
+{
+  "prodCode": 0,
+  "prodName": "prodName",
+  "prodManufac": "prodManufac",
+  "prodPrice": 1000,
+  "prodAge": "전체",
+  "prodEffi": "prodEffi1",
+  "prodRecom": "소형견",
+  "prodSite": "http://localhost:8080/products",
+  "prodCook": "습식",
+  "prodVolume": "1.6",
+  "prodGrade": 1,
+  "prodIngra": "prodIngra1",
+  "prodSize": 13,
+  "prodImage": "/images/admin/No Image Available.png"
+}

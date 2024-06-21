@@ -13,9 +13,12 @@
         <result property="prodRecom" column="PROD_RECOM"/>
         <result property="prodSite" column="PROD_SITE"/>
         <result property="prodCook" column="PROD_COOK"/>
+        <result property="prodVolume" column="PROD_VOLUME"/>
         <result property="prodGrade" column="PROD_GRADE"/>
         <result property="prodIngra" column="PROD_INGRA"/>
         <result property="prodSize" column="PROD_SIZE"/>
+        <result property="prodDate" column="PROD_DATE"/>
+        <result property="prodStatus" column="PROD_STATUS"/>
         <result property="prodImage" column="PROD_IMAGE"/>
     </resultMap>
 
@@ -30,9 +33,12 @@
         , PROD_RECOM
         , PROD_SITE
         , PROD_COOK
+        , PROD_VOLUME
         , PROD_GRADE
         , PROD_INGRA
         , PROD_SIZE
+        , PROD_DATE
+        , PROD_STATUS
         , PROD_IMAGE
         FROM PROD
     </select>
@@ -48,9 +54,12 @@
         , PROD_RECOM
         , PROD_SITE
         , PROD_COOK
+        , PROD_VOLUME
         , PROD_GRADE
         , PROD_INGRA
         , PROD_SIZE
+        , PROD_DATE
+        , PROD_STATUS
         , PROD_IMAGE
         FROM PROD
         WHERE PROD_CODE = #{ prodCode }
@@ -67,9 +76,12 @@
         , PROD_RECOM
         , PROD_SITE
         , PROD_COOK
+        , PROD_VOLUME
         , PROD_GRADE
         , PROD_INGRA
         , PROD_SIZE
+        , PROD_DATE
+        , PROD_STATUS
         , PROD_IMAGE
         FROM PROD
         WHERE PROD_CODE = #{ prodCode1 }
@@ -87,9 +99,12 @@
         PROD_RECOM,
         PROD_SITE,
         PROD_COOK,
+        PROD_VOLUME,
         PROD_GRADE,
         PROD_INGRA,
         PROD_SIZE,
+        PROD_DATE,
+        PROD_STATUS
         PROD_IMAGE
         FROM PROD
         <where>
@@ -130,9 +145,12 @@
             , PROD_RECOM
             , PROD_SITE
             , PROD_COOK
+            , PROD_VOLUME
             , PROD_GRADE
             , PROD_INGRA
             , PROD_SIZE
+            , PROD_DATE
+            , PROD_STATUS
             , PROD_IMAGE
         FROM PROD
         <if test="type == 'prodName'">
@@ -151,32 +169,38 @@
 
     <insert id="insertProduct" parameterType="com.dogpamines.dogseek.products.model.dto.ProductsDTO">
         INSERT INTO PROD(
-        PROD_CODE
-        , PROD_NAME
-        , PROD_MANUFAC
-        , PROD_PRICE
-        , PROD_AGE
-        , PROD_EFFI
-        , PROD_RECOM
-        , PROD_SITE
-        , PROD_COOK
-        , PROD_GRADE
-        , PROD_INGRA
-        , PROD_SIZE
-        , PROD_IMAGE)
+            PROD_CODE
+            , PROD_NAME
+            , PROD_MANUFAC
+            , PROD_PRICE
+            , PROD_AGE
+            , PROD_EFFI
+            , PROD_RECOM
+            , PROD_SITE
+            , PROD_COOK
+            , PROD_VOLUME
+            , PROD_GRADE
+            , PROD_INGRA
+            , PROD_SIZE
+            , PROD_DATE
+            , PROD_STATUS
+            , PROD_IMAGE)
         VALUES(
-        #{ prodCode }
-        , #{ prodName }
-        , #{ prodManufac }
-        , #{ prodPrice }
-        , #{ prodAge }
-        , #{ prodEffi }
-        , #{ prodRecom }
-        , #{ prodSite }
-        , #{ prodCook }
-        , #{ prodGrade }
-        , #{ prodIngra }
-        , #{ prodSize }
-        , #{ prodImage })
+            #{ prodCode }
+            , #{ prodName }
+            , #{ prodManufac }
+            , #{ prodPrice }
+            , #{ prodAge }
+            , #{ prodEffi }
+            , #{ prodRecom }
+            , #{ prodSite }
+            , #{ prodCook }
+            , #{ prodVolume }
+            , #{ prodGrade }
+            , #{ prodIngra }
+            , #{ prodSize }
+            , CURDATE()
+            , 'Y'
+            , #{ prodImage })
     </insert>
 </mapper>
