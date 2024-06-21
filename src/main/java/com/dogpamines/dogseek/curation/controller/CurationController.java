@@ -1,6 +1,7 @@
 package com.dogpamines.dogseek.curation.controller;
 
 import com.dogpamines.dogseek.curation.model.dto.CurationDTO;
+import com.dogpamines.dogseek.curation.model.dto.HistoryDTO;
 import com.dogpamines.dogseek.curation.model.service.CurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -60,4 +62,15 @@ public class CurationController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
+
+//    @PostMapping("/curationProducts")
+//    public ResponseEntity<?> curationProductsInsert(@RequestParam("prodCode") List<Integer> prodCodes, int curationCode) {
+//
+//        HistoryDTO historyDTO = new HistoryDTO();
+//
+//        for (Integer prodCode : prodCodes) {
+//        }
+//
+//        return null;
+//    }
 }
