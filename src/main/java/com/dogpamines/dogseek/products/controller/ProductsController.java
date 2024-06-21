@@ -90,9 +90,9 @@ public class ProductsController {
     }
 
     @PostMapping("/products")
-    public ResponseEntity<Map<String, Object>> insertProduct(@RequestBody ProductsDTO product) {
+    public ResponseEntity<?> insertProduct(@RequestBody ProductsDTO product) {
 
-        int newProdCode = productsService.getLastProdCode();
+        int newProdCode = productsService.getLastProdCode() + 1;
         product.setProdCode(newProdCode);
 
         productsService.insertProduct(product);
@@ -100,5 +100,23 @@ public class ProductsController {
         return ResponseEntity
                 .created(URI.create("/products/" + newProdCode))
                 .build();
+    }
+
+    @PutMapping("/products")
+    public ResponseEntity<?> updateProduct(@RequestBody ProductsDTO product) {
+
+        productsService.updateProduct(product);
+
+        return ResponseEntity
+                .created(URI.create("/products/" + product.getProdCode()))
+                .build();
+    }
+
+    @DeleteMapping("/products/{prodCode}")
+    public ResponseEntity<?> deleteProduct(@PathVariable int prodCode) {
+
+        productsService.deleteProduct(prodCode);
+
+        return ResponseEntity.noContent().build();
     }
 }

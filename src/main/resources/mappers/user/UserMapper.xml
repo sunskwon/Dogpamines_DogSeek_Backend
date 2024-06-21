@@ -22,4 +22,27 @@
         WHERE USER_ID = #{ userId }
     </select>
 
+    <insert id="regist" parameterType="com.dogpamines.dogseek.user.model.dto.UserDTO">
+        INSERT INTO USER
+        (
+        USER_ID
+        , USER_PW
+        , USER_NICK
+        , USER_PHONE
+        , USER_SIGNUP
+        , USER_LATEST
+        , USER_AUTH
+        )
+        VALUES
+        (
+        #{ userId }
+        , #{ userPass }
+        , #{ userNick }
+        , #{ userPhone }
+        , #{ userSignup}
+        , #{ userLatest }
+        , #{ userAuth }
+        )
+    </insert>
+
 </mapper>

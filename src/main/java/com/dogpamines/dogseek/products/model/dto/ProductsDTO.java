@@ -11,14 +11,17 @@ public class ProductsDTO {
     private String prodRecom;
     private String prodSite;
     private String prodCook;
+    private String prodVolume;
     private int prodGrade;
     private String prodIngra;
     private String prodSize;
+    private String prodDate;
+    private String prodStatus;
     private String prodImage;
 
     public ProductsDTO() {}
 
-    public ProductsDTO(int prodCode, String prodName, String prodManufac, int prodPrice, String prodAge, String prodEffi, String prodRecom, String prodSite, String prodCook, int prodGrade, String prodIngra, String prodSize, String prodImage) {
+    public ProductsDTO(int prodCode, String prodName, String prodManufac, Integer prodPrice, String prodAge, String prodEffi, String prodRecom, String prodSite, String prodCook, String prodVolume, int prodGrade, String prodIngra, String prodSize, String prodDate, String prodStatus, String prodImage) {
         this.prodCode = prodCode;
         this.prodName = prodName;
         this.prodManufac = prodManufac;
@@ -28,9 +31,12 @@ public class ProductsDTO {
         this.prodRecom = prodRecom;
         this.prodSite = prodSite;
         this.prodCook = prodCook;
+        this.prodVolume = prodVolume;
         this.prodGrade = prodGrade;
         this.prodIngra = prodIngra;
         this.prodSize = prodSize;
+        this.prodDate = prodDate;
+        this.prodStatus = prodStatus;
         this.prodImage = prodImage;
     }
 
@@ -106,6 +112,14 @@ public class ProductsDTO {
         this.prodCook = prodCook;
     }
 
+    public String getProdVolume() {
+        return prodVolume;
+    }
+
+    public void setProdVolume(String prodVolume) {
+        this.prodVolume = prodVolume;
+    }
+
     public int getProdGrade() {
         return prodGrade;
     }
@@ -130,6 +144,22 @@ public class ProductsDTO {
         this.prodSize = prodSize;
     }
 
+    public String getProdDate() {
+        return prodDate;
+    }
+
+    public void setProdDate(String prodDate) {
+        this.prodDate = prodDate;
+    }
+
+    public String getProdStatus() {
+        return prodStatus;
+    }
+
+    public void setProdStatus(String prodStatus) {
+        this.prodStatus = prodStatus;
+    }
+
     public String getProdImage() {
         return prodImage;
     }
@@ -144,15 +174,18 @@ public class ProductsDTO {
                 "prodCode=" + prodCode +
                 ", prodName='" + prodName + '\'' +
                 ", prodManufac='" + prodManufac + '\'' +
-                ", prodPrice='" + prodPrice + '\'' +
+                ", prodPrice=" + prodPrice +
                 ", prodAge='" + prodAge + '\'' +
                 ", prodEffi='" + prodEffi + '\'' +
                 ", prodRecom='" + prodRecom + '\'' +
                 ", prodSite='" + prodSite + '\'' +
                 ", prodCook='" + prodCook + '\'' +
-                ", prodGrade='" + prodGrade + '\'' +
+                ", prodVolume='" + prodVolume + '\'' +
+                ", prodGrade=" + prodGrade +
                 ", prodIngra='" + prodIngra + '\'' +
                 ", prodSize='" + prodSize + '\'' +
+                ", prodDate='" + prodDate + '\'' +
+                ", prodStatus='" + prodStatus + '\'' +
                 ", prodImage='" + prodImage + '\'' +
                 '}';
     }

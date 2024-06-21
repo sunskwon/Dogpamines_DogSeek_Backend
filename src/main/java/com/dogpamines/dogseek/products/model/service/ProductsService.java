@@ -45,4 +45,12 @@ public class ProductsService {
     public void insertProduct(ProductsDTO product) {
         productsMapper.insertProduct(product);
     }
+
+    public void updateProduct(ProductsDTO product) {
+        productsMapper.updateProduct(product);
+    }
+
+    public void deleteProduct(int prodCode) {
+        productsMapper.deleteProduct(prodCode);
+    }
 }

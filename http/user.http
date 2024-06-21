@@ -1,3 +1,17 @@
+### 회원가입
+POST http://localhost:8080/signup
+Content-Type: application/json
+Accept: */*
+
+{
+  "userId": "admin1@gmail.com",
+  "userPass": "user02",
+  "userNick": "얄라리얄라",
+  "userPhone": "010-9876-8765",
+  "userSignup": "2024-06-20",
+  "userLatest": "2024-06-20",
+  "userAuth": "ADMIN"
+}
 
 ### 로그인
 POST http://localhost:8080/login
