@@ -30,7 +30,18 @@ public class DictService {
         return dictMapper.dictSearch(type, input);
     }
 
+    public int getLastDogCode() {
+
+        return dictMapper.getLastDogCode();
+    }
+
     public void deleteDict(int dogCode) {
+
         dictMapper.deleteDict(dogCode);
+    }
+
+    public void insertDict(DictDTO dict) {
+
+        dictMapper.insertDict(dict);
     }
 }

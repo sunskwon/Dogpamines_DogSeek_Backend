@@ -15,5 +15,9 @@ public interface DictMapper {
 
     List<DictDTO> dictSearch(String type, String input);
 
+    int getLastDogCode();
+
     void deleteDict(int dogCode);
+
+    void insertDict(DictDTO dict);
 }

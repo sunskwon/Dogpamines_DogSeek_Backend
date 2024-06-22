@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
@@ -75,6 +76,21 @@ public class DictController {
         result.put("dict", dictService.dictSearch(type, input));
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
+
+    @PostMapping("/dict")
+    public ResponseEntity<Map<String, Object>> insertDict(@RequestBody DictDTO dict) {
+
+        int newDictCode = dictService.getLastDogCode() + 1;
+        dict.setDogCode(newDictCode);
+
+        System.out.println("dict = " + dict);
+
+        dictService.insertDict(dict);
+
+        return ResponseEntity
+                .created(URI.create("/dict/" + newDictCode))
+                .build();
     }
 
     @DeleteMapping("/dict/{dogCode}")

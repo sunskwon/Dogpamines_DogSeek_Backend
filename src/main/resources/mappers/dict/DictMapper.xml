@@ -110,6 +110,65 @@
         </if>
     </select>
 
+    <select id="getLastDogCode" resultType="_int">
+        SELECT
+            MAX(DOG_CODE)
+        FROM DOG
+    </select>
+
+    <insert id="insertDict" parameterType="com.dogpamines.dogseek.dict.model.dto.DictDTO">
+        INSERT INTO DOG(
+            DOG_CODE
+            , DOG_NAME
+            , DOG_SIZE
+            , DOG_SUMMARY
+            , DOG_HEIGHT_M
+            , DOG_WEIGHT_M
+            , DOG_HEIGHT_F
+            , DOG_WEIGHT_F
+            , DOG_CHILD
+            , DOG_YOUTH
+            , DOG_ELD
+            , DOG_DISEASE
+            , DOG_DROOL
+            , DOG_SOCIAL
+            , DOG_SHED
+            , DOG_BARK
+            , DOG_PET
+            , DOG_HOT
+            , DOG_COLD
+            , DOG_HOUSE
+            , DOG_GROOM
+            , DOG_ACTI
+            , DOG_IMAGE
+            , DOG_DETAIL)
+        VALUES(
+            #{ dogCode }
+            , #{ dogName }
+            , #{ dogSize }
+            , #{ dogSummary }
+            , #{ dogHeightM }
+            , #{ dogWeightM }
+            , #{ dogHeightF }
+            , #{ dogWeightF }
+            , #{ dogChild }
+            , #{ dogYouth }
+            , #{ dogEld }
+            , #{ dogDisease }
+            , #{ dogDrool }
+            , #{ dogSocial }
+            , #{ dogShed }
+            , #{ dogBark }
+            , #{ dogPet }
+            , #{ dogHot }
+            , #{ dogCold }
+            , #{ dogHouse }
+            , #{ dogGroom }
+            , #{ dogActi }
+            , #{ dogImage }
+            , #{ dogDetail })
+    </insert>
+
     <delete id="deleteDict" parameterType="_int">
         DELETE FROM DOG
         WHERE DOG_CODE = #{ dogCode }
