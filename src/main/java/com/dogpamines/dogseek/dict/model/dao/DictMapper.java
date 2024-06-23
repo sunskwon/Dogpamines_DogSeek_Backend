@@ -20,4 +20,6 @@ public interface DictMapper {
     void deleteDict(int dogCode);
 
     void insertDict(DictDTO dict);
+
+    void updateDict(DictDTO dict);
 }

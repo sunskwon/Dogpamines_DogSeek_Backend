@@ -84,12 +84,20 @@ public class DictController {
         int newDictCode = dictService.getLastDogCode() + 1;
         dict.setDogCode(newDictCode);
 
-        System.out.println("dict = " + dict);
-
         dictService.insertDict(dict);
 
         return ResponseEntity
                 .created(URI.create("/dict/" + newDictCode))
+                .build();
+    }
+
+    @PutMapping("/dict")
+    public ResponseEntity<?> updateDict(@RequestBody DictDTO dict) {
+
+        dictService.updateDict(dict);
+
+        return ResponseEntity
+                .created(URI.create("/dict/" + dict.getDogCode()))
                 .build();
     }
 

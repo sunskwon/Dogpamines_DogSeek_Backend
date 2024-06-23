@@ -41,5 +41,36 @@ Content-Type: application/json
   "dogDetail": "/images/admin/No Image Available.png"
 }
 
+### updateDict
+PUT http://localhost:8080/dict
+Content-Type: application/json
+
+{
+  "dogCode": 3,
+  "dogName": "개이름",
+  "dogSize": "중형견",
+  "dogSummary": "대한민국의 경제질서는 개인과 기업의 경제상의 자유와 창의를 존중함을 기본으로 한다. 국가는 모성의 보호를 위하여 노력하여야 한다. 감사위원은 원장의 제청으로 대통령이 임명하고, 그 임기는 4년으로 하며, 1차에 한하여 중임할 수 있다.",
+  "dogHeightM": "23~24",
+  "dogWeightM": "25",
+  "dogHeightF": "20~21",
+  "dogWeightF": "22",
+  "dogChild": "6개월",
+  "dogYouth": "1년",
+  "dogEld": "2년",
+  "dogDisease": "시력,관절",
+  "dogDrool": 1,
+  "dogSocial": 2,
+  "dogShed": 3,
+  "dogBark": 4,
+  "dogPet": 5,
+  "dogHot": 1,
+  "dogCold": 2,
+  "dogHouse": 3,
+  "dogGroom": 4,
+  "dogActi": 5,
+  "dogImage": "/images/admin/No Image Available.png",
+  "dogDetail": "/images/admin/No Image Available.png"
+}
+
 ### deleteDog
 DELETE http://localhost:8080/dict/3

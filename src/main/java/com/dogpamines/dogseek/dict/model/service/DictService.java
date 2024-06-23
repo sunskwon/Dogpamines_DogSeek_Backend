@@ -44,4 +44,9 @@ public class DictService {
 
         dictMapper.insertDict(dict);
     }
+
+    public void updateDict(DictDTO dict) {
+
+        dictMapper.updateDict(dict);
+    }
 }
