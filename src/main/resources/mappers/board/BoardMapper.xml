@@ -30,17 +30,20 @@
 
     <select id="selectPost" resultMap="boardResultMap">
         SELECT
-        POST_CODE
-        POST_TITLE
-        POST_CONTEXT
-        POST_DATE
-        POST_CATEGORY
-        POST_STATUS
-        USER_CODE
-        USER_NICK
-        FROM POST
+        A.POST_CODE
+        ,   A.POST_TITLE
+        ,   A.POST_CONTEXT
+        ,   A.POST_DATE
+        ,   A.POST_CATEGORY
+        ,   A.POST_STATUS
+        ,   B.USER_CODE
+        ,   B.USER_NICK
+        FROM POST A
+        LEFT JOIN USER B ON (A.USER_CODE = B.USER_CODE)
         WHERE POST_CODE = #{ postCode }
     </select>
+
+
 
 
 </mapper>

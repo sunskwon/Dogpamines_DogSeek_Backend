@@ -1,15 +1,15 @@
 package com.dogpamines.dogseek.board.controller;
 
+import com.dogpamines.dogseek.board.model.dto.BoardDTO;
 import com.dogpamines.dogseek.board.model.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +32,7 @@ public class BoardController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
         Map<String, Object> result = new HashMap<>();
-        result.put("Post", boardService.selectAllPosts());
+        result.put("boards", boardService.selectAllPosts());
 
         System.out.println("select all post");
 
@@ -47,9 +47,22 @@ public class BoardController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
         Map<String, Object> result = new HashMap<>();
-        result.put("Post", boardService.selectPost(postCode));
+        result.put("boards", boardService.selectPost(postCode));
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
 
+    }
+
+    @PostMapping("/boards")
+    public ResponseEntity<?> newBoardPost(@RequestBody BoardDTO board) {
+
+        int newPostCode = BoardService.getLastPostCode() + 1;
+        board.setPostCode(newPostCode);
+
+        BoardService.newBoardPost(board);
+
+        return ResponseEntity
+                .created(URI.create("/boards/" + newPostCode))
+                .build();
     }
 }
