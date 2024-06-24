@@ -22,3 +22,18 @@ Accept: */*
   "userId": "admin3@gmail.com",
   "userPass": "admin03"
 }
+
+### selectUserByCodeByAdmin
+GET http://localhost:8080/admin/users/1
+
+### selectAllUsersByAdmin
+POST  http://localhost:8080/admin/users
+Content-Type: application/json
+
+{
+  "type": "user",
+  "input": ""
+}
+
+### deleteUserByAdmin
+DELETE  http://localhost:8080/admin/users/2

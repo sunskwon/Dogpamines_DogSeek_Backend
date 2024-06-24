@@ -39,4 +39,13 @@ public class CurationService {
                 curationNeut, curationWeight, curationName,
                 curationDate, curationSize, curationCook, userCode);
     }
+
+    public List<String> findDogList(int userCode) {
+        return curationMapper.findDogList(userCode);
+    }
+
+    public List<CurationDTO> selectDogsByCodeByAdmin(String dog) {
+
+        return curationMapper.selectDogsByCodeByAdmin(dog);
+    }
 }

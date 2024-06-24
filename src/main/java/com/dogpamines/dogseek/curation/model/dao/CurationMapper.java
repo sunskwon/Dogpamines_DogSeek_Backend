@@ -14,4 +14,7 @@ public interface CurationMapper {
     List<ProductsDTO> curationProducts(String curationAge, String curationIngra, String curationDisease, String curationAllergy, String curationSize, String curationCook);
     Object curationSelect(String curationAge, String curationIngra, String curationAllergy, String curationDisease, String curationBreed, String curationGender, String curationNeut, String curationWeight, String curationName, Date curationDate, String curationSize, String curationCook, int userCode);
 
+    List<String> findDogList(int userCode);
+
+    List<CurationDTO> selectDogsByCodeByAdmin(String dog);
 }
