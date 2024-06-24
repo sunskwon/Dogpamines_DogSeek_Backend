@@ -111,4 +111,37 @@
     </where>
 </select>
 
+    <select id="curationSelect" resultMap="curationResultMap">
+        SELECT(
+            CURATION_CODE
+            , CURATION_AGE
+            , CURATION_INGRA
+            , CURATION_DISEASE
+            , CURATION_ALLERGY
+            , CURATION_BREED
+            , CURATION_GENDER
+            , CURATION_NEUT
+            , CURATION_WEIGHT
+            , CURATION_NAME
+            , CURATION_DATE
+            , CURATION_SIZE
+            , CURATION_COOK
+            , USER_CODE)
+        WHERE(
+            #{ curationAge }
+            , #{ curationIngra }
+            , #{ curationDisease }
+            , #{ curationAllergy }
+            , #{ curationBreed }
+            , #{ curationGender }
+            , #{ curationNeut }
+            , #{ curationWeight }
+            , #{ curationName }
+            , #{ curationDate }
+            , #{ curationSize }
+            , #{ curationCook }
+            , #{ userCode })
+        FROM CURATION
+    </select>
+
 </mapper>
