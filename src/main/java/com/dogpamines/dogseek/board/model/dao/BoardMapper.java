@@ -17,4 +17,7 @@ public interface BoardMapper {
 
     void insertBoard(BoardDTO board);
 
+    List<BoardDTO> selectBoardByCodeByAdmin(int userCode);
+
+    int countCommentByPostCode(int postCode);
 }

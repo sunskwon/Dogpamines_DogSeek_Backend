@@ -1,5 +1,7 @@
 package com.dogpamines.dogseek.user.controller;
 
+import com.dogpamines.dogseek.board.model.dto.BoardDTO;
+import com.dogpamines.dogseek.board.model.service.BoardService;
 import com.dogpamines.dogseek.curation.model.service.CurationService;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import com.dogpamines.dogseek.user.model.service.UserService;
@@ -21,11 +23,13 @@ public class UserController {
 
     private UserService userService;        // 생성자 주입으로 하기!!!
     private CurationService curationService;
+    private BoardService boardService;
 
     @Autowired
-    public UserController(UserService userService, CurationService curationService) {
+    public UserController(UserService userService, CurationService curationService, BoardService boardService) {
         this.userService = userService;
         this.curationService = curationService;
+        this.boardService = boardService;
     }
 
     @PostMapping("/signup")
@@ -55,7 +59,23 @@ public class UserController {
             }
         }
 
+        List<BoardDTO> boardList = boardService.selectBoardByCodeByAdmin(userCode);
 
+        if (boardList.size() > 0) {
+
+            result.put("boardList", boardList);
+
+            Map<String, String> commentCount = new HashMap<>();
+
+            for (BoardDTO board : boardList) {
+
+                int postCode = board.getPostCode();
+
+                commentCount.put(Integer.toString(postCode), Integer.toString(boardService.countCommentByPostCode(postCode)));
+            }
+
+            result.put("countList", commentCount);
+        }
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }

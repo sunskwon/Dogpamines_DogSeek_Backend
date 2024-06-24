@@ -35,4 +35,14 @@ public class BoardService {
 
         boardMapper.insertBoard(board);
     }
+
+    public List<BoardDTO> selectBoardByCodeByAdmin(int userCode) {
+
+        return boardMapper.selectBoardByCodeByAdmin(userCode);
+    }
+
+    public int countCommentByPostCode(int postCode) {
+
+        return boardMapper.countCommentByPostCode(postCode);
+    }
 }
