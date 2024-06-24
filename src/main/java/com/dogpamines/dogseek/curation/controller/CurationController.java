@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.nio.charset.Charset;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +60,24 @@ public class CurationController {
 
         Map<String, Object> result = new HashMap<>();
         result.put("curationProducts", curationService.curationProducts(curationAge, curationIngra, curationDisease, curationAllergy, curationSize, curationCook));
+
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/curationSelect")
+    public ResponseEntity<Map<String, Object>> curationSelect(@RequestParam String curationAge, String curationIngra, String curationDisease,
+                                            String curationAllergy, String curationBreed, String curationGender,
+                                            String curationNeut, String curationWeight, String curationName,
+                                            Date curationDate, String curationSize, String curationCook, int userCode ) {
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(new MediaType("application","JSON", Charset.forName("UTF-8")));
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("curationSelect", curationService.curationSelect(curationAge, curationIngra, curationAllergy,
+                curationDisease, curationBreed, curationGender,
+                curationNeut, curationWeight, curationName,
+                curationDate, curationSize, curationCook, userCode));
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }

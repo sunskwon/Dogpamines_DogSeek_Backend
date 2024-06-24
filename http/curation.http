@@ -5,6 +5,7 @@ POST http://localhost:8080/curation
 GET http://localhost:8080/curation?curationAge=&curationIngra=&curationDisease=&curationAllergy=&curationCook=
 
 ### curationSelect(큐레이션 정보 조회)
+GET http://localhost:8080/curationSelect?curationAge=&curationIngra=&curationDisease=&curaitonAllergy=&curationBreed=&curaiotnGender=&curationNeut=&curationWeight=&curationName=&curaitonDate=&curationSize=&curationCook=&userCode=
 
 ### curation(큐레이션 사료 등록)
 POST http://localhost:8080/curationProducts
