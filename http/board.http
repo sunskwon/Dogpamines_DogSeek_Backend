@@ -1,5 +1,6 @@
 ### selectAllPost(공지 및 게시글 전체조회)
 GET http://localhost:8080/boards
 
+
 ### selectPost(게시글 상세 조회)
 GET http://localhost:8080/boards/215
