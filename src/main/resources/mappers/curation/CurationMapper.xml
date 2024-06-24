@@ -127,7 +127,7 @@
             , CURATION_SIZE
             , CURATION_COOK
             , USER_CODE)
-        VALUES(
+        WHERE(
             #{ curationAge }
             , #{ curationIngra }
             , #{ curationDisease }
