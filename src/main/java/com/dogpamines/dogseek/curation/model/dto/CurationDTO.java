@@ -14,14 +14,14 @@ public class CurationDTO {
     private String curationNeut;
     private String curationWeight;
     private String curationName;
-    private Date curationDate;
+    private String curationDate;
     private String curationSize;
     private String curationCook;
     private int userCode;
 
     public CurationDTO() {}
 
-    public CurationDTO(Integer curationCode, String curationAge, String curationIngra, String curationDisease, String curationAllergy, String curationBreed, String curationGender, String curationNeut, String curationWeight, String curationName, Date curationDate, String curationSize, String curationCook, int userCode) {
+    public CurationDTO(Integer curationCode, String curationAge, String curationIngra, String curationDisease, String curationAllergy, String curationBreed, String curationGender, String curationNeut, String curationWeight, String curationName, String curationDate, String curationSize, String curationCook, int userCode) {
         this.curationCode = curationCode;
         this.curationAge = curationAge;
         this.curationIngra = curationIngra;
@@ -118,11 +118,11 @@ public class CurationDTO {
         this.curationName = curationName;
     }
 
-    public Date getCurationDate() {
+    public String getCurationDate() {
         return curationDate;
     }
 
-    public void setCurationDate(Date curationDate) {
+    public void setCurationDate(String curationDate) {
         this.curationDate = curationDate;
     }
 

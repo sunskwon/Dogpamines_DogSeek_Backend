@@ -3,5 +3,71 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dogpamines.dogseek.mypage.model.dao.MyPageMapper">
+    
+    <resultMap id="curationResultMap" type="com.dogpamines.dogseek.curation.model.dto.CurationDTO">
+        <id property="curationCode" column="curation_code" />
+        <result property="curationAge" column="curation_age" />
+        <result property="curationIngra" column="curation_ingra" />
+        <result property="curationDisease" column="curation_disease" />
+        <result property="curationAllergy" column="curation_allergy" />
+        <result property="curationBreed" column="curation_breed" />
+        <result property="curationGender" column="curation_gender" />
+        <result property="curationNeut" column="curation_neut" />
+        <result property="curationWeight" column="curation_weight" />
+        <result property="curationName" column="curation_name" />
+        <result property="curationDate" column="curation_date" />
+        <result property="curationSize" column="curation_size" />
+        <result property="curationCook" column="curation_cook" />
+        <result property="userCode" column="user_code" />
+    </resultMap>
+
+    <select id="findAllCuration" resultMap="curationResultMap">
+        SELECT
+        CURATION_CODE,
+        CURATION_NAME,
+        USER_CODE
+        FROM CURATION
+    </select>
+
+    <select id="userCurationList" resultMap="curationResultMap">
+        SELECT
+        CURATION_CODE,
+        CURATION_AGE,
+        CURATION_INGRA,
+        CURATION_DISEASE,
+        CURATION_ALLERGY,
+        CURATION_BREED,
+        CURATION_GENDER,
+        CURATION_NEUT,
+        CURATION_WEIGHT,
+        CURATION_NAME,
+        CURATION_DATE,
+        CURATION_SIZE,
+        CURATION_COOK,
+        USER_CODE
+        FROM CURATION
+        WHERE USER_CODE = #{ userCode }
+    </select>
+
+    <select id="selectUserDogCurationList" resultMap="curationResultMap">
+        SELECT
+        CURATION_CODE,
+        CURATION_AGE,
+        CURATION_INGRA,
+        CURATION_DISEASE,
+        CURATION_ALLERGY,
+        CURATION_BREED,
+        CURATION_GENDER,
+        CURATION_NEUT,
+        CURATION_WEIGHT,
+        CURATION_NAME,
+        CURATION_DATE,
+        CURATION_SIZE,
+        CURATION_COOK,
+        USER_CODE
+        FROM CURATION
+        WHERE USER_CODE = #{ userCode }
+        AND CURATION_NAME = #{ curationName }
+    </select>
 
 </mapper>
