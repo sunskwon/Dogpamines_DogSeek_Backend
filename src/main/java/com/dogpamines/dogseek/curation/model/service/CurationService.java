@@ -44,4 +44,13 @@ public class CurationService {
     public void insertHistory(HistoryDTO historyDTO) {
         curationMapper.insertHistory(historyDTO);
     }
+
+    public List<String> findDogList(int userCode) {
+        return curationMapper.findDogList(userCode);
+    }
+
+    public List<CurationDTO> selectDogsByCodeByAdmin(String dog) {
+
+        return curationMapper.selectDogsByCodeByAdmin(dog);
+    }
 }

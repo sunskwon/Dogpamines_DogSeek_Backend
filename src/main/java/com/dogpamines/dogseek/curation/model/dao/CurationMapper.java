@@ -13,6 +13,11 @@ public interface CurationMapper {
     Integer lastCuration();
     void insertCuration(CurationDTO curationDTO);
     List<ProductsDTO> curationProducts(String curationAge, String curationIngra, String curationDisease, String curationAllergy, String curationSize, String curationCook);
+
+    List<String> findDogList(int userCode);
+
+    List<CurationDTO> selectDogsByCodeByAdmin(String dog);
+
     List<CurationDTO> curationSelect(String curationAge, String curationIngra, String curationAllergy, String curationDisease, String curationBreed, String curationGender, String curationNeut, String curationWeight, String curationName, Date parsedDate, String curationSize, String curationCook, int userCode);
     void insertHistory(HistoryDTO historyDTO);
 }
