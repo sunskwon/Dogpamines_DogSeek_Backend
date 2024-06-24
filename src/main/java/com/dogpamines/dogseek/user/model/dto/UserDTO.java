@@ -15,13 +15,13 @@ public class UserDTO {
     private String userPass;
     private String userNick;
     private String userPhone;
-    private Date userSignup;
-    private Date userLatest;
+    private String userSignup;
+    private String userLatest;
     private UserRole userAuth;
 
     public UserDTO(){}
 
-    public UserDTO(int userCode, String userPlatform, String userId, String userPass, String userNick, String userPhone, Date userSignup, Date userLatest, UserRole userAuth) {
+    public UserDTO(int userCode, String userPlatform, String userId, String userPass, String userNick, String userPhone, String userSignup, String userLatest, UserRole userAuth) {
         this.userCode = userCode;
         this.userPlatform = userPlatform;
         this.userId = userId;
@@ -80,19 +80,19 @@ public class UserDTO {
         this.userNick = userNick;
     }
 
-    public Date getUserSignup() {
+    public String getUserSignup() {
         return userSignup;
     }
 
-    public void setUserSignup(Date userSignup) {
+    public void setUserSignup(String userSignup) {
         this.userSignup = userSignup;
     }
 
-    public Date getUserLatest() {
+    public String getUserLatest() {
         return userLatest;
     }
 
-    public void setUserLatest(Date userLatest) {
+    public void setUserLatest(String userLatest) {
         this.userLatest = userLatest;
     }
 

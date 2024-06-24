@@ -7,7 +7,7 @@ public class BoardDTO {
     private int postCode;
     private String postTitle;
     private String postContext;
-    private Date postDate;
+    private String postDate;
     private String postCategory;
     private String postStatus;
     private int userCode;
@@ -15,7 +15,7 @@ public class BoardDTO {
 
     public BoardDTO() {}
 
-    public BoardDTO(int postCode, String postTitle, String postContext, Date postDate, String postCategory, String postStatus, int userCode, String userNick) {
+    public BoardDTO(int postCode, String postTitle, String postContext, String postDate, String postCategory, String postStatus, int userCode, String userNick) {
         this.postCode = postCode;
         this.postTitle = postTitle;
         this.postContext = postContext;
@@ -50,11 +50,11 @@ public class BoardDTO {
         this.postContext = postContext;
     }
 
-    public Date getPostDate() {
+    public String getPostDate() {
         return postDate;
     }
 
-    public void setPostDate(Date postDate) {
+    public void setPostDate(String postDate) {
         this.postDate = postDate;
     }
 

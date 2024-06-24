@@ -4,12 +4,12 @@ Content-Type: application/json
 Accept: */*
 
 {
-  "userId": "admin1@gmail.com",
-  "userPass": "user02",
-  "userNick": "얄라리얄라",
-  "userPhone": "010-9876-8765",
-  "userSignup": "2024-06-20",
-  "userLatest": "2024-06-20",
+  "userId": "admin3@gmail.com",
+  "userPass": "admin03",
+  "userNick": "크르릉댕댕콱콱",
+  "userPhone": "010-9877-8766",
+  "userSignup": "2024-06-24",
+  "userLatest": "2024-06-24",
   "userAuth": "ADMIN"
 }
 
@@ -19,6 +19,6 @@ Content-Type: application/json
 Accept: */*
 
 {
-  "userId": "admin1@gmail.com",
-  "userPass": "user02"
+  "userId": "admin3@gmail.com",
+  "userPass": "admin03"
 }
