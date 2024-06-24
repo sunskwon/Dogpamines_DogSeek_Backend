@@ -8,7 +8,7 @@
         <result property="curationAge" column="CURATION_AGE"/>
         <result property="curationIngra" column="CURATION_INGRA"/>
         <result property="curationDisease" column="CURATION_DISEASE"/>
-        <result property="curationALLERGY" column="CURATION_ALLERGY"/>
+        <result property="curationAllergy" column="CURATION_ALLERGY"/>
         <result property="curationBreed" column="CURATION_BREED"/>
         <result property="curationGender" column="CURATION_GENDER"/>
         <result property="curationNeut" column="CURATION_NEUT"/>
@@ -112,7 +112,7 @@
 </select>
 
     <select id="curationSelect" resultMap="curationResultMap">
-        SELECT(
+        SELECT
             CURATION_CODE
             , CURATION_AGE
             , CURATION_INGRA
@@ -126,22 +126,33 @@
             , CURATION_DATE
             , CURATION_SIZE
             , CURATION_COOK
-            , USER_CODE)
-        WHERE(
-            #{ curationAge }
-            , #{ curationIngra }
-            , #{ curationDisease }
-            , #{ curationAllergy }
-            , #{ curationBreed }
-            , #{ curationGender }
-            , #{ curationNeut }
-            , #{ curationWeight }
-            , #{ curationName }
-            , #{ curationDate }
-            , #{ curationSize }
-            , #{ curationCook }
-            , #{ userCode })
+            , USER_CODE
         FROM CURATION
+        WHERE
+            CURATION_AGE = #{ curationAge }
+            AND CURATION_INGRA = #{ curationIngra }
+            AND CURATION_DISEASE = #{ curationDisease }
+            AND CURATION_ALLERGY = #{ curationAllergy }
+            AND CURATION_BREED = #{ curationBreed }
+            AND CURATION_GENDER = #{ curationGender }
+            AND CURATION_NEUT = #{ curationNeut }
+            AND CURATION_WEIGHT = #{ curationWeight }
+            AND CURATION_NAME = #{ curationName }
+            AND CURATION_DATE = #{ parsedDate }
+            AND CURATION_SIZE = #{ curationSize }
+            AND CURATION_COOK = #{ curationCook }
+            AND USER_CODE = #{ userCode }
     </select>
+
+    <insert id="insertHistory" parameterType="com.dogpamines.dogseek.curation.model.dto.HistoryDTO">
+        INSERT INTO CURATION_HISTORY(
+        CURATION_CODE
+        , PROD_CODE
+        )
+        VALUES(
+        #{ curationCode }
+        , #{ prodCode }
+        )
+    </insert>
 
 </mapper>
