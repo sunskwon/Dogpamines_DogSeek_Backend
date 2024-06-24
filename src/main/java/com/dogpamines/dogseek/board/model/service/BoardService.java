@@ -10,21 +10,29 @@ import java.util.List;
 @Service
 public class BoardService {
 
-    private BoardMapper boardMapper;
+    private static BoardMapper boardMapper;
 
     @Autowired
     public BoardService(BoardMapper boardMapper) {
         this .boardMapper = boardMapper;
     }
 
+
     public List<BoardDTO> selectAllPosts() {
 
         return boardMapper.selectAllPosts();
     }
-
-
     public BoardDTO selectPost(int postCode) {
 
-        return boardMapper.selectPost();
+        return boardMapper.selectPost(postCode);
+    }
+    public static int getLastPostCode() {
+
+        return boardMapper.getLastPostCode();
+    }
+
+    public static void newBoardPost(BoardDTO board) {
+
+        boardMapper.insertBoard(board);
     }
 }

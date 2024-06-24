@@ -11,5 +11,10 @@ import java.util.List;
 public interface BoardMapper {
     List<BoardDTO> selectAllPosts();
 
-    BoardDTO selectPost();
+    BoardDTO selectPost(int postCode);
+
+    int getLastPostCode();
+
+    void insertBoard(BoardDTO board);
+
 }
