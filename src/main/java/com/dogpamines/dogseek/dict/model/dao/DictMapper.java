@@ -12,4 +12,14 @@ public interface DictMapper {
     DictDTO selectByCode(int dogCode);
 
     List<DictDTO> searchDog(String dogName);
+
+    List<DictDTO> dictSearch(String type, String input);
+
+    int getLastDogCode();
+
+    void deleteDict(int dogCode);
+
+    void insertDict(DictDTO dict);
+
+    void updateDict(DictDTO dict);
 }

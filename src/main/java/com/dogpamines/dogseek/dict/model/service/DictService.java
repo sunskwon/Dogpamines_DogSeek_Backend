@@ -2,9 +2,11 @@ package com.dogpamines.dogseek.dict.model.service;
 
 import com.dogpamines.dogseek.dict.model.dao.DictMapper;
 import com.dogpamines.dogseek.dict.model.dto.DictDTO;
+import com.sun.tools.jconsole.JConsoleContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,5 +23,30 @@ public class DictService {
     public DictDTO selectByCode(int dogCode) { return dictMapper.selectByCode(dogCode);}
 
     public List<DictDTO> searchDog(String dogName) { return dictMapper.searchDog(dogName);
+    }
+
+    public List<DictDTO> dictSearch(String type, String input) {
+
+        return dictMapper.dictSearch(type, input);
+    }
+
+    public int getLastDogCode() {
+
+        return dictMapper.getLastDogCode();
+    }
+
+    public void deleteDict(int dogCode) {
+
+        dictMapper.deleteDict(dogCode);
+    }
+
+    public void insertDict(DictDTO dict) {
+
+        dictMapper.insertDict(dict);
+    }
+
+    public void updateDict(DictDTO dict) {
+
+        dictMapper.updateDict(dict);
     }
 }

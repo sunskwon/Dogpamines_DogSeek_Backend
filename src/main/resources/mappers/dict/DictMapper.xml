@@ -75,4 +75,179 @@
         FROM DOG
         WHERE DOG_NAME LIKE CONCAT('%', #{dogName}, '%')
     </select>
+
+    <select id="dictSearch" resultMap="dictResultMap">
+        SELECT
+            DOG_CODE
+            , DOG_NAME
+            , DOG_SIZE
+            , DOG_SUMMARY
+            , DOG_HEIGHT_M
+            , DOG_WEIGHT_M
+            , DOG_HEIGHT_F
+            , DOG_WEIGHT_F
+            , DOG_CHILD
+            , DOG_YOUTH
+            , DOG_ELD
+            , DOG_DISEASE
+            , DOG_DROOL
+            , DOG_SOCIAL
+            , DOG_SHED
+            , DOG_BARK
+            , DOG_PET
+            , DOG_HOT
+            , DOG_COLD
+            , DOG_HOUSE
+            , DOG_GROOM
+            , DOG_ACTI
+            , DOG_DETAIL
+        FROM DOG
+        <if test="type == 'dogName'">
+            WHERE DOG_NAME LIKE CONCAT('%', #{ input }, '%')
+        </if>
+        <if test="type == 'dogSize'">
+            WHERE DOG_SIZE LIKE CONCAT('%', #{ input }, '%')
+        </if>
+    </select>
+
+    <select id="getLastDogCode" resultType="_int">
+        SELECT
+            MAX(DOG_CODE)
+        FROM DOG
+    </select>
+
+    <insert id="insertDict" parameterType="com.dogpamines.dogseek.dict.model.dto.DictDTO">
+        INSERT INTO DOG(
+            DOG_CODE
+            , DOG_NAME
+            , DOG_SIZE
+            , DOG_SUMMARY
+            , DOG_HEIGHT_M
+            , DOG_WEIGHT_M
+            , DOG_HEIGHT_F
+            , DOG_WEIGHT_F
+            , DOG_CHILD
+            , DOG_YOUTH
+            , DOG_ELD
+            , DOG_DISEASE
+            , DOG_DROOL
+            , DOG_SOCIAL
+            , DOG_SHED
+            , DOG_BARK
+            , DOG_PET
+            , DOG_HOT
+            , DOG_COLD
+            , DOG_HOUSE
+            , DOG_GROOM
+            , DOG_ACTI
+            , DOG_IMAGE
+            , DOG_DETAIL)
+        VALUES(
+            #{ dogCode }
+            , #{ dogName }
+            , #{ dogSize }
+            , #{ dogSummary }
+            , #{ dogHeightM }
+            , #{ dogWeightM }
+            , #{ dogHeightF }
+            , #{ dogWeightF }
+            , #{ dogChild }
+            , #{ dogYouth }
+            , #{ dogEld }
+            , #{ dogDisease }
+            , #{ dogDrool }
+            , #{ dogSocial }
+            , #{ dogShed }
+            , #{ dogBark }
+            , #{ dogPet }
+            , #{ dogHot }
+            , #{ dogCold }
+            , #{ dogHouse }
+            , #{ dogGroom }
+            , #{ dogActi }
+            , #{ dogImage }
+            , #{ dogDetail })
+    </insert>
+
+    <update id="updateDict" parameterType="com.dogpamines.dogseek.dict.model.dto.DictDTO">
+        UPDATE DOG
+        <set>
+            DOG_CODE = #{ dogCode }
+            <if test="dogName != ''">
+                , DOG_NAME = #{ dogName }
+            </if>
+            <if test="dogSize != ''">
+                , DOG_SIZE = #{ dogSize }
+            </if>
+            <if test="dogSummary != ''">
+                , DOG_SUMMARY = #{ dogSummary }
+            </if>
+            <if test="dogHeightM != ''">
+                , DOG_HEIGHT_M = #{ dogHeightM }
+            </if>
+            <if test="dogWeightM != ''">
+                , DOG_WEIGHT_M = #{ dogWeightM }
+            </if>
+            <if test="dogHeightF != ''">
+                , DOG_HEIGHT_F = #{ dogHeightF }
+            </if>
+            <if test="dogWeightF != ''">
+                , DOG_WEIGHT_F = #{ dogWeightF }
+            </if>
+            <if test="dogChild != ''">
+                , DOG_CHILD = #{ dogChild }
+            </if>
+            <if test="dogYouth != ''">
+                , DOG_YOUTH = #{ dogYouth }
+            </if>
+            <if test="dogEld != ''">
+                , DOG_ELD = #{ dogEld }
+            </if>
+            <if test="dogDisease != ''">
+                , DOG_DISEASE = #{ dogDisease }
+            </if>
+            <if test="dogDrool != ''">
+                , DOG_DROOL = #{ dogDrool }
+            </if>
+            <if test="dogSocial != ''">
+                , DOG_SOCIAL = #{ dogSocial }
+            </if>
+            <if test="dogShed != ''">
+                , DOG_SHED = #{ dogShed }
+            </if>
+            <if test="dogBark != ''">
+                , DOG_BARK = #{ dogBark }
+            </if>
+            <if test="dogPet != ''">
+                , DOG_PET = #{ dogPet }
+            </if>
+            <if test="dogHot != ''">
+                , DOG_HOT = #{ dogHot }
+            </if>
+            <if test="dogCold != ''">
+                , DOG_COLD = #{ dogCold }
+            </if>
+            <if test="dogHouse != ''">
+                , DOG_HOUSE = #{ dogHouse }
+            </if>
+            <if test="dogGroom != ''">
+                , DOG_GROOM = #{ dogGroom }
+            </if>
+            <if test="dogActi != ''">
+                , DOG_ACTI = #{ dogActi }
+            </if>
+            <if test="dogImage != null">
+                , DOG_IMAGE = #{ dogImage }
+            </if>
+            <if test="dogDetail != null">
+                , DOG_DETAIL = #{ dogDetail }
+            </if>
+        </set>
+        WHERE DOG_CODE = #{ dogCode }
+    </update>
+
+    <delete id="deleteDict" parameterType="_int">
+        DELETE FROM DOG
+        WHERE DOG_CODE = #{ dogCode }
+    </delete>
 </mapper>
