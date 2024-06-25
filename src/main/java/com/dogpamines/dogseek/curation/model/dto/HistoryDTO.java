@@ -1,22 +1,24 @@
 package com.dogpamines.dogseek.curation.model.dto;
 
+import java.util.List;
+
 public class HistoryDTO {
 
-    private int prodCode;
+    private List<Integer>  prodCode;
     private int curationCode;
 
     public HistoryDTO() {}
 
-    public HistoryDTO(int prodCode, int curationCode) {
+    public HistoryDTO(List<Integer> prodCode, int curationCode) {
         this.prodCode = prodCode;
         this.curationCode = curationCode;
     }
 
-    public int getProdCode() {
+    public List<Integer> getProdCode() {
         return prodCode;
     }
 
-    public void setProdCode(int prodCode) {
+    public void setProdCode(List<Integer> prodCode) {
         this.prodCode = prodCode;
     }
 

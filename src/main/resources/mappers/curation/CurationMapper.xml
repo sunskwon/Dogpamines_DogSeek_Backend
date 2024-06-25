@@ -93,7 +93,10 @@
     <where>
         <trim prefixOverrides="AND">
             <if test="curationAge != null and curationAge != ''">
-                AND PROD_AGE = #{ curationAge }
+                AND PROD_AGE IN (#{ curationAge }, '전체')
+            </if>
+            <if test="curationSize != null and curationSize != ''">
+                AND PROD_RECOM IN (#{ curationSize }, '전체')
             </if>
             <if test="curationIngra != null and curationIngra != ''">
                 AND PROD_INGRA Like CONCAT('%', #{ curationIngra }, '%')
@@ -170,13 +173,13 @@
 
     <insert id="insertHistory" parameterType="com.dogpamines.dogseek.curation.model.dto.HistoryDTO">
         INSERT INTO CURATION_HISTORY(
-        CURATION_CODE
-        , PROD_CODE
+            CURATION_CODE
+            , PROD_CODE
         )
-        VALUES(
-        #{ curationCode }
-        , #{ prodCode }
-        )
+        VALUES
+        <foreach collection="prodCode" item="prodCode" separator=",">
+            (#{curationCode}, #{prodCode})
+        </foreach>
     </insert>
 
 </mapper>
