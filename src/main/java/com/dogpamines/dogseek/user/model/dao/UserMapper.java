@@ -17,5 +17,7 @@ public interface UserMapper {
 
     String findUserAuth(int userCode);
 
+    void updateUserByAdmin(String userCode);
+
     void deleteUserByAdmin(String userAuth, int userCode);
 }

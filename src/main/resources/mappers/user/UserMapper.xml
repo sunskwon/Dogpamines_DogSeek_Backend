@@ -90,6 +90,12 @@
         WHERE USER_CODE = #{ userCode }
     </select>
 
+    <update id="updateUserByAdmin" parameterType="String">
+        UPDATE USER
+            SET USER_AUTH = 'ADMIN'
+        WHERE USER_CODE = #{ userCode }
+    </update>
+
     <update id="deleteUserByAdmin" parameterType="_int">
         UPDATE USER
         <if test="userAuth == 'USER'">

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
@@ -90,6 +91,18 @@ public class UserController {
         result.put("users", userService.selectAllUsersByAdmin(search));
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
+
+    @PutMapping("/admin/users")
+    public ResponseEntity<?> updateUserByAdmin(@RequestBody Map<String, String> object) {
+
+        String userCode = (String) object.get("userCode");
+
+        userService.updateUserByAdmin(userCode);
+
+        return ResponseEntity
+                .created(URI.create("/admin/users/" + userCode))
+                .build();
     }
 
     @DeleteMapping("/admin/users/{userCode}")

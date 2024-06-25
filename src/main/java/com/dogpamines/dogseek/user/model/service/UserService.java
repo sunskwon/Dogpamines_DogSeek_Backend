@@ -87,6 +87,11 @@ public class UserService {
         return userMapper.findUserAuth(userCode);
     }
 
+    public void updateUserByAdmin(String userCode) {
+
+        userMapper.updateUserByAdmin(userCode);
+    }
+
     public void deleteUserByAdmin(String userAuth, int userCode) {
 
         userMapper.deleteUserByAdmin(userAuth, userCode);
