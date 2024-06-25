@@ -17,7 +17,7 @@ public interface BoardMapper {
 
     int getLastPostCode();
 
-    void insertBoard(BoardDTO board);
+    void newBoardPost(BoardDTO board);
 
     List<BoardDTO> selectBoardByCodeByAdmin(int userCode);
 

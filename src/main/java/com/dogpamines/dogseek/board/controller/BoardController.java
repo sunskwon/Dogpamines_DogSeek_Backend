@@ -58,10 +58,10 @@ public class BoardController {
     @PostMapping("/boards")
     public ResponseEntity<?> newBoardPost(@RequestBody BoardDTO board) {
 
-        int newPostCode = BoardService.getLastPostCode() + 1;
+        int newPostCode = boardService.getLastPostCode() + 1;
         board.setPostCode(newPostCode);
 
-        BoardService.newBoardPost(board);
+        boardService.newBoardPost(board);
 
         return ResponseEntity
                 .created(URI.create("/boards/" + newPostCode))

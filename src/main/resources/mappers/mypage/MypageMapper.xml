@@ -21,6 +21,18 @@
         <result property="userCode" column="user_code" />
     </resultMap>
 
+    <resultMap id="userResultMap" type="com.dogpamines.dogseek.user.model.dto.UserDTO">
+        <id property="userCode" column="USER_CODE"/>
+        <result property="userPlatform" column="USER_PLATFORM"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="userPass" column="USER_PW"/>
+        <result property="userNick" column="USER_NICK"/>
+        <result property="userPhone" column="USER_PHONE"/>
+        <result property="userSignup" column="USER_SIGNUP"/>
+        <result property="userLatest" column="USER_LATEST"/>
+        <result property="userAuth" column="USER_AUTH"/>
+    </resultMap>
+
     <select id="findAllCuration" resultMap="curationResultMap">
         SELECT
         CURATION_CODE,
@@ -31,22 +43,33 @@
 
     <select id="userCurationList" resultMap="curationResultMap">
         SELECT
-        CURATION_CODE,
-        CURATION_AGE,
-        CURATION_INGRA,
-        CURATION_DISEASE,
-        CURATION_ALLERGY,
-        CURATION_BREED,
-        CURATION_GENDER,
-        CURATION_NEUT,
-        CURATION_WEIGHT,
-        CURATION_NAME,
-        CURATION_DATE,
-        CURATION_SIZE,
-        CURATION_COOK,
-        USER_CODE
-        FROM CURATION
-        WHERE USER_CODE = #{ userCode }
+            c.CURATION_CODE,
+            c.CURATION_AGE,
+            c.CURATION_INGRA,
+            c.CURATION_DISEASE,
+            c.CURATION_ALLERGY,
+            c.CURATION_BREED,
+            c.CURATION_GENDER,
+            c.CURATION_NEUT,
+            c.CURATION_WEIGHT,
+            c.CURATION_NAME,
+            c.CURATION_DATE,
+            c.CURATION_SIZE,
+            c.CURATION_COOK,
+            c.USER_CODE
+        FROM CURATION AS c
+        INNER JOIN (
+            SELECT
+                CURATION_NAME,
+                MIN(CURATION_DATE) AS earliest_date
+            FROM CURATION
+            WHERE USER_CODE = #{ userCode }
+            GROUP BY CURATION_NAME
+        ) AS unique_curation
+        ON c.CURATION_NAME = unique_curation.CURATION_NAME
+        AND c.CURATION_DATE = unique_curation.earliest_date
+        WHERE c.USER_CODE = #{ userCode }
+        ORDER BY c.CURATION_DATE ASC
     </select>
 
     <select id="selectUserDogCurationList" resultMap="curationResultMap">
@@ -69,5 +92,45 @@
         WHERE USER_CODE = #{ userCode }
         AND CURATION_NAME = #{ curationName }
     </select>
+
+    <select id="selectUserDetail" parameterType="_int" resultMap="userResultMap">
+        SELECT
+        USER_CODE
+        , USER_PLATFORM
+        , USER_ID
+        , USER_PW
+        , USER_NICK
+        , USER_PHONE
+        , USER_SIGNUP
+        , USER_LATEST
+        , USER_AUTH
+        FROM USER
+        WHERE USER_CODE = #{userCode}
+    </select>
+
+    <update id="updateUser" parameterType="com.dogpamines.dogseek.user.model.dto.UserDTO">
+        UPDATE USER
+        <set>
+            USER_CODE = #{userCode}
+            , USER_PW = #{userPass}
+            , USER_NICK = #{userNick}
+        </set>
+        WHERE USER_CODE = #{userCode}
+    </update>
+
+    <select id="findUserAuth" parameterType="_int">
+        SELECT
+        USER_AUTH
+        FROM USER
+        WHERE USER_CODE = #{ userCode }
+    </select>
+
+    <update id="deleteUser" parameterType="_int">
+        UPDATE USER
+        <set>
+            USER_AUTH = 'SLEEP'
+        </set>
+        WHERE USER_CODE = #{userCode}
+    </update>
 
 </mapper>

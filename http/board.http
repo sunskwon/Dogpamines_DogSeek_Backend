@@ -5,6 +5,7 @@ GET http://localhost:8080/boards
 ### selectPost(게시글 상세 조회)
 GET http://localhost:8080/boards/215
 
+
 ### selectAllNotices
 GET http://localhost:8080/notice
 
@@ -16,3 +17,19 @@ GET http://localhost:8080/notice/search?type=postTitle&input=공지
 
 ### searchBoard
 GET http://localhost:8080/board/search?type=postTitle&input=게시
+
+### insertBoard()
+POST http://localhost:8080/boards
+Content-Type: application/json
+
+{
+  "postCode": 0,
+  "postTitle": "우리 당당이 이야기",
+  "postContext": "오늘 당당이가 말이에요 당당하게 산책하고 와서 당당하게 구르고 당당하게 씻겨달래요",
+  "postCategory": "자유",
+  "postDate": "2024.06.25",
+  "postStatus": "Y",
+  "userCode": 3,
+  "userNick": "어디가냥"
+}
+
