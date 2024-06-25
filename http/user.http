@@ -27,12 +27,26 @@ Accept: */*
 GET http://localhost:8080/admin/users/1
 
 ### selectAllUsersByAdmin
-POST  http://localhost:8080/admin/users
+POST http://localhost:8080/admin/users
 Content-Type: application/json
 
 {
   "type": "user",
   "input": ""
+}
+
+### updateUserByAdmin
+PUT http://localhost:8080/admin/users
+Content-Type: application/json
+
+{
+  "userId": "admin3@gmail.com",
+  "userPass": "admin03",
+  "userNick": "크르릉댕댕콱콱",
+  "userPhone": "010-9877-8766",
+  "userSignup": "2024-06-24",
+  "userLatest": "2024-06-24",
+  "userAuth": "ADMIN"
 }
 
 ### deleteUserByAdmin

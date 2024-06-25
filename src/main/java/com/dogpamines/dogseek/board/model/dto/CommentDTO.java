@@ -6,20 +6,23 @@ public class CommentDTO {
 
     private int commentCode;
     private String commentContext;
-    private Date commentDate;
+    private String commentDate;
     private String commentStatus;
     private int postCode;
     private int userCode;
+    private String userNick;
 
-    public CommentDTO() {}
+    public CommentDTO() {
+    }
 
-    public CommentDTO(int commentCode, String commentContext, Date commentDate, String commentStatus, int postCode, int userCode) {
+    public CommentDTO(int commentCode, String commentContext, String commentDate, String commentStatus, int postCode, int userCode, String userNick) {
         this.commentCode = commentCode;
         this.commentContext = commentContext;
         this.commentDate = commentDate;
         this.commentStatus = commentStatus;
         this.postCode = postCode;
         this.userCode = userCode;
+        this.userNick = userNick;
     }
 
     public int getCommentCode() {
@@ -38,11 +41,11 @@ public class CommentDTO {
         this.commentContext = commentContext;
     }
 
-    public Date getCommentDate() {
+    public String getCommentDate() {
         return commentDate;
     }
 
-    public void setCommentDate(Date commentDate) {
+    public void setCommentDate(String commentDate) {
         this.commentDate = commentDate;
     }
 
@@ -70,6 +73,14 @@ public class CommentDTO {
         this.userCode = userCode;
     }
 
+    public String getUserNick() {
+        return userNick;
+    }
+
+    public void setUserNick(String userNick) {
+        this.userNick = userNick;
+    }
+
     @Override
     public String toString() {
         return "CommentDTO{" +
@@ -79,6 +90,7 @@ public class CommentDTO {
                 ", commentStatus='" + commentStatus + '\'' +
                 ", postCode=" + postCode +
                 ", userCode=" + userCode +
+                ", userNick='" + userNick + '\'' +
                 '}';
     }
 }

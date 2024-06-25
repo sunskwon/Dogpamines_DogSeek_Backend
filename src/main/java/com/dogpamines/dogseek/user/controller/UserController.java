@@ -1,5 +1,7 @@
 package com.dogpamines.dogseek.user.controller;
 
+import com.dogpamines.dogseek.board.model.dto.BoardDTO;
+import com.dogpamines.dogseek.board.model.service.BoardService;
 import com.dogpamines.dogseek.curation.model.service.CurationService;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import com.dogpamines.dogseek.user.model.service.UserService;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
@@ -21,11 +24,13 @@ public class UserController {
 
     private UserService userService;        // 생성자 주입으로 하기!!!
     private CurationService curationService;
+    private BoardService boardService;
 
     @Autowired
-    public UserController(UserService userService, CurationService curationService) {
+    public UserController(UserService userService, CurationService curationService, BoardService boardService) {
         this.userService = userService;
         this.curationService = curationService;
+        this.boardService = boardService;
     }
 
     @PostMapping("/signup")
@@ -55,7 +60,23 @@ public class UserController {
             }
         }
 
+        List<BoardDTO> boardList = boardService.selectBoardByCodeByAdmin(userCode);
 
+        if (boardList.size() > 0) {
+
+            result.put("boardList", boardList);
+
+            Map<String, String> commentCount = new HashMap<>();
+
+            for (BoardDTO board : boardList) {
+
+                int postCode = board.getPostCode();
+
+                commentCount.put(Integer.toString(postCode), Integer.toString(boardService.countCommentByPostCode(postCode)));
+            }
+
+            result.put("countList", commentCount);
+        }
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
@@ -70,6 +91,18 @@ public class UserController {
         result.put("users", userService.selectAllUsersByAdmin(search));
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
+
+    @PutMapping("/admin/users")
+    public ResponseEntity<?> updateUserByAdmin(@RequestBody Map<String, String> object) {
+
+        String userCode = (String) object.get("userCode");
+
+        userService.updateUserByAdmin(userCode);
+
+        return ResponseEntity
+                .created(URI.create("/admin/users/" + userCode))
+                .build();
     }
 
     @DeleteMapping("/admin/users/{userCode}")
