@@ -7,4 +7,18 @@ GET http://localhost:8080/curations?userCode=
 ### 사용자별 강아지별 큐레이션 리스트 조회
 GET http://localhost:8080/curationsdog?userCode=&curationName=
 
+### 사용자 정보 조회
+GET http://localhost:8080/mypage?userCode=
 
+### 사용자 비밀번호, 닉네임 수정 (update)
+PUT http://localhost:8080/mypage
+Content-Type: application/json
+
+{
+  "userCode": 1,
+  "userPass": "admin1234!",
+  "userNick": "어드미니"
+}
+
+### 회원 탈퇴 (update 휴면처리)
+DELETE http://localhost:8080/mypage

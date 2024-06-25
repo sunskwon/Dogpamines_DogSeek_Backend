@@ -21,6 +21,18 @@
         <result property="userCode" column="user_code" />
     </resultMap>
 
+    <resultMap id="userResultMap" type="com.dogpamines.dogseek.user.model.dto.UserDTO">
+        <id property="userCode" column="USER_CODE"/>
+        <result property="userPlatform" column="USER_PLATFORM"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="userPass" column="USER_PW"/>
+        <result property="userNick" column="USER_NICK"/>
+        <result property="userPhone" column="USER_PHONE"/>
+        <result property="userSignup" column="USER_SIGNUP"/>
+        <result property="userLatest" column="USER_LATEST"/>
+        <result property="userAuth" column="USER_AUTH"/>
+    </resultMap>
+
     <select id="findAllCuration" resultMap="curationResultMap">
         SELECT
         CURATION_CODE,
@@ -69,5 +81,45 @@
         WHERE USER_CODE = #{ userCode }
         AND CURATION_NAME = #{ curationName }
     </select>
+
+    <select id="selectUserDetail" parameterType="_int" resultMap="userResultMap">
+        SELECT
+        USER_CODE
+        , USER_PLATFORM
+        , USER_ID
+        , USER_PW
+        , USER_NICK
+        , USER_PHONE
+        , USER_SIGNUP
+        , USER_LATEST
+        , USER_AUTH
+        FROM USER
+        WHERE USER_CODE = #{userCode}
+    </select>
+
+    <update id="updateUser" parameterType="com.dogpamines.dogseek.user.model.dto.UserDTO">
+        UPDATE USER
+        <set>
+            USER_CODE = #{userCode}
+            , USER_PW = #{userPass}
+            , USER_NICK = #{userNick}
+        </set>
+        WHERE USER_CODE = #{userCode}
+    </update>
+
+    <select id="findUserAuth" parameterType="_int">
+        SELECT
+        USER_AUTH
+        FROM USER
+        WHERE USER_CODE = #{ userCode }
+    </select>
+
+    <update id="deleteUser" parameterType="_int">
+        UPDATE USER
+        <set>
+            USER_AUTH = 'SLEEP'
+        </set>
+        WHERE USER_CODE = #{userCode}
+    </update>
 
 </mapper>
