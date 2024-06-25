@@ -14,7 +14,7 @@ public class BoardService {
 
     @Autowired
     public BoardService(BoardMapper boardMapper) {
-        this .boardMapper = boardMapper;
+        this.boardMapper = boardMapper;
     }
 
 
@@ -26,13 +26,13 @@ public class BoardService {
 
         return boardMapper.selectPost(postCode);
     }
-    public static int getLastPostCode() {
+    public int getLastPostCode() {
 
         return boardMapper.getLastPostCode();
     }
 
-    public static void newBoardPost(BoardDTO board) {
+    public void newBoardPost(BoardDTO board) {
 
-        boardMapper.insertBoard(board);
+        boardMapper.newBoardPost(board);
     }
 }

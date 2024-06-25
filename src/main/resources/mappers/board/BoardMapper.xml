@@ -43,7 +43,27 @@
         WHERE POST_CODE = #{ postCode }
     </select>
 
-
+    <insert id="newBoardPost" parameterType="com.dogpamines.dogseek.board.model.dto.BoardDTO">
+        INSERT INTO POST
+        (
+            POST_CODE
+        ,   POST_TITLE
+        ,   POST_CONTEXT
+        ,   POST_DATE
+        ,   POST_CATEGORY
+        ,   POST_STATUS
+        ,   USER_CODE
+        ,   USER_NICK)
+        VALUES(
+            #{ postCode }
+        ,   #{ postTitle }
+        ,   #{ postContext }
+        ,   #{ postDate }
+        ,   #{ postCategory }
+        ,   #{ postStatus }
+        ,   #{ userCode }
+        ,   #{ userNick })
+    </insert>
 
 
 </mapper>
