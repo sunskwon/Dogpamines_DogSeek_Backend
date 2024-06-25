@@ -48,7 +48,7 @@ public class MyPageController {
 
     /* 큐레이션 유저별 상세 조회 */
     @GetMapping("/curations")
-    public ResponseEntity<Map<String, Object>> userCurationList(@RequestParam(value = "userCode", required = false, defaultValue = "1") int userCode){
+    public ResponseEntity<Map<String, Object>> userCurationList(@RequestParam int userCode){
 
         List<CurationDTO> curationDTOList = myPageService.userCurationList(userCode);
 
@@ -83,7 +83,7 @@ public class MyPageController {
 
     /* 회원 상세 정보 조회 */
     @GetMapping("/mypage")
-    public ResponseEntity<Map<String, Object>> selectUserDetail(@RequestParam(value = "userCode", required = false, defaultValue = "1") int userCode) {
+    public ResponseEntity<Map<String, Object>> selectUserDetail(@RequestParam int userCode) {
         List<UserDTO> userDTOS = myPageService.selectUserDetail(userCode);
 
         /* 응답 헤더 설정 */

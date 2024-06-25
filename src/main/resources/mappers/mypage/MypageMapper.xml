@@ -43,22 +43,33 @@
 
     <select id="userCurationList" resultMap="curationResultMap">
         SELECT
-        CURATION_CODE,
-        CURATION_AGE,
-        CURATION_INGRA,
-        CURATION_DISEASE,
-        CURATION_ALLERGY,
-        CURATION_BREED,
-        CURATION_GENDER,
-        CURATION_NEUT,
-        CURATION_WEIGHT,
-        CURATION_NAME,
-        CURATION_DATE,
-        CURATION_SIZE,
-        CURATION_COOK,
-        USER_CODE
-        FROM CURATION
-        WHERE USER_CODE = #{ userCode }
+            c.CURATION_CODE,
+            c.CURATION_AGE,
+            c.CURATION_INGRA,
+            c.CURATION_DISEASE,
+            c.CURATION_ALLERGY,
+            c.CURATION_BREED,
+            c.CURATION_GENDER,
+            c.CURATION_NEUT,
+            c.CURATION_WEIGHT,
+            c.CURATION_NAME,
+            c.CURATION_DATE,
+            c.CURATION_SIZE,
+            c.CURATION_COOK,
+            c.USER_CODE
+        FROM CURATION AS c
+        INNER JOIN (
+            SELECT
+                CURATION_NAME,
+                MIN(CURATION_DATE) AS earliest_date
+            FROM CURATION
+            WHERE USER_CODE = #{ userCode }
+            GROUP BY CURATION_NAME
+        ) AS unique_curation
+        ON c.CURATION_NAME = unique_curation.CURATION_NAME
+        AND c.CURATION_DATE = unique_curation.earliest_date
+        WHERE c.USER_CODE = #{ userCode }
+        ORDER BY c.CURATION_DATE ASC
     </select>
 
     <select id="selectUserDogCurationList" resultMap="curationResultMap">
