@@ -34,4 +34,18 @@ public interface BoardMapper {
     List<BoardDTO> searchNotice(String type, String input);
 
     List<BoardDTO> searchBoard(String type, String input);
+
+    String findPostStatus(int postCode);
+
+    void deletePost(int postCode, String postStatus);
+
+    int findLastPostCode();
+
+    void insertPost(BoardDTO notice);
+
+    BoardDTO selectBoardByCode(int postCode);
+
+    void updatePost(BoardDTO notice);
+
+    List<BoardReportDTO> selectCommentReportByCommentCode(int commentCode);
 }

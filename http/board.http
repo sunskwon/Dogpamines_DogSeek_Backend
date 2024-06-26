@@ -33,3 +33,24 @@ Content-Type: application/json
   "userNick": "어디가냥"
 }
 
+### deletePost
+DELETE http://localhost:8080/post/106
+
+### selectPostByCode
+GET http://localhost:8080/post/106
+
+### updatePost
+PUT http://localhost:8080/post
+Content-Type: application/json
+
+{
+  "postCode": 106,
+  "postTitle": "수정",
+  "postContext": "수정됨",
+  "postDate": "2024-06-26",
+  "postCategory": "공지",
+  "postStatus": "N",
+  "userCode": 1,
+  "userNick": "포도맛"
+}
+

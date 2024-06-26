@@ -77,4 +77,39 @@ public class BoardService {
 
         return boardMapper.searchBoard(type, input);
     }
+
+    public String findPostStatus(int postCode) {
+
+        return boardMapper.findPostStatus(postCode);
+    }
+
+    public void deletePost(int postCode, String postStatus) {
+
+        boardMapper.deletePost(postCode, postStatus);
+    }
+
+    public int findLastPostCode() {
+
+        return boardMapper.findLastPostCode();
+    }
+
+    public void insertPost(BoardDTO notice) {
+
+        boardMapper.insertPost(notice);
+    }
+
+    public BoardDTO selectBoardByCode(int postCode) {
+
+        return boardMapper.selectBoardByCode(postCode);
+    }
+
+    public void updatePost(BoardDTO notice) {
+
+        boardMapper.updatePost(notice);
+    }
+
+    public List<BoardReportDTO> selectCommentReportByCommentCode(int commentCode) {
+
+        return boardMapper.selectCommentReportByCommentCode(commentCode);
+    }
 }
