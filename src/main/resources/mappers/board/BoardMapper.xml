@@ -87,23 +87,23 @@
     <insert id="newBoardPost" parameterType="com.dogpamines.dogseek.board.model.dto.BoardDTO">
         INSERT INTO POST
         (
-            POST_CODE
-        ,   POST_TITLE
-        ,   POST_CONTEXT
-        ,   POST_DATE
-        ,   POST_CATEGORY
-        ,   POST_STATUS
-        ,   USER_CODE
-        ,   USER_NICK)
+        POST_CODE
+        , POST_TITLE
+        , POST_CONTEXT
+        , POST_DATE
+        , POST_CATEGORY
+        , POST_STATUS
+        , USER_CODE
+        , USER_NICK)
         VALUES(
-            #{ postCode }
-        ,   #{ postTitle }
-        ,   #{ postContext }
-        ,   #{ postDate }
-        ,   #{ postCategory }
-        ,   #{ postStatus }
-        ,   #{ userCode }
-        ,   #{ userNick })
+        #{ postCode }
+        , #{ postTitle }
+        , #{ postContext }
+        , #{ postDate }
+        , #{ postCategory }
+        , #{ postStatus }
+        , #{ userCode }
+        , #{ userNick })
     </insert>
 
 
@@ -210,5 +210,94 @@
             AND POST_CONTEXT LIKE CONCAT('%', #{ input }, '%')
         </if>
         ORDER BY A.POST_DATE DESC, A.POST_CODE DESC
+    </select>
+
+    <select id="findPostStatus" parameterType="_int" resultType="String">
+        SELECT
+        POST_STATUS
+        FROM POST
+        WHERE POST_CODE = #{ postCode }
+    </select>
+
+    <select id="findLastPostCode" resultType="_int">
+        SELECT
+            MAX(POST_CODE)
+        FROM POST
+    </select>
+
+    <insert id="insertPost" parameterType="com.dogpamines.dogseek.board.model.dto.BoardDTO">
+        INSERT INTO POST(
+            POST_CODE
+            , POST_TITLE
+            , POST_CONTEXT
+            , POST_DATE
+            , POST_CATEGORY
+            , POST_STATUS
+            , USER_CODE)
+        VALUES(
+            #{ postCode }
+            , #{ postTitle }
+            , #{ postContext }
+            , #{ postDate }
+            , #{ postCategory }
+            , #{ postStatus }
+            , #{ userCode })
+    </insert>
+
+    <delete id="deletePost" parameterType="_int">
+        UPDATE POST
+        <if test='postStatus == "Y"'>
+            SET POST_STATUS = 'N'
+        </if>
+        <if test='postStatus == "N"'>
+            SET POST_STATUS = 'Y'
+        </if>
+        WHERE POST_CODE = #{ postCode }
+    </delete>
+
+    <select id="selectBoardByCode" resultMap="boardResultMap">
+        SELECT
+            A.POST_CODE
+            , A.POST_TITLE
+            , A.POST_CONTEXT
+            , A.POST_DATE
+            , A.POST_CATEGORY
+            , A.POST_STATUS
+            , A.USER_CODE
+            , B.USER_NICK
+        FROM POST A
+        JOIN USER B ON (A.USER_CODE = B.USER_CODE)
+        WHERE A.POST_CODE = #{ postCode }
+    </select>
+
+    <update id="updatePost" parameterType="com.dogpamines.dogseek.board.model.dto.BoardDTO">
+        UPDATE POST
+            <set>
+                POST_CODE = #{ postCode }
+                <if test="postTitle != ''">
+                    , POST_TITLE = #{ postTitle }
+                </if>
+                <if test="postContext != ''">
+                    , POST_CONTEXT = #{ postContext }
+                </if>
+                <if test="postStatus != ''">
+                    , POST_STATUS = #{ postStatus }
+                </if>
+            </set>
+        WHERE POST_CODE = #{ postCode }
+    </update>
+
+    <select id="selectCommentReportByCommentCode" parameterType="_int" resultMap="boardReportResultMap">
+        SELECT
+        A.REPORT_CODE
+        , A.REPORT_REASON
+        , A.REPORT_DATE
+        , A.REPORT_USER
+        , B.USER_NICK AS REPORT_NICK
+        , A.POST_CODE
+        FROM COMMENT_REPORT A
+        JOIN USER B ON (A.REPORT_USER = B.USER_CODE)
+        WHERE A.POST_CODE = #{ postCode }
+        ORDER BY A.REPORT_DATE DESC, A.REPORT_CODE DESC
     </select>
 </mapper>

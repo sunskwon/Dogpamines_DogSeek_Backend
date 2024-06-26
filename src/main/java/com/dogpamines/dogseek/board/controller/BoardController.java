@@ -1,6 +1,7 @@
 package com.dogpamines.dogseek.board.controller;
 
 import com.dogpamines.dogseek.board.model.dto.BoardDTO;
+import com.dogpamines.dogseek.board.model.dto.CommentDTO;
 import com.dogpamines.dogseek.board.model.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -108,10 +109,24 @@ public class BoardController {
 
             Map<String, Object> commentList = new HashMap<>();
             Map<String, Object> boardReportList = new HashMap<>();
+            Map<String, Object> commentReportList = new HashMap<>();
 
             for (BoardDTO board : boardList) {
 
+                List<CommentDTO> commentListByPostCode = boardService.selectCommentsByPostCode(board.getPostCode());
+
+                if (commentListByPostCode.size() > 0) {
+
+                    System.out.println("commentListByPostCode = " + commentListByPostCode);
+//
+//                    for (CommentDTO comment : commentListByPostCode) {
+//
+//                        commentReportList.put(String.valueOf(comment.getCommentCode()), boardService.selectCommentReportByCommentCode(comment.getCommentCode()));
+//                    }
+                }
+
                 commentList.put(String.valueOf(board.getPostCode()), boardService.selectCommentsByPostCode(board.getPostCode()));
+
                 boardReportList.put(String.valueOf(board.getPostCode()), boardService.selectBoardReportsByPostCode(board.getPostCode()));
             }
 
@@ -120,8 +135,9 @@ public class BoardController {
         }
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
 
-    }@GetMapping("/board/search")
+    @GetMapping("/board/search")
     @Transactional
     public ResponseEntity<Map<String, Object>> selectBoard(@RequestParam("type") String type, @RequestParam("input") String input) {
 
@@ -151,4 +167,49 @@ public class BoardController {
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
+    @GetMapping("/post/{postCode}")
+    public ResponseEntity<Map<String, Object>> selectBoardByCode(@PathVariable int postCode) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("notice", boardService.selectBoardByCode(postCode));
+
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
+
+    @PostMapping("/post")
+    public ResponseEntity<?> insertPost(@RequestBody BoardDTO notice) {
+
+        int postCode = boardService.findLastPostCode() + 1;
+
+        notice.setPostCode(postCode);
+
+        boardService.insertPost(notice);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/post/{postCode}")
+    public ResponseEntity<?> deletePost(@PathVariable int postCode) {
+
+        String postStatus = boardService.findPostStatus(postCode);
+        System.out.println("postCode = " + postCode);
+        System.out.println("postStatus = " + postStatus);
+
+        boardService.deletePost(postCode, postStatus);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/post")
+    public ResponseEntity<?> updatePost(@RequestBody BoardDTO notice) {
+
+        boardService.updatePost(notice);
+
+        return ResponseEntity
+                .created(URI.create("/post/" + notice.getPostCode()))
+                .build();
+    }
 }

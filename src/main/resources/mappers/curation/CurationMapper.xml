@@ -161,6 +161,7 @@
             , CURATION_BREED
             , CURATION_AGE
             , CURATION_SIZE
+            , CURATION_DATE
         FROM CURATION
         WHERE CURATION_NAME = #{ dog }
         AND CURATION_DATE = (
