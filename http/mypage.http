@@ -2,10 +2,10 @@
 GET http://localhost:8080/curationList
 
 ### 사용자별 큐레이션 리스트 조회
-GET http://localhost:8080/curations?userCode=
+GET http://localhost:8080/curations?userCode=1
 
 ### 사용자별 강아지별 큐레이션 리스트 조회
-GET http://localhost:8080/curationsdog?userCode=&curationName=
+GET http://localhost:8080/curationsDog?userCode=1&curationCode=2&curationName=
 
 ### 사용자 정보 조회
 GET http://localhost:8080/mypage?userCode=

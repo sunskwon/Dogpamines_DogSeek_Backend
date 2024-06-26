@@ -65,9 +65,9 @@ public class MyPageController {
     }
 
     /* 큐레이션 유저별 반려견별 상세 조회 */
-    @GetMapping("/curationsdog")
-    public ResponseEntity<Map<String, Object>> selectUserDogCurationList(@RequestParam(value = "userCode", required = false, defaultValue = "1") int userCode, @RequestParam(value = "curationName", required = false, defaultValue = "나나") String curationName){
-        List<CurationDTO> curationDTOList = myPageService.selectUserDogCurationList(userCode,curationName);
+    @GetMapping("/curationsDog")
+    public ResponseEntity<Map<String, Object>> selectUserDogCurationList(@RequestParam int userCode, Integer curationCode, String curationName){
+        List<CurationDTO> curationDTOList = myPageService.selectUserDogCurationList(userCode, curationCode, curationName);
 
         /* 응답 헤더 설정 */
         HttpHeaders headers = new HttpHeaders();
@@ -76,7 +76,7 @@ public class MyPageController {
 
         /* 응답 데이터 설정 */
         Map<String, Object> result = new HashMap<>();
-        result.put("curations", curationDTOList);
+        result.put("curationsDog", curationDTOList);
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }

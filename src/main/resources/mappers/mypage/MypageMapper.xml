@@ -89,8 +89,17 @@
         CURATION_COOK,
         USER_CODE
         FROM CURATION
-        WHERE USER_CODE = #{ userCode }
-        AND CURATION_NAME = #{ curationName }
+        <where>
+            <if test="userCode != null and userCode != ''">
+                USER_CODE = #{ userCode }
+            </if>
+            <if test="curationCode != null and curationCode != ''">
+                AND CURATION_CODE = #{ curationCode }
+            </if>
+            <if test="curationName != null and curationName != ''">
+                AND CURATION_NAME = #{ curationName }
+            </if>
+        </where>
     </select>
 
     <select id="selectUserDetail" parameterType="_int" resultMap="userResultMap">
