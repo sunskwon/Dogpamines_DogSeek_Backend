@@ -62,6 +62,7 @@
         , DOG_HOUSE
         , DOG_GROOM
         , DOG_ACTI
+        , DOG_IMAGE
         , DOG_DETAIL
         FROM DOG
         WHERE DOG_CODE = #{ dogCode }
