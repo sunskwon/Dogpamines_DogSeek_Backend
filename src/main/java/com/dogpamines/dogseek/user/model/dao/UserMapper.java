@@ -20,4 +20,6 @@ public interface UserMapper {
     void updateUserByAdmin(String userCode);
 
     void deleteUserByAdmin(String userAuth, int userCode);
+
+    boolean selectByEmail(String email);
 }

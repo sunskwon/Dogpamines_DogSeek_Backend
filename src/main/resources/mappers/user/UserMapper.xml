@@ -106,4 +106,10 @@
         </if>
         WHERE USER_CODE = #{ userCode }
     </update>
+
+    <select id="selectByEmail" resultType="boolean">
+        SELECT COUNT(*)
+          FROM USER
+         WHERE USER_ID = #{ email }
+    </select>
 </mapper>
