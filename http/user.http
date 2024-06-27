@@ -52,10 +52,12 @@ Content-Type: application/json
 ### deleteUserByAdmin
 DELETE  http://localhost:8080/admin/users/2
 
+### checkInfo-email
+GET http://localhost:8080/user/check?type=email&info=user01@gmail.com
 
-### selectByEmail
-GET http://localhost:8080/email/check?email=qwer01@gmail.com
+### checkInfo-nick
+GET http://localhost:8080/user/check?type=nick&info=낭만고양이
 
-### selectByNickname
-GET http://localhost:8080/nick/check?nickname=낭만고양이
+### checkInfo-phone
+GET http://localhost:8080/user/check?type=phone&info=010-2234-2325
 
