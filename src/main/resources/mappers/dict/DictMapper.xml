@@ -65,7 +65,7 @@
         , DOG_IMAGE
         , DOG_DETAIL
         FROM DOG
-        WHERE DOG_CODE = #{ dogCode }
+        WHERE DOG_Name = #{ dogName }
     </select>
     <select id="searchDog" resultMap="dictResultMap">
         SELECT

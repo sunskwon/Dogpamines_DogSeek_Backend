@@ -112,4 +112,9 @@
           FROM USER
          WHERE USER_ID = #{ email }
     </select>
+    <select id="selectByNickname" resultType="boolean">
+        SELECT COUNT(*)
+          FROM USER
+         WHERE USER_NICK = #{ nickname }
+    </select>
 </mapper>

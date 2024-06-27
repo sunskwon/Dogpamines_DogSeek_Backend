@@ -101,4 +101,10 @@ public class UserService {
 
         return userMapper.selectByEmail(email);
     }
+
+    public boolean selectByNickname(String nickname) {
+
+       return userMapper.selectByNickname(nickname);
+
+    }
 }
