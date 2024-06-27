@@ -1,6 +1,7 @@
 package com.dogpamines.dogseek.mypage.controller;
 
 import com.dogpamines.dogseek.curation.model.dto.CurationDTO;
+import com.dogpamines.dogseek.curation.model.dto.HistoryDTO;
 import com.dogpamines.dogseek.mypage.model.service.MyPageService;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,8 +67,8 @@ public class MyPageController {
 
     /* 큐레이션 유저별 반려견별 상세 조회 */
     @GetMapping("/curationsDog")
-    public ResponseEntity<Map<String, Object>> selectUserDogCurationList(@RequestParam int userCode, Integer curationCode, String curationName){
-        List<CurationDTO> curationDTOList = myPageService.selectUserDogCurationList(userCode, curationCode, curationName);
+    public ResponseEntity<Map<String, Object>> selectUserDogCurationList(@RequestParam int userCode, String curationName){
+        List<CurationDTO> curationDTOList = myPageService.selectUserDogCurationList(userCode, curationName);
 
         /* 응답 헤더 설정 */
         HttpHeaders headers = new HttpHeaders();
@@ -80,6 +81,13 @@ public class MyPageController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
+
+    /* 큐레이션 코드로 맞춤 사료 추천 페이지 넘어가기 */
+//    @GetMapping("/mycurationresult")
+//    public  ResponseEntity<Map<String, Object>> selectMyCurationResult(@RequestParam int curationCode) {
+//        List<HistoryDTO> historyDTOS = myPageService
+//                .selectMyCurationResult(curationCode);
+//    }
 
     /* 회원 상세 정보 조회 */
     @GetMapping("/mypage")

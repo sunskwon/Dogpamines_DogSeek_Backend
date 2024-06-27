@@ -12,7 +12,7 @@ public interface MyPageMapper {
 
     List<CurationDTO> userCurationList(int userCode);
 
-    List<CurationDTO> selectUserDogCurationList(int userCode, Integer curationCode, String curationName);
+    List<CurationDTO> selectUserDogCurationList(int userCode, String curationName);
 
     List<UserDTO> selectUserDetail(int userCode);
 
