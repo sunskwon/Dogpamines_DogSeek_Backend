@@ -97,8 +97,14 @@ public class UserService {
         userMapper.deleteUserByAdmin(userAuth, userCode);
     }
 
+    public boolean selectByEmail(String email) {
+
+        return userMapper.selectByEmail(email);
+    }
+
     public boolean selectByNickname(String nickname) {
 
        return userMapper.selectByNickname(nickname);
+
     }
 }

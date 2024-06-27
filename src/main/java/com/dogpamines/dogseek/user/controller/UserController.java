@@ -115,6 +115,29 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+
+    @GetMapping("/email/check")
+    public ResponseEntity<Boolean> checkEmail(@RequestParam String email) {
+        System.out.println("email = " + email);
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        boolean result = true;
+
+        if (email.trim().isEmpty()) {
+            result = false;
+        } else {
+            if (userService.selectByEmail(email)) {
+                             result = false;
+            } else {
+                result = true;
+            }
+        }
+
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
+              
     @GetMapping("/nick/check")
     public ResponseEntity<Boolean> checkNickname(@RequestParam String nickname) {
         System.out.println("nickname = " + nickname);
@@ -133,7 +156,6 @@ public class UserController {
                 result = true;
             }
         }
-
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
