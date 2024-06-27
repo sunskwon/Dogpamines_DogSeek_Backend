@@ -51,3 +51,6 @@ Content-Type: application/json
 
 ### deleteUserByAdmin
 DELETE  http://localhost:8080/admin/users/2
+
+### selectByNickname
+GET http://localhost:8080/nick/check?nickname=낭만고양이

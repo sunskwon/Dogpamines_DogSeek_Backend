@@ -114,4 +114,27 @@ public class UserController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/nick/check")
+    public ResponseEntity<Boolean> checkNickname(@RequestParam String nickname) {
+        System.out.println("nickname = " + nickname);
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(new MediaType("application", "JSON", Charset.forName("UTF-8")));
+
+        boolean result = true;
+
+        if (nickname.trim().isEmpty()) {
+            result = false;
+        } else {
+            if (userService.selectByNickname(nickname)) {
+                result = false;
+            } else {
+                result = true;
+            }
+        }
+
+
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
 }
