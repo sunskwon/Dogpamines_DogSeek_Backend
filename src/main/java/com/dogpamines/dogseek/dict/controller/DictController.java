@@ -41,15 +41,15 @@ public class DictController {
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
-    @GetMapping("/dict/{dogCode}")
-    public ResponseEntity<Map<String, Object>> selectByCode(@PathVariable int dogCode){
+    @GetMapping("/dict/{dogName}")
+    public ResponseEntity<Map<String, Object>> selectByCode(@PathVariable String dogName){
 
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
         Map<String, Object> result = new HashMap<>();
-        result.put("dict", dictService.selectByCode(dogCode));
+        result.put("dict", dictService.selectByCode(dogName));
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
