@@ -28,9 +28,9 @@ public class MyPageService {
         return myPageMapper.userCurationList(userCode);
     }
 
-    public List<CurationDTO> selectUserDogCurationList(int userCode, Integer curationCode, String curationName) {
+    public List<CurationDTO> selectUserDogCurationList(int userCode, String curationName) {
 
-        return myPageMapper.selectUserDogCurationList(userCode, curationCode, curationName);
+        return myPageMapper.selectUserDogCurationList(userCode, curationName);
     }
 
     public List<UserDTO> selectUserDetail(int userCode) {

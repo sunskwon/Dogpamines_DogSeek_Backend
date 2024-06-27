@@ -43,33 +43,14 @@
 
     <select id="userCurationList" resultMap="curationResultMap">
         SELECT
-            c.CURATION_CODE,
-            c.CURATION_AGE,
-            c.CURATION_INGRA,
-            c.CURATION_DISEASE,
-            c.CURATION_ALLERGY,
-            c.CURATION_BREED,
-            c.CURATION_GENDER,
-            c.CURATION_NEUT,
-            c.CURATION_WEIGHT,
-            c.CURATION_NAME,
-            c.CURATION_DATE,
-            c.CURATION_SIZE,
-            c.CURATION_COOK,
-            c.USER_CODE
-        FROM CURATION AS c
-        INNER JOIN (
-            SELECT
-                CURATION_NAME,
-                MIN(CURATION_DATE) AS earliest_date
-            FROM CURATION
-            WHERE USER_CODE = #{ userCode }
-            GROUP BY CURATION_NAME
-        ) AS unique_curation
-        ON c.CURATION_NAME = unique_curation.CURATION_NAME
-        AND c.CURATION_DATE = unique_curation.earliest_date
-        WHERE c.USER_CODE = #{ userCode }
-        ORDER BY c.CURATION_DATE ASC
+            CURATION_NAME,
+            USER_CODE
+        FROM CURATION
+        <where>
+            <if test="userCode != null and userCode != ''">
+                USER_CODE = #{ userCode }
+            </if>
+        </where>
     </select>
 
     <select id="selectUserDogCurationList" resultMap="curationResultMap">
@@ -93,13 +74,11 @@
             <if test="userCode != null and userCode != ''">
                 USER_CODE = #{ userCode }
             </if>
-            <if test="curationCode != null and curationCode != ''">
-                AND CURATION_CODE = #{ curationCode }
-            </if>
             <if test="curationName != null and curationName != ''">
                 AND CURATION_NAME = #{ curationName }
             </if>
         </where>
+        ORDER BY CURATION_DATE
     </select>
 
     <select id="selectUserDetail" parameterType="_int" resultMap="userResultMap">
