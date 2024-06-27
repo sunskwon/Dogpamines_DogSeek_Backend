@@ -14,17 +14,6 @@
         <result property="userNick" column="USER_NICK"/>
     </resultMap>
 
-    <resultMap id="commentResultMap" type="com.dogpamines.dogseek.board.model.dto.ChatBoardDTO">
-        <id property="commentCode" column="COMMENT_CODE"/>
-        <result property="commentContext" column="COMMENT_Context"/>
-        <result property="commentDate" column="COMMENT_DATE"/>
-        <result property="commentStatus" column="COMMENT_STATUS"/>
-        <result property="postCode" column="POST_CODE"/>
-        <result property="userCode" column="USER_CODE"/>
-        <result property="userNick" column="USER_NICK"/>
-    </resultMap>
-
-
     <resultMap id="commentResultMap" type="com.dogpamines.dogseek.board.model.dto.CommentDTO">
         <id property="commentCode" column="COMMENT_CODE"/>
         <result property="commentContext" column="COMMENT_CONTEXT"/>
