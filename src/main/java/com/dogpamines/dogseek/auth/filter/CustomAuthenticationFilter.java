@@ -13,8 +13,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import java.io.IOException;
 
-//public class CustomAuthenticationFilter {}
-
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {

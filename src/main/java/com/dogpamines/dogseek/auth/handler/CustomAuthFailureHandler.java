@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
-//public class CustomAuthFailureHandler {}
 
 public class CustomAuthFailureHandler implements AuthenticationFailureHandler {
 

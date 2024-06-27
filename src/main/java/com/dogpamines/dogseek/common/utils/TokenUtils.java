@@ -96,7 +96,7 @@ public class TokenUtils {
 
         Map<String, Object> claims = new HashMap<>();
 
-        claims.put("userId", user.getUserId());
+        claims.put("userCode", user.getUserCode());
         claims.put("userNick", user.getUserNick());
         claims.put("userAuth", user.getUserAuth());
 
