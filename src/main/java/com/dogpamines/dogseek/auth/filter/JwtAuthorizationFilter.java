@@ -48,10 +48,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         }
 
         String header = request.getHeader(AuthConstants.AUTH_HEADER);
-        System.out.println("header = " + header);
 
         try {
             if (header != null && !header.equalsIgnoreCase("")) {
+
                 String token = TokenUtils.splitHeader(header);
 
                 if (TokenUtils.isValidToken(token)) {
@@ -64,7 +64,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
                     user.setUserCode((Integer) claims.get("userCode"));
                     user.setUserNick(claims.get("userNick").toString());
-                    user.setUserId(claims.get("userId").toString());
                     user.setUserAuth(UserRole.valueOf(claims.get("userAuth").toString()));
                     authentication.setUser(user);
 
@@ -82,8 +81,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 }
             } else {
                 System.out.println("token이 유효하지 않아");
-                chain.doFilter(request, response);
-                return;
+                /* 개발시에만 TOKEN 없어도 접근 허용 */
+//                chain.doFilter(request, response);
+//                return;
             }
         } catch (Exception e) {
             System.out.println("Token 검증 중 예외 발생: " + e.getMessage());
@@ -92,6 +92,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
             JSONObject jsonObject = jsonResponseWrapper(e);
 
+            printWriter.print(jsonObject);
             printWriter.flush();
             printWriter.close();
         }

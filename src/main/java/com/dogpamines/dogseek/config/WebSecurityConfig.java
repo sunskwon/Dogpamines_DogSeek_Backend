@@ -27,10 +27,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Collections;
 
-//public class WebSecurityConfig {}
 
 @Configuration
-@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
 
     /* 정적 자원에 대한 이증된 사용자의 접근을 설정하는 메소드 */
@@ -70,7 +69,7 @@ public class WebSecurityConfig {
 
                 // cors에 "Location" 항목 추가
                 corsConfiguration.setExposedHeaders(Collections.singletonList("Location, Authorization"));
-                
+
 
                 UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
@@ -115,6 +114,7 @@ public class WebSecurityConfig {
         customAuthenticationFilter.setFilterProcessesUrl("/login");
         customAuthenticationFilter.setAuthenticationSuccessHandler(customAuthLoginSuccessHandler());
         customAuthenticationFilter.setAuthenticationFailureHandler(customAuthLoginFailureHandler());
+        customAuthenticationFilter.afterPropertiesSet();
         return customAuthenticationFilter;
     }
 
