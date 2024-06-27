@@ -13,6 +13,7 @@ import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 @RestController
 public class BoardController {
@@ -60,9 +61,28 @@ public class BoardController {
         board.setPostCode(newPostCode);
 
         boardService.newBoardPost(board);
+        System.out.println("board" + board);
 
         return ResponseEntity
                 .created(URI.create("/boards/" + newPostCode))
                 .build();
     }
+
+    @GetMapping("/comments")
+    public ResponseEntity<Map<String, Object>> chatCommentAll() {
+
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(new MediaType("application", "JSON", Charset.forName("UTF-8")));
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("comments", boardService.chatAllComment());
+
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
+
+
+    /* @PostMapping("/comment")
+    public ResponseEntity<?> */
+
 }

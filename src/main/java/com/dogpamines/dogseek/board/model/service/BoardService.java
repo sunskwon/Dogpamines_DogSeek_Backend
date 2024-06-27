@@ -2,6 +2,7 @@ package com.dogpamines.dogseek.board.model.service;
 
 import com.dogpamines.dogseek.board.model.dao.BoardMapper;
 import com.dogpamines.dogseek.board.model.dto.BoardDTO;
+import com.dogpamines.dogseek.board.model.dto.ChatBoardDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ public class BoardService {
 
         return boardMapper.selectAllPosts();
     }
+
     public BoardDTO selectPost(int postCode) {
 
         return boardMapper.selectPost(postCode);
@@ -34,5 +36,10 @@ public class BoardService {
     public void newBoardPost(BoardDTO board) {
 
         boardMapper.newBoardPost(board);
+    }
+
+    public List<ChatBoardDTO> chatAllComment() {
+
+        return boardMapper.chatAllComment();
     }
 }

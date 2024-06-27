@@ -13,6 +13,15 @@
         <result property="userCode"  column="USER_CODE"/>
         <result property="userNick"  column="USER_NICK"/>
     </resultMap>
+    <resultMap id="commentResultMap" type="com.dogpamines.dogseek.board.model.dto.ChatBoardDTO">
+        <id property="commentCode" column="COMMENT_CODE"/>
+        <result property="commentContext" column="COMMENT_Context"/>
+        <result property="commentDate" column="COMMENT_DATE"/>
+        <result property="commentStatus" column="COMMENT_STATUS"/>
+        <result property="postCode" column="POST_CODE"/>
+        <result property="userCode" column="USER_CODE"/>
+    </resultMap>
+
     <select id="selectAllPosts" resultMap="boardResultMap">
         SELECT
             A.POST_CODE
@@ -43,6 +52,18 @@
         WHERE POST_CODE = #{ postCode }
     </select>
 
+    <select id="chatAllComment" resultMap="commentResultMap">
+        SELECT
+        COMMENT
+        ,   COMMENT_CODE
+        ,   COMMENT_CONTEXT
+        ,   COMMENT_DATE
+        ,   COMMENT_STATUS
+        ,   POST_CODE
+        ,   USER_CODE
+        FROM COMMENT
+    </select>
+
     <insert id="newBoardPost" parameterType="com.dogpamines.dogseek.board.model.dto.BoardDTO">
         INSERT INTO POST
         (
@@ -64,6 +85,8 @@
         ,   #{ userCode }
         ,   #{ userNick })
     </insert>
+
+
 
 
 </mapper>
