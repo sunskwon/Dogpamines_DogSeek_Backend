@@ -3,5 +3,122 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dogpamines.dogseek.mypage.model.dao.MyPageMapper">
+    
+    <resultMap id="curationResultMap" type="com.dogpamines.dogseek.curation.model.dto.CurationDTO">
+        <id property="curationCode" column="curation_code" />
+        <result property="curationAge" column="curation_age" />
+        <result property="curationIngra" column="curation_ingra" />
+        <result property="curationDisease" column="curation_disease" />
+        <result property="curationAllergy" column="curation_allergy" />
+        <result property="curationBreed" column="curation_breed" />
+        <result property="curationGender" column="curation_gender" />
+        <result property="curationNeut" column="curation_neut" />
+        <result property="curationWeight" column="curation_weight" />
+        <result property="curationName" column="curation_name" />
+        <result property="curationDate" column="curation_date" />
+        <result property="curationSize" column="curation_size" />
+        <result property="curationCook" column="curation_cook" />
+        <result property="userCode" column="user_code" />
+    </resultMap>
+
+    <resultMap id="userResultMap" type="com.dogpamines.dogseek.user.model.dto.UserDTO">
+        <id property="userCode" column="USER_CODE"/>
+        <result property="userPlatform" column="USER_PLATFORM"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="userPass" column="USER_PW"/>
+        <result property="userNick" column="USER_NICK"/>
+        <result property="userPhone" column="USER_PHONE"/>
+        <result property="userSignup" column="USER_SIGNUP"/>
+        <result property="userLatest" column="USER_LATEST"/>
+        <result property="userAuth" column="USER_AUTH"/>
+    </resultMap>
+
+    <select id="findAllCuration" resultMap="curationResultMap">
+        SELECT
+        CURATION_CODE,
+        CURATION_NAME,
+        USER_CODE
+        FROM CURATION
+    </select>
+
+    <select id="userCurationList" resultMap="curationResultMap">
+        SELECT
+            CURATION_NAME,
+            USER_CODE
+        FROM CURATION
+        <where>
+            <if test="userCode != null and userCode != ''">
+                USER_CODE = #{ userCode }
+            </if>
+        </where>
+    </select>
+
+    <select id="selectUserDogCurationList" resultMap="curationResultMap">
+        SELECT
+        CURATION_CODE,
+        CURATION_AGE,
+        CURATION_INGRA,
+        CURATION_DISEASE,
+        CURATION_ALLERGY,
+        CURATION_BREED,
+        CURATION_GENDER,
+        CURATION_NEUT,
+        CURATION_WEIGHT,
+        CURATION_NAME,
+        CURATION_DATE,
+        CURATION_SIZE,
+        CURATION_COOK,
+        USER_CODE
+        FROM CURATION
+        <where>
+            <if test="userCode != null and userCode != ''">
+                USER_CODE = #{ userCode }
+            </if>
+            <if test="curationName != null and curationName != ''">
+                AND CURATION_NAME = #{ curationName }
+            </if>
+        </where>
+        ORDER BY CURATION_DATE
+    </select>
+
+    <select id="selectUserDetail" parameterType="_int" resultMap="userResultMap">
+        SELECT
+        USER_CODE
+        , USER_PLATFORM
+        , USER_ID
+        , USER_PW
+        , USER_NICK
+        , USER_PHONE
+        , USER_SIGNUP
+        , USER_LATEST
+        , USER_AUTH
+        FROM USER
+        WHERE USER_CODE = #{userCode}
+    </select>
+
+    <update id="updateUser" parameterType="com.dogpamines.dogseek.user.model.dto.UserDTO">
+        UPDATE USER
+        <set>
+            USER_CODE = #{userCode}
+            , USER_PW = #{userPass}
+            , USER_NICK = #{userNick}
+        </set>
+        WHERE USER_CODE = #{userCode}
+    </update>
+
+    <select id="findUserAuth" parameterType="_int">
+        SELECT
+        USER_AUTH
+        FROM USER
+        WHERE USER_CODE = #{ userCode }
+    </select>
+
+    <update id="deleteUser" parameterType="_int">
+        UPDATE USER
+        <set>
+            USER_AUTH = 'SLEEP'
+        </set>
+        WHERE USER_CODE = #{userCode}
+    </update>
 
 </mapper>

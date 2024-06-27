@@ -41,29 +41,29 @@ public class DictController {
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
-    @GetMapping("/dict/{dogCode}")
-    public ResponseEntity<Map<String, Object>> selectByCode(@PathVariable int dogCode){
+    @GetMapping("/dict/{dogName}")
+    public ResponseEntity<Map<String, Object>> selectByCode(@PathVariable String dogName){
 
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
         Map<String, Object> result = new HashMap<>();
-        result.put("dict", dictService.selectByCode(dogCode));
+        result.put("dict", dictService.selectByCode(dogName));
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
     @GetMapping("/dict/search")
-    public ResponseEntity<List<DictDTO>> searchDog(@RequestParam String dogName){
+    public ResponseEntity<Map<String, Object>> searchDog(@RequestParam("dogName") String dogName){
 
-        List<DictDTO> dogs = dictService.searchDog(dogName);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
-        if(dogs.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(dogs, HttpStatus.OK);
-        }
+        Map<String, Object> result = new HashMap<>();
+        result.put("dict", dictService.searchDog(dogName));
+
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
     @GetMapping("/dict/dictsearch")

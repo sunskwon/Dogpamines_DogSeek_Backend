@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.nio.charset.Charset;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +70,11 @@ public class CurationController {
     public ResponseEntity<Map<String, Object>> curationSelect(@RequestParam String curationAge, String curationIngra, String curationDisease,
                                             String curationAllergy, String curationBreed, String curationGender,
                                             String curationNeut, String curationWeight, String curationName,
-                                            Date curationDate, String curationSize, String curationCook, int userCode ) {
+                                            String curationDate, String curationSize, String curationCook, int userCode ) throws ParseException {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date parsedDate = dateFormat.parse(curationDate);
+
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(new MediaType("application","JSON", Charset.forName("UTF-8")));
@@ -77,19 +83,22 @@ public class CurationController {
         result.put("curationSelect", curationService.curationSelect(curationAge, curationIngra, curationAllergy,
                 curationDisease, curationBreed, curationGender,
                 curationNeut, curationWeight, curationName,
-                curationDate, curationSize, curationCook, userCode));
+                parsedDate, curationSize, curationCook, userCode));
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
-//    @PostMapping("/curationProducts")
-//    public ResponseEntity<?> curationProductsInsert(@RequestParam("prodCode") List<Integer> prodCodes, int curationCode) {
-//
-//        HistoryDTO historyDTO = new HistoryDTO();
-//
-//        for (Integer prodCode : prodCodes) {
-//        }
-//
-//        return null;
-//    }
+    @PostMapping("/curationProducts")
+    public ResponseEntity<?> curationProductsInsert(@RequestBody HistoryDTO historyDTO) {
+
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(new MediaType("application", "JSON", Charset.forName("UTF-8")));
+
+        curationService.insertHistory(historyDTO);
+
+        return ResponseEntity
+                .created(URI.create("/curation"))
+                .build();
+    }
 }

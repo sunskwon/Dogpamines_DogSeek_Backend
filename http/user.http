@@ -4,6 +4,42 @@ Content-Type: application/json
 Accept: */*
 
 {
+  "userId": "user03@gmail.com",
+  "userPass": "qwer1234",
+  "userNick": "고담시티",
+  "userPhone": "010-3321-4455",
+  "userSignup": "2024-06-26",
+  "userLatest": "2024-06-26",
+  "userAuth": "USER"
+}
+
+### 로그인
+POST http://localhost:8080/login
+Content-Type: application/json
+Accept: */*
+
+{
+  "userId": "user03@gmail.com",
+  "userPass": "qwer1234"
+}
+
+### selectUserByCodeByAdmin
+GET http://localhost:8080/admin/users/1
+
+### selectAllUsersByAdmin
+POST http://localhost:8080/admin/users
+Content-Type: application/json
+
+{
+  "type": "user",
+  "input": ""
+}
+
+### updateUserByAdmin
+PUT http://localhost:8080/admin/users
+Content-Type: application/json
+
+{
   "userId": "admin3@gmail.com",
   "userPass": "admin03",
   "userNick": "크르릉댕댕콱콱",
@@ -13,12 +49,13 @@ Accept: */*
   "userAuth": "ADMIN"
 }
 
-### 로그인
-POST http://localhost:8080/login
-Content-Type: application/json
-Accept: */*
+### deleteUserByAdmin
+DELETE  http://localhost:8080/admin/users/2
 
-{
-  "userId": "admin3@gmail.com",
-  "userPass": "admin03"
-}
+
+### selectByEmail
+GET http://localhost:8080/email/check?email=qwer01@gmail.com
+
+### selectByNickname
+GET http://localhost:8080/nick/check?nickname=낭만고양이
+

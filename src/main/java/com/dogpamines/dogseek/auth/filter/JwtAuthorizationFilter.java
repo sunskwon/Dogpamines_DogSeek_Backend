@@ -39,7 +39,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         System.out.println("doFilterInternal...1");
 
-        List<String> roleLessList = Arrays.asList("/signup");
+        // 권한 없이 접근 허용 url List
+        List<String> roleLessList = Arrays.asList("/signup", "/redistest/count");
 
         if (roleLessList.contains(request.getRequestURI())) {
             chain.doFilter(request, response);
@@ -73,17 +74,27 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                     authenticationToken.setDetails(new WebAuthenticationDetails(request));
 
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+                    chain.doFilter(request, response);
+
                 } else {
                     System.out.println("Token이 유효하지 않다니까?");
                 }
             } else {
-                System.out.println("token이 존재하지 않아");
+                System.out.println("token이 유효하지 않아");
+                chain.doFilter(request, response);
+                return;
             }
         } catch (Exception e) {
             System.out.println("Token 검증 중 예외 발생: " + e.getMessage());
-        }
+            response.setContentType("application/json");
+            PrintWriter printWriter = response.getWriter();
 
-        chain.doFilter(request, response);
+            JSONObject jsonObject = jsonResponseWrapper(e);
+
+            printWriter.flush();
+            printWriter.close();
+        }
 
         System.out.println("doFilterInternal...2");
     }

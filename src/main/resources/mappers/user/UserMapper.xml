@@ -45,4 +45,76 @@
         )
     </insert>
 
+    <select id="selectUserByCodeByAdmin" parameterType="_int" resultMap="login">
+        SELECT
+            USER_CODE
+            , USER_ID
+            , USER_NICK
+            , USER_PHONE
+            , USER_SIGNUP
+            , USER_LATEST
+            , USER_AUTH
+        FROM USER
+        WHERE USER_CODE = #{userCode}
+    </select>
+
+    <select id="selectAllUsersByAdmin" parameterType="String" resultMap="login">
+        SELECT
+            USER_CODE
+            , USER_ID
+            , USER_NICK
+            , USER_PHONE
+            , USER_SIGNUP
+            , USER_LATEST
+            , USER_AUTH
+        FROM USER
+        <if test="type == 'userNick'">
+            WHERE USER_NICK LIKE CONCAT('%', #{ input }, '%')
+        </if>
+        <if test="type == 'admin'">
+            WHERE USER_AUTH = 'ADMIN'
+        </if>
+        <if test="type == 'user'">
+            WHERE USER_AUTH = 'USER'
+        </if>
+        <if test="type == 'sleep'">
+            WHERE USER_AUTH = 'SLEEP'
+        </if>
+        ORDER BY USER_CODE
+    </select>
+
+    <select id="findUserAuth" parameterType="_int">
+        SELECT
+            USER_AUTH
+        FROM USER
+        WHERE USER_CODE = #{ userCode }
+    </select>
+
+    <update id="updateUserByAdmin" parameterType="String">
+        UPDATE USER
+            SET USER_AUTH = 'ADMIN'
+        WHERE USER_CODE = #{ userCode }
+    </update>
+
+    <update id="deleteUserByAdmin" parameterType="_int">
+        UPDATE USER
+        <if test="userAuth == 'USER'">
+            SET USER_AUTH = 'SLEEP'
+        </if>
+        <if test="userAuth == 'SLEEP'">
+            SET USER_AUTH = 'USER'
+        </if>
+        WHERE USER_CODE = #{ userCode }
+    </update>
+
+    <select id="selectByEmail" resultType="boolean">
+        SELECT COUNT(*)
+          FROM USER
+         WHERE USER_ID = #{ email }
+    </select>
+    <select id="selectByNickname" resultType="boolean">
+        SELECT COUNT(*)
+          FROM USER
+         WHERE USER_NICK = #{ nickname }
+    </select>
 </mapper>

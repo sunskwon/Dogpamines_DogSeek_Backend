@@ -4,15 +4,16 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dogpamines.dogseek.board.model.dao.BoardMapper">
     <resultMap id="boardResultMap" type="com.dogpamines.dogseek.board.model.dto.BoardDTO">
-            <id property="postCode" column="POST_CODE"/>
-        <result property="postTitle"  column="POST_TITLE"/>
-        <result property="postContext"  column="POST_CONTEXT"/>
-        <result property="postDate"  column="POST_DATE"/>
-        <result property="postCategory"  column="POST_CATEGORY"/>
-        <result property="postStatus"  column="POST_STATUS"/>
-        <result property="userCode"  column="USER_CODE"/>
-        <result property="userNick"  column="USER_NICK"/>
+        <id property="postCode" column="POST_CODE"/>
+        <result property="postTitle" column="POST_TITLE"/>
+        <result property="postContext" column="POST_CONTEXT"/>
+        <result property="postDate" column="POST_DATE"/>
+        <result property="postCategory" column="POST_CATEGORY"/>
+        <result property="postStatus" column="POST_STATUS"/>
+        <result property="userCode" column="USER_CODE"/>
+        <result property="userNick" column="USER_NICK"/>
     </resultMap>
+
     <resultMap id="commentResultMap" type="com.dogpamines.dogseek.board.model.dto.ChatBoardDTO">
         <id property="commentCode" column="COMMENT_CODE"/>
         <result property="commentContext" column="COMMENT_Context"/>
@@ -20,18 +21,39 @@
         <result property="commentStatus" column="COMMENT_STATUS"/>
         <result property="postCode" column="POST_CODE"/>
         <result property="userCode" column="USER_CODE"/>
+        <result property="userNick" column="USER_NICK"/>
+    </resultMap>
+
+
+    <resultMap id="commentResultMap" type="com.dogpamines.dogseek.board.model.dto.CommentDTO">
+        <id property="commentCode" column="COMMENT_CODE"/>
+        <result property="commentContext" column="COMMENT_CONTEXT"/>
+        <result property="commentDate" column="COMMENT_DATE"/>
+        <result property="commentStatus" column="COMMENT_STATUS"/>
+        <result property="postCode" column="POST_CODE"/>
+        <result property="userCode" column="USER_CODE"/>
+        <result property="userNick" column="USER_NICK"/>
+    </resultMap>
+
+    <resultMap id="boardReportResultMap" type="com.dogpamines.dogseek.board.model.dto.BoardReportDTO">
+        <id property="reportCode" column="REPORT_CODE"/>
+        <result property="reportReason" column="REPORT_REASON"/>
+        <result property="reportDate" column="REPORT_DATE"/>
+        <result property="reportUser" column="REPORT_USER"/>
+        <result property="reportNick" column="REPORT_NICK"/>
+        <result property="postCode" column="POST_CODE"/>
     </resultMap>
 
     <select id="selectAllPosts" resultMap="boardResultMap">
         SELECT
-            A.POST_CODE
-        ,   A.POST_TITLE
-        ,   A.POST_CONTEXT
-        ,   A.POST_DATE
-        ,   A.POST_CATEGORY
-        ,   A.POST_STATUS
-        ,   B.USER_CODE
-        ,   B.USER_NICK
+        A.POST_CODE
+        , A.POST_TITLE
+        , A.POST_CONTEXT
+        , A.POST_DATE
+        , A.POST_CATEGORY
+        , A.POST_STATUS
+        , B.USER_CODE
+        , B.USER_NICK
         FROM POST A
         LEFT JOIN USER B ON (A.USER_CODE = B.USER_CODE)
         WHERE POST_CATEGORY IN ('공지', '자유')
@@ -40,13 +62,13 @@
     <select id="selectPost" resultMap="boardResultMap">
         SELECT
         A.POST_CODE
-        ,   A.POST_TITLE
-        ,   A.POST_CONTEXT
-        ,   A.POST_DATE
-        ,   A.POST_CATEGORY
-        ,   A.POST_STATUS
-        ,   B.USER_CODE
-        ,   B.USER_NICK
+        , A.POST_TITLE
+        , A.POST_CONTEXT
+        , A.POST_DATE
+        , A.POST_CATEGORY
+        , A.POST_STATUS
+        , B.USER_CODE
+        , B.USER_NICK
         FROM POST A
         LEFT JOIN USER B ON (A.USER_CODE = B.USER_CODE)
         WHERE POST_CODE = #{ postCode }
@@ -62,31 +84,242 @@
         ,   POST_CODE
         ,   USER_CODE
         FROM COMMENT
+  </select>
+
+    <select id="selectBoardByCodeByAdmin" parameterType="_int" resultMap="boardResultMap">
+        SELECT
+        POST_CODE
+        , POST_TITLE
+        , POST_CONTEXT
+        , POST_DATE
+        , POST_CATEGORY
+        , POST_STATUS
+        , USER_CODE
+        FROM POST
+        WHERE USER_CODE = #{ userCode }
+    </select>
+
+    <select id="countCommentByPostCode" resultType="_int">
+        SELECT
+        COUNT(COMMENT_CODE)
+        FROM COMMENT
+        WHERE POST_CODE = #{ postCode }
     </select>
 
     <insert id="newBoardPost" parameterType="com.dogpamines.dogseek.board.model.dto.BoardDTO">
         INSERT INTO POST
         (
-            POST_CODE
-        ,   POST_TITLE
-        ,   POST_CONTEXT
-        ,   POST_DATE
-        ,   POST_CATEGORY
-        ,   POST_STATUS
-        ,   USER_CODE
-        ,   USER_NICK)
+        POST_CODE
+        , POST_TITLE
+        , POST_CONTEXT
+        , POST_DATE
+        , POST_CATEGORY
+        , POST_STATUS
+        , USER_CODE
+        , USER_NICK)
         VALUES(
-            #{ postCode }
-        ,   #{ postTitle }
-        ,   #{ postContext }
-        ,   #{ postDate }
-        ,   #{ postCategory }
-        ,   #{ postStatus }
-        ,   #{ userCode }
-        ,   #{ userNick })
+        #{ postCode }
+        , #{ postTitle }
+        , #{ postContext }
+        , #{ postDate }
+        , #{ postCategory }
+        , #{ postStatus }
+        , #{ userCode }
+        , #{ userNick })
     </insert>
 
 
+    <select id="selectAllNotices" resultMap="boardResultMap">
+        SELECT
+        A.POST_CODE
+        , A.POST_TITLE
+        , A.POST_CONTEXT
+        , A.POST_DATE
+        , A.POST_CATEGORY
+        , A.POST_STATUS
+        , A.USER_CODE
+        , B.USER_NICK
+        FROM POST A
+        JOIN USER B ON (A.USER_CODE = B.USER_CODE)
+        WHERE POST_CATEGORY = '공지'
+        ORDER BY A.POST_DATE DESC, A.POST_CODE DESC
+    </select>
 
+    <select id="selectAllBoards" resultMap="boardResultMap">
+        SELECT
+        A.POST_CODE
+        , A.POST_TITLE
+        , A.POST_CONTEXT
+        , A.POST_DATE
+        , A.POST_CATEGORY
+        , A.POST_STATUS
+        , A.USER_CODE
+        , B.USER_NICK
+        FROM POST A
+        JOIN USER B ON (A.USER_CODE = B.USER_CODE)
+        WHERE POST_CATEGORY = '자유'
+        ORDER BY A.POST_DATE DESC, A.POST_CODE DESC
+    </select>
 
+    <select id="selectCommentsByPostCode" parameterType="_int" resultMap="commentResultMap">
+        SELECT
+        A.COMMENT_CODE
+        , A.COMMENT_CONTEXT
+        , A.COMMENT_DATE
+        , A.COMMENT_STATUS
+        , A.POST_CODE
+        , A.USER_CODE
+        , B.USER_NICK
+        FROM COMMENT A
+        JOIN USER B ON (A.USER_CODE = B.USER_CODE)
+        WHERE A.POST_CODE = #{ postCode }
+        ORDER BY A.COMMENT_DATE DESC, A.COMMENT_CODE DESC
+    </select>
+
+    <select id="selectBoardReportsByPostCode" parameterType="_int" resultMap="boardReportResultMap">
+        SELECT
+        A.REPORT_CODE
+        , A.REPORT_REASON
+        , A.REPORT_DATE
+        , A.REPORT_USER
+        , B.USER_NICK AS REPORT_NICK
+        , A.POST_CODE
+        FROM POST_REPORT A
+        JOIN USER B ON (A.REPORT_USER = B.USER_CODE)
+        WHERE A.POST_CODE = #{ postCode }
+        ORDER BY A.REPORT_DATE DESC, A.REPORT_CODE DESC
+    </select>
+
+    <select id="searchNotice" resultMap="boardResultMap">
+        SELECT
+        A.POST_CODE
+        , A.POST_TITLE
+        , A.POST_CONTEXT
+        , A.POST_DATE
+        , A.POST_CATEGORY
+        , A.POST_STATUS
+        , A.USER_CODE
+        , B.USER_NICK
+        FROM POST A
+        JOIN USER B ON (A.USER_CODE = B.USER_CODE)
+        WHERE POST_CATEGORY = '공지'
+        <if test="type == 'postTitle'">
+            AND POST_TITLE LIKE CONCAT('%', #{ input }, '%')
+        </if>
+        <if test="type == 'postContext'">
+            AND POST_CONTEXT LIKE CONCAT('%', #{ input }, '%')
+        </if>
+        ORDER BY A.POST_DATE DESC, A.POST_CODE DESC
+    </select>
+
+    <select id="searchBoard" resultMap="boardResultMap">
+        SELECT
+        A.POST_CODE
+        , A.POST_TITLE
+        , A.POST_CONTEXT
+        , A.POST_DATE
+        , A.POST_CATEGORY
+        , A.POST_STATUS
+        , A.USER_CODE
+        , B.USER_NICK
+        FROM POST A
+        JOIN USER B ON (A.USER_CODE = B.USER_CODE)
+        WHERE POST_CATEGORY = '자유'
+        <if test="type == 'postTitle'">
+            AND POST_TITLE LIKE CONCAT('%', #{ input }, '%')
+        </if>
+        <if test="type == 'postContext'">
+            AND POST_CONTEXT LIKE CONCAT('%', #{ input }, '%')
+        </if>
+        ORDER BY A.POST_DATE DESC, A.POST_CODE DESC
+    </select>
+
+    <select id="findPostStatus" parameterType="_int" resultType="String">
+        SELECT
+        POST_STATUS
+        FROM POST
+        WHERE POST_CODE = #{ postCode }
+    </select>
+
+    <select id="findLastPostCode" resultType="_int">
+        SELECT
+            MAX(POST_CODE)
+        FROM POST
+    </select>
+
+    <insert id="insertPost" parameterType="com.dogpamines.dogseek.board.model.dto.BoardDTO">
+        INSERT INTO POST(
+            POST_CODE
+            , POST_TITLE
+            , POST_CONTEXT
+            , POST_DATE
+            , POST_CATEGORY
+            , POST_STATUS
+            , USER_CODE)
+        VALUES(
+            #{ postCode }
+            , #{ postTitle }
+            , #{ postContext }
+            , #{ postDate }
+            , #{ postCategory }
+            , #{ postStatus }
+            , #{ userCode })
+    </insert>
+
+    <delete id="deletePost" parameterType="_int">
+        UPDATE POST
+        <if test='postStatus == "Y"'>
+            SET POST_STATUS = 'N'
+        </if>
+        <if test='postStatus == "N"'>
+            SET POST_STATUS = 'Y'
+        </if>
+        WHERE POST_CODE = #{ postCode }
+    </delete>
+
+    <select id="selectBoardByCode" resultMap="boardResultMap">
+        SELECT
+            A.POST_CODE
+            , A.POST_TITLE
+            , A.POST_CONTEXT
+            , A.POST_DATE
+            , A.POST_CATEGORY
+            , A.POST_STATUS
+            , A.USER_CODE
+            , B.USER_NICK
+        FROM POST A
+        JOIN USER B ON (A.USER_CODE = B.USER_CODE)
+        WHERE A.POST_CODE = #{ postCode }
+    </select>
+
+    <update id="updatePost" parameterType="com.dogpamines.dogseek.board.model.dto.BoardDTO">
+        UPDATE POST
+            <set>
+                POST_CODE = #{ postCode }
+                <if test="postTitle != ''">
+                    , POST_TITLE = #{ postTitle }
+                </if>
+                <if test="postContext != ''">
+                    , POST_CONTEXT = #{ postContext }
+                </if>
+                <if test="postStatus != ''">
+                    , POST_STATUS = #{ postStatus }
+                </if>
+            </set>
+        WHERE POST_CODE = #{ postCode }
+    </update>
+
+    <select id="selectCommentReportByCommentCode" parameterType="_int" resultMap="boardReportResultMap">
+        SELECT
+        A.REPORT_CODE
+        , A.REPORT_REASON
+        , A.REPORT_DATE
+        , A.REPORT_USER
+        , B.USER_NICK AS REPORT_NICK
+        , A.POST_CODE
+        FROM COMMENT_REPORT A
+        JOIN USER B ON (A.REPORT_USER = B.USER_CODE)
+        WHERE A.POST_CODE = #{ postCode }
+        ORDER BY A.REPORT_DATE DESC, A.REPORT_CODE DESC
+    </select>
 </mapper>

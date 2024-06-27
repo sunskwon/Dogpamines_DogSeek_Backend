@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -65,5 +67,44 @@ public class UserService {
         } else {
             return "회원 가입 실패";
         }
+    }
+
+    public UserDTO selectUserByCodeByAdmin(int userCode) {
+
+        return userMapper.selectUserByCodeByAdmin(userCode);
+    }
+
+    public List<UserDTO> selectAllUsersByAdmin(Map<String, String> search) {
+
+        String type = search.get("type");
+        String input = search.get("input");
+
+        return userMapper.selectAllUsersByAdmin(type, input);
+    }
+
+    public String findUserAuth(int userCode) {
+
+        return userMapper.findUserAuth(userCode);
+    }
+
+    public void updateUserByAdmin(String userCode) {
+
+        userMapper.updateUserByAdmin(userCode);
+    }
+
+    public void deleteUserByAdmin(String userAuth, int userCode) {
+
+        userMapper.deleteUserByAdmin(userAuth, userCode);
+    }
+
+    public boolean selectByEmail(String email) {
+
+        return userMapper.selectByEmail(email);
+    }
+
+    public boolean selectByNickname(String nickname) {
+
+       return userMapper.selectByNickname(nickname);
+
     }
 }

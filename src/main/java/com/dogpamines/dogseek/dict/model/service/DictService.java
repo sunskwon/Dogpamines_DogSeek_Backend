@@ -20,7 +20,7 @@ public class DictService {
 
     public List<DictDTO> selectAllDog(){ return dictMapper.selectAllDog();}
 
-    public DictDTO selectByCode(int dogCode) { return dictMapper.selectByCode(dogCode);}
+    public DictDTO selectByCode(String dogName) { return dictMapper.selectByCode(dogName);}
 
     public List<DictDTO> searchDog(String dogName) { return dictMapper.searchDog(dogName);
     }
