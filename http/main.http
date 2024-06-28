@@ -2,4 +2,7 @@
 GET https://examples.http-client.intellij.net/get
     ?generated-in=IntelliJ IDEA
 
-###
+### 최신 사료 가져오기
+GET http://localhost:8080/lastProds
+
+
