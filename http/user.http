@@ -4,12 +4,12 @@ Content-Type: application/json
 Accept: */*
 
 {
-  "userId": "admin02@gmail.com",
-  "userPass": "admin02",
-  "userNick": "으아아악",
-  "userPhone": "010-3321-4455",
-  "userSignup": "2024-06-27",
-  "userLatest": "2024-06-27",
+  "userId": "user01@gmail.com",
+  "userPass": "qwer1234",
+  "userNick": "시고르자브종",
+  "userPhone": "010-1234-2345",
+  "userSignup": "2024-06-16",
+  "userLatest": "2024-06-28",
   "userAuth": "ADMIN"
 }
 
@@ -19,8 +19,8 @@ Content-Type: application/json
 Accept: */*
 
 {
-  "userId": "admin01@gmail.com",
-  "userPass": "admin01"
+  "userId": "user03@gmail.com",
+  "userPass": "qwer1234"
 }
 
 ### selectUserByCodeByAdmin
@@ -53,11 +53,30 @@ Content-Type: application/json
 DELETE  http://localhost:8080/admin/users/2
 
 ### checkInfo-email
-GET http://localhost:8080/user/check?type=email&info=user01@gmail.com
+POST http://localhost:8080/user/check
+Content-Type: application/json
+
+{
+  "type": "email",
+  "info": "user01@gmail.com"
+}
 
 ### checkInfo-nick
-GET http://localhost:8080/user/check?type=nick&info=낭만고양이
+POST http://localhost:8080/user/check
+Content-Type: application/json
+
+{
+  "type": "nick",
+  "info": "낭만고양이"
+}
 
 ### checkInfo-phone
-GET http://localhost:8080/user/check?type=phone&info=010-2234-2325
+POST http://localhost:8080/user/check
+Content-Type: application/json
+
+{
+  "type": "phone",
+  "info": "010-1234-2345"
+}
+
 
