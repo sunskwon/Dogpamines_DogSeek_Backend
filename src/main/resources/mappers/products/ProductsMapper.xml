@@ -20,6 +20,7 @@
         <result property="prodDate" column="PROD_DATE"/>
         <result property="prodStatus" column="PROD_STATUS"/>
         <result property="prodImage" column="PROD_IMAGE"/>
+        <result property="prodVisit" column="PROD_VISIT"/>
     </resultMap>
 
     <select id="selectAllProducts" resultMap="productsResultMap">
@@ -40,6 +41,7 @@
         , PROD_DATE
         , PROD_STATUS
         , PROD_IMAGE
+        , PROD_VISIT
         FROM PROD
     </select>
 
@@ -61,6 +63,7 @@
         , PROD_DATE
         , PROD_STATUS
         , PROD_IMAGE
+        , PROD_VISIT
         FROM PROD
         WHERE PROD_CODE = #{ prodCode }
     </select>
@@ -136,22 +139,23 @@
 
     <select id="productSearch" parameterType="String" resultMap="productsResultMap">
         SELECT
-            PROD_CODE
-            , PROD_NAME
-            , PROD_MANUFAC
-            , PROD_PRICE
-            , PROD_AGE
-            , PROD_EFFI
-            , PROD_RECOM
-            , PROD_SITE
-            , PROD_COOK
-            , PROD_VOLUME
-            , PROD_GRADE
-            , PROD_INGRA
-            , PROD_SIZE
-            , PROD_DATE
-            , PROD_STATUS
-            , PROD_IMAGE
+        PROD_CODE
+        , PROD_NAME
+        , PROD_MANUFAC
+        , PROD_PRICE
+        , PROD_AGE
+        , PROD_EFFI
+        , PROD_RECOM
+        , PROD_SITE
+        , PROD_COOK
+        , PROD_VOLUME
+        , PROD_GRADE
+        , PROD_INGRA
+        , PROD_SIZE
+        , PROD_DATE
+        , PROD_STATUS
+        , PROD_IMAGE
+        , PROD_VISIT
         FROM PROD
         <if test="type == 'prodName'">
             WHERE PROD_NAME LIKE CONCAT('%', #{ input }, '%')
@@ -169,39 +173,41 @@
 
     <insert id="insertProduct" parameterType="com.dogpamines.dogseek.products.model.dto.ProductsDTO">
         INSERT INTO PROD(
-            PROD_CODE
-            , PROD_NAME
-            , PROD_MANUFAC
-            , PROD_PRICE
-            , PROD_AGE
-            , PROD_EFFI
-            , PROD_RECOM
-            , PROD_SITE
-            , PROD_COOK
-            , PROD_VOLUME
-            , PROD_GRADE
-            , PROD_INGRA
-            , PROD_SIZE
-            , PROD_DATE
-            , PROD_STATUS
-            , PROD_IMAGE)
+        PROD_CODE
+        , PROD_NAME
+        , PROD_MANUFAC
+        , PROD_PRICE
+        , PROD_AGE
+        , PROD_EFFI
+        , PROD_RECOM
+        , PROD_SITE
+        , PROD_COOK
+        , PROD_VOLUME
+        , PROD_GRADE
+        , PROD_INGRA
+        , PROD_SIZE
+        , PROD_DATE
+        , PROD_STATUS
+        , PROD_IMAGE
+        , PROD_VISIT)
         VALUES(
-            #{ prodCode }
-            , #{ prodName }
-            , #{ prodManufac }
-            , #{ prodPrice }
-            , #{ prodAge }
-            , #{ prodEffi }
-            , #{ prodRecom }
-            , #{ prodSite }
-            , #{ prodCook }
-            , #{ prodVolume }
-            , #{ prodGrade }
-            , #{ prodIngra }
-            , #{ prodSize }
-            , CURDATE()
-            , 'Y'
-            , #{ prodImage })
+        #{ prodCode }
+        , #{ prodName }
+        , #{ prodManufac }
+        , #{ prodPrice }
+        , #{ prodAge }
+        , #{ prodEffi }
+        , #{ prodRecom }
+        , #{ prodSite }
+        , #{ prodCook }
+        , #{ prodVolume }
+        , #{ prodGrade }
+        , #{ prodIngra }
+        , #{ prodSize }
+        , CURDATE()
+        , 'Y'
+        , #{ prodImage }
+        , 0)
     </insert>
 
     <update id="updateProduct" parameterType="com.dogpamines.dogseek.products.model.dto.ProductsDTO">
@@ -209,46 +215,49 @@
         <set>
             PROD_CODE = #{ prodCode}
             <if test="prodName != ''">
-            , PROD_NAME = #{ prodName }
+                , PROD_NAME = #{ prodName }
             </if>
             <if test="prodManufac != ''">
-            , PROD_MANUFAC = #{ prodManufac }
+                , PROD_MANUFAC = #{ prodManufac }
             </if>
             <if test="prodPrice != ''">
-            , PROD_PRICE = #{ prodPrice }
+                , PROD_PRICE = #{ prodPrice }
             </if>
             <if test="prodAge != ''">
-            , PROD_AGE = #{ prodAge }
+                , PROD_AGE = #{ prodAge }
             </if>
             <if test="prodEffi != ''">
-            , PROD_EFFI = #{ prodEffi }
+                , PROD_EFFI = #{ prodEffi }
             </if>
             <if test="prodRecom != ''">
-            , PROD_RECOM = #{ prodRecom }
+                , PROD_RECOM = #{ prodRecom }
             </if>
             <if test="prodSite != ''">
-            , PROD_SITE = #{ prodSite }
+                , PROD_SITE = #{ prodSite }
             </if>
             <if test="prodCook != ''">
-            , PROD_COOK = #{ prodCook }
+                , PROD_COOK = #{ prodCook }
             </if>
             <if test="prodVolume != ''">
-            , PROD_VOLUME = #{ prodVolume }
+                , PROD_VOLUME = #{ prodVolume }
             </if>
             <if test="prodGrade != ''">
-            , PROD_GRADE = #{ prodGrade }
+                , PROD_GRADE = #{ prodGrade }
             </if>
             <if test="prodIngra != ''">
-            , PROD_INGRA = #{ prodIngra }
+                , PROD_INGRA = #{ prodIngra }
             </if>
             <if test="prodSize != ''">
-            , PROD_SIZE = #{ prodSize }
+                , PROD_SIZE = #{ prodSize }
             </if>
             <if test="prodStatus != ''">
-            , PROD_STATUS = #{ prodStatus }
+                , PROD_STATUS = #{ prodStatus }
             </if>
             <if test="prodImage != ''">
-            , PROD_IMAGE = #{ prodImage }
+                , PROD_IMAGE = #{ prodImage }
+            </if>
+            <if test="prodVisit != ''">
+                , PROD_VISIT = #{ prodVisit }
             </if>
         </set>
         WHERE PROD_CODE = #{ prodCode }

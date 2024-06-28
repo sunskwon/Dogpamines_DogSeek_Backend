@@ -4,8 +4,8 @@ Content-Type: application/json
 Accept: */*
 
 {
-  "userId": "admin02@gmail.com",
-  "userPass": "admin02",
+  "userId": "admin01@gmail.com",
+  "userPass": "admin01",
   "userNick": "으아아악",
   "userPhone": "010-3321-4455",
   "userSignup": "2024-06-27",
