@@ -1,20 +1,38 @@
 package com.dogpamines.dogseek.user.model.dto;
 
 import com.dogpamines.dogseek.common.UserRole;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 public class UserDTO {
 
     private int userCode;
     private String userPlatform;
+
+    @NotBlank(message = "아이디는 공백일 수 없습니다.")
+    @Email
     private String userId;
+
+    @NotBlank(message = "비밀번호는 공백일 수 없습니다.")
+    @Pattern(regexp = "^(?!((?=.*[A-Za-z]+)|(?=.*[~!@#$%^&*()_+=]+)|(?=.*[0-9]+))$)[A-Za-z\\d~!@#$%^&*()_+=]{8,12}$",
+            message = "비밀번호는 영문, 숫자, 특수문자 중 두 종류 이상 포함된 8~12자의 글자여야 합니다.")
     private String userPass;
+
+    @NotBlank(message = "닉네임은 공백일 수 없습니다.")
+    @Pattern(regexp = "^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,7}$",
+            message = "닉네임은 한글, 영문, 숫자 사용 가능하고 2~7자의 글자여야 합니다.")
     private String userNick;
+
+    @NotBlank(message = "연락처는 공백일 수 없습니다.")
+    @Pattern(regexp = "^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$",
+            message = "연락처 형태는 010-0000-0000 입니다.")
     private String userPhone;
+
     private String userSignup;
     private String userLatest;
     private UserRole userAuth;

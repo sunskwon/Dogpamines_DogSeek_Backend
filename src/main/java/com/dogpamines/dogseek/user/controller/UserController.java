@@ -5,6 +5,7 @@ import com.dogpamines.dogseek.board.model.service.BoardService;
 import com.dogpamines.dogseek.curation.model.service.CurationService;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import com.dogpamines.dogseek.user.model.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -34,7 +35,7 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String signup(@RequestBody UserDTO user) {
+    public String signup(@Valid @RequestBody UserDTO user) {
         return userService.signUp(user);
     }
 
@@ -116,19 +117,20 @@ public class UserController {
     }
 
 
-    @GetMapping("/user/check")
-    public ResponseEntity<Boolean> checkInfo(@RequestParam("type") String type, @RequestParam("info") String info) {
+    @PostMapping("/user/check")
+    public ResponseEntity<Boolean> checkInfo(@RequestBody Map<String, String> user) {
+
+        String type = user.get("type");
+        String info = user.get("info");
+
         System.out.println("type = " + type);
         System.out.println("info = " + info);
 
         HttpHeaders headers = new HttpHeaders();
-
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        headers.set("Access-Control-Expose-Headers", "Result"); // CORS 설정 추가
 
         boolean result = true;
-
-        boolean user = userService.checkInfo(type, info);
-        System.out.println("user = " + user);
 
         if (info.trim().isEmpty()) {
             result = false;
@@ -142,6 +144,6 @@ public class UserController {
         headers.set("Result", String.valueOf(result));
         System.out.println("result = " + result);
 
-        return new ResponseEntity<>(headers, HttpStatus.OK);
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 }
