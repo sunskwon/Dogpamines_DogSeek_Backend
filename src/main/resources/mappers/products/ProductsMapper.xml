@@ -119,13 +119,13 @@
                     AND PROD_PRICE &lt;= #{ prodPrice }
                 </if>
                 <if test="prodAge != null and prodAge != ''">
-                    AND PROD_AGE = #{ prodAge }
+                    AND PROD_AGE IN (#{ prodAge }, '전체')
                 </if>
                 <if test="prodEffi != null and prodEffi != ''">
-                    AND PROD_EFFI = #{ prodEffi }
+                    AND PROD_EFFI Like CONCAT ('%', #{ prodEffi }, '%')
                 </if>
                 <if test="prodRecom != null and prodRecom != ''">
-                    AND PROD_RECOM = #{ prodRecom }
+                    AND PROD_RECOM IN (#{ prodRecom }, '전체')
                 </if>
                 <if test="prodCook != null and prodCook != ''">
                     AND PROD_COOK = #{ prodCook }
