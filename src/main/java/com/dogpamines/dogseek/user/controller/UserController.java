@@ -116,47 +116,32 @@ public class UserController {
     }
 
 
-    @GetMapping("/email/check")
-    public ResponseEntity<Boolean> checkEmail(@RequestParam String email) {
-        System.out.println("email = " + email);
+    @GetMapping("/user/check")
+    public ResponseEntity<Boolean> checkInfo(@RequestParam("type") String type, @RequestParam("info") String info) {
+        System.out.println("type = " + type);
+        System.out.println("info = " + info);
+
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
         boolean result = true;
 
-        if (email.trim().isEmpty()) {
+        boolean user = userService.checkInfo(type, info);
+        System.out.println("user = " + user);
+
+        if (info.trim().isEmpty()) {
             result = false;
         } else {
-            if (userService.selectByEmail(email)) {
-                             result = false;
-            } else {
-                result = true;
-            }
-        }
-
-        return new ResponseEntity<>(result, headers, HttpStatus.OK);
-    }
-              
-    @GetMapping("/nick/check")
-    public ResponseEntity<Boolean> checkNickname(@RequestParam String nickname) {
-        System.out.println("nickname = " + nickname);
-        HttpHeaders headers = new HttpHeaders();
-
-        headers.setContentType(new MediaType("application", "JSON", Charset.forName("UTF-8")));
-
-        boolean result = true;
-
-        if (nickname.trim().isEmpty()) {
-            result = false;
-        } else {
-            if (userService.selectByNickname(nickname)) {
+            if (userService.checkInfo(type, info)) {
                 result = false;
             } else {
                 result = true;
             }
         }
+        headers.set("Result", String.valueOf(result));
+        System.out.println("result = " + result);
 
-        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+        return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 }

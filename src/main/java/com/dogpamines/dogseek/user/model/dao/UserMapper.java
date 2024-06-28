@@ -21,8 +21,5 @@ public interface UserMapper {
 
     void deleteUserByAdmin(String userAuth, int userCode);
 
-
-    boolean selectByEmail(String email);
-
-    boolean selectByNickname(String nickname);
+    boolean checkInfo(String type, String info);
 }

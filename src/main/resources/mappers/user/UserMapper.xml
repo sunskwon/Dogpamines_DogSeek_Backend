@@ -107,14 +107,17 @@
         WHERE USER_CODE = #{ userCode }
     </update>
 
-    <select id="selectByEmail" resultType="boolean">
+    <select id="checkInfo" resultType="boolean">
         SELECT COUNT(*)
           FROM USER
-         WHERE USER_ID = #{ email }
-    </select>
-    <select id="selectByNickname" resultType="boolean">
-        SELECT COUNT(*)
-          FROM USER
-         WHERE USER_NICK = #{ nickname }
+        <if test="type == 'email'">
+            WHERE USER_ID = #{ info }
+        </if>
+        <if test="type == 'nick'">
+            WHERE USER_NICK = #{ info }
+        </if>
+        <if test="type == 'phone'">
+            WHERE USER_PHONE = #{ info }
+        </if>
     </select>
 </mapper>
