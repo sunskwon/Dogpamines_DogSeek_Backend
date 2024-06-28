@@ -1,5 +1,6 @@
 package com.dogpamines.dogseek.products.controller;
 
+import com.dogpamines.dogseek.common.model.service.RedisService;
 import com.dogpamines.dogseek.products.model.dto.ProductsDTO;
 import com.dogpamines.dogseek.products.model.service.ProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,13 @@ import java.util.Map;
 @RestController
 public class ProductsController {
 
-    private ProductsService productsService;
+    private final ProductsService productsService;
+    private final RedisService redisService;
 
     @Autowired
-    public ProductsController(ProductsService productsService) {
+    public ProductsController(ProductsService productsService, RedisService redisService) {
         this.productsService = productsService;
+        this.redisService = redisService;
     }
 
     @GetMapping("/products")
@@ -39,9 +42,12 @@ public class ProductsController {
     @GetMapping("/products/{prodCode}")
     public ResponseEntity<Map<String, Object>> selectFindByCode(@PathVariable int prodCode) {
         
-         HttpHeaders headers = new HttpHeaders();
-
+        HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "JSON", Charset.forName("UTF-8")));
+
+        // 상세 정보 호출시 redis에 조회수 추가
+        String key = "product" + prodCode;
+        redisService.countVisits(key);
 
         Map<String, Object> result = new HashMap<>();
         result.put("product", productsService.selectFindByCode(prodCode));

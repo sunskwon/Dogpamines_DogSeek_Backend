@@ -18,10 +18,11 @@ public class ProductsDTO {
     private String prodDate;
     private String prodStatus;
     private String prodImage;
+    private int prodVisit;
 
     public ProductsDTO() {}
 
-    public ProductsDTO(int prodCode, String prodName, String prodManufac, Integer prodPrice, String prodAge, String prodEffi, String prodRecom, String prodSite, String prodCook, String prodVolume, int prodGrade, String prodIngra, String prodSize, String prodDate, String prodStatus, String prodImage) {
+    public ProductsDTO(int prodCode, String prodName, String prodManufac, Integer prodPrice, String prodAge, String prodEffi, String prodRecom, String prodSite, String prodCook, String prodVolume, int prodGrade, String prodIngra, String prodSize, String prodDate, String prodStatus, String prodImage, int prodVisit) {
         this.prodCode = prodCode;
         this.prodName = prodName;
         this.prodManufac = prodManufac;
@@ -38,6 +39,7 @@ public class ProductsDTO {
         this.prodDate = prodDate;
         this.prodStatus = prodStatus;
         this.prodImage = prodImage;
+        this.prodVisit = prodVisit;
     }
 
     public int getProdCode() {
@@ -168,6 +170,14 @@ public class ProductsDTO {
         this.prodImage = prodImage;
     }
 
+    public int getProdVisit() {
+        return prodVisit;
+    }
+
+    public void setProdVisit(int prodVisit) {
+        this.prodVisit = prodVisit;
+    }
+
     @Override
     public String toString() {
         return "ProductsDTO{" +
@@ -187,6 +197,7 @@ public class ProductsDTO {
                 ", prodDate='" + prodDate + '\'' +
                 ", prodStatus='" + prodStatus + '\'' +
                 ", prodImage='" + prodImage + '\'' +
+                ", prodVisit=" + prodVisit +
                 '}';
     }
 }
