@@ -3,5 +3,22 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dogpamines.dogseek.admin.model.dao.AdminMapper">
+    <resultMap id="countsResultMap" type="com.dogpamines.dogseek.common.model.dto.CountsDTO">
+        <id property="countsDate" column="COUNTS_DATE"/>
+        <result property="countsSignup" column="COUNTS_SIGNUP"/>
+        <result property="countsSignin" column="COUNTS_SIGNIN"/>
+        <result property="countsProducts" column="COUNTS_PRODUCTS"/>
+        <result property="countsBoards" column="COUNTS_BOARDS"/>
+    </resultMap>
 
+    <select id="selectAllCounts" resultMap="countsResultMap">
+        SELECT
+            COUNTS_DATE
+            , COUNTS_SIGNUP
+            , COUNTS_SIGNIN
+            , COUNTS_PRODUCTS
+            , COUNTS_BOARDS
+        FROM COUNTS
+        ORDER BY COUNTS_DATE DESC
+    </select>
 </mapper>

@@ -19,7 +19,7 @@ Content-Type: application/json
 Accept: */*
 
 {
-  "userId": "user03@gmail.com",
+  "userId": "admin01@gmail.com",
   "userPass": "qwer1234"
 }
 

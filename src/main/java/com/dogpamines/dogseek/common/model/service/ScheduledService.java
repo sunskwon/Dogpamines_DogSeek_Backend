@@ -33,6 +33,8 @@ public class ScheduledService {
     @Transactional
     public void createNewRow() {
 
+        System.out.println("createNewRow() 실행...");
+
         String date = "yesterday";
 
         int prodCode = productsMapper.getLastProdCode();
