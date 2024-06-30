@@ -1,6 +1,6 @@
 package com.dogpamines.dogseek.products.model.dto;
 
-public class ProductsDTO {
+public class ProductsDTO implements Comparable<ProductsDTO> {
 
     private int prodCode;
     private String prodName;
@@ -20,7 +20,8 @@ public class ProductsDTO {
     private String prodImage;
     private int prodVisit;
 
-    public ProductsDTO() {}
+    public ProductsDTO() {
+    }
 
     public ProductsDTO(int prodCode, String prodName, String prodManufac, Integer prodPrice, String prodAge, String prodEffi, String prodRecom, String prodSite, String prodCook, String prodVolume, int prodGrade, String prodIngra, String prodSize, String prodDate, String prodStatus, String prodImage, int prodVisit) {
         this.prodCode = prodCode;
@@ -199,5 +200,16 @@ public class ProductsDTO {
                 ", prodImage='" + prodImage + '\'' +
                 ", prodVisit=" + prodVisit +
                 '}';
+    }
+
+    @Override
+    public int compareTo(ProductsDTO product) {
+        if (product.prodVisit > prodVisit) {
+            return 1;
+        } else if (product.prodVisit < prodVisit) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 }

@@ -59,6 +59,7 @@
         FROM COUNTS
         WHERE COUNTS_DATE > LAST_DAY(NOW() - INTERVAL 2 MONTH)
         GROUP BY DATE_FORMAT(COUNTS_DATE, '%Y-%m')
+        ORDER BY COUNTS_DATE DESC
     </select>
 
     <select id="selectTotalCounts" resultMap="countsResultMap">

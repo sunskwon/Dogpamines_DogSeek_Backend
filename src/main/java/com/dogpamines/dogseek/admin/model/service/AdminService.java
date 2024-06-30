@@ -3,16 +3,14 @@ package com.dogpamines.dogseek.admin.model.service;
 import com.dogpamines.dogseek.admin.model.dao.AdminMapper;
 import com.dogpamines.dogseek.common.model.dto.CountsDTO;
 import com.dogpamines.dogseek.products.model.dao.ProductsMapper;
+import com.dogpamines.dogseek.products.model.dto.ProductsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AdminService {
@@ -35,26 +33,32 @@ public class AdminService {
         countsInDate.add(adminMapper.selectRemainCountsInDate());
 
         List<CountsDTO> countsInMonth = adminMapper.selectCountsInMonth();
-        countsInMonth.add(adminMapper.selectCountsInWeek());
         countsInMonth.add(adminMapper.selectTotalCounts());
 
-        int prodCode = productsMapper.getLastProdCode();
+        List<ProductsDTO> productList = productsMapper.selectAllProducts();
+
         int productsSum = 0;
 
         try {
 
             ValueOperations<String, String> countVisit = redisTemplate.opsForValue();
 
-            for (int i = 1; i <= prodCode; i++) {
+            for (ProductsDTO product : productList) {
 
-                String key = PRODUCT_VISIT + i;
+                int prodCode = product.getProdCode();
+
+                String key = PRODUCT_VISIT + prodCode;
+
                 Optional<String> tempVisit = Optional.ofNullable(countVisit.get(key));
 
                 if (!tempVisit.isEmpty()) {
 
-                    productsSum += Integer.parseInt(countVisit.get(key));
-                }
+                    int prodVisit = product.getProdVisit();
+                    int redisVisit = Integer.parseInt(countVisit.get(key));
 
+                    product.setProdVisit(prodVisit + redisVisit);
+                    productsSum += redisVisit;
+                }
             }
 
             int countProducts = countsInDate.get(0).getCountsProducts();
@@ -67,9 +71,12 @@ public class AdminService {
             e.printStackTrace();
         }
 
+        Collections.sort(productList);
+
         Map<String, Object> result = new HashMap<>();
         result.put("Overview", countsInDate);
         result.put("Summary", countsInMonth);
+        result.put("Popular", productList);
 
         return result;
     }
