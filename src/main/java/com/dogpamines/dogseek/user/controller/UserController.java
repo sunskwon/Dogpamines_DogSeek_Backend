@@ -35,8 +35,18 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String signup(@Valid @RequestBody UserDTO user) {
-        return userService.signUp(user);
+    public ResponseEntity<Boolean> signup(@Valid @RequestBody UserDTO user) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        headers.set("Access-Control-Expose-Headers", "Result"); // CORS 설정 추가
+
+        userService.signUp(user);
+        boolean result = true;
+
+        headers.set("Result", String.valueOf(result));
+
+        return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 
     @GetMapping("/admin/users/{userCode}")
