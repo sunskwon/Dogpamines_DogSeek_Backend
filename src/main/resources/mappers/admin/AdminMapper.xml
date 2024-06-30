@@ -11,7 +11,7 @@
         <result property="countsBoards" column="COUNTS_BOARDS"/>
     </resultMap>
 
-    <select id="selectAllCounts" resultMap="countsResultMap">
+    <select id="selectAllCountsInDate" resultMap="countsResultMap">
         SELECT
             COUNTS_DATE
             , COUNTS_SIGNUP
@@ -19,6 +19,55 @@
             , COUNTS_PRODUCTS
             , COUNTS_BOARDS
         FROM COUNTS
+        WHERE COUNTS_DATE >= SUBDATE(CURDATE(), 14)
         ORDER BY COUNTS_DATE DESC
+    </select>
+
+    <select id="selectRemainCountsInDate" resultMap="countsResultMap">
+        SELECT
+            SUBDATE(CURDATE(), 15) AS COUNTS_DATE
+            , SUM(COUNTS_SIGNUP) AS COUNTS_SIGNUP
+            , SUM(COUNTS_SIGNIN) AS COUNTS_SIGNIN
+            , SUM(COUNTS_PRODUCTS) AS COUNTS_PRODUCTS
+            , SUM(COUNTS_BOARDS) AS COUNTS_BOARDS
+        FROM COUNTS
+        <![CDATA[
+            WHERE COUNTS_DATE < SUBDATE(CURDATE(), 14)
+        ]]>
+    </select>
+
+    <select id="selectCountsInWeek" resultMap="countsResultMap">
+        SELECT
+            SUBDATE(CURDATE(), 6) AS COUNTS_DATE
+            , SUM(COUNTS_SIGNUP) AS COUNTS_SIGNUP
+            , SUM(COUNTS_SIGNIN) AS COUNTS_SIGNIN
+            , SUM(COUNTS_PRODUCTS) AS COUNTS_PRODUCTS
+            , SUM(COUNTS_BOARDS) AS COUNTS_BOARDS
+        FROM COUNTS
+        <![CDATA[
+            WHERE COUNTS_DATE >= SUBDATE(CURDATE(), 6)
+        ]]>
+    </select>
+
+    <select id="selectCountsInMonth" resultMap="countsResultMap">
+        SELECT
+            DATE_FORMAT(COUNTS_DATE, '%Y-%m') AS COUNTS_DATE
+            , SUM(COUNTS_SIGNUP) AS COUNTS_SIGNUP
+            , SUM(COUNTS_SIGNIN) AS COUNTS_SIGNIN
+            , SUM(COUNTS_PRODUCTS) AS COUNTS_PRODUCTS
+            , SUM(COUNTS_BOARDS) AS COUNTS_BOARDS
+        FROM COUNTS
+        WHERE COUNTS_DATE > LAST_DAY(NOW() - INTERVAL 2 MONTH)
+        GROUP BY DATE_FORMAT(COUNTS_DATE, '%Y-%m')
+    </select>
+
+    <select id="selectTotalCounts" resultMap="countsResultMap">
+        SELECT
+            CURDATE()
+            , SUM(COUNTS_SIGNUP) AS COUNTS_SIGNUP
+            , SUM(COUNTS_SIGNIN) AS COUNTS_SIGNIN
+            , SUM(COUNTS_PRODUCTS) AS COUNTS_PRODUCTS
+            , SUM(COUNTS_BOARDS) AS COUNTS_BOARDS
+        FROM COUNTS
     </select>
 </mapper>

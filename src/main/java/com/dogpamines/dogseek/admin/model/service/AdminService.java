@@ -9,7 +9,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -27,9 +29,14 @@ public class AdminService {
         this.redisTemplate = redisTemplate;
     }
 
-    public List<CountsDTO> selectAllCounts() {
+    public Map<String, Object> selectAllCounts() {
 
-        List<CountsDTO> counts = adminMapper.selectAllCounts();
+        List<CountsDTO> countsInDate = adminMapper.selectAllCountsInDate();
+        countsInDate.add(adminMapper.selectRemainCountsInDate());
+
+        List<CountsDTO> countsInMonth = adminMapper.selectCountsInMonth();
+        countsInMonth.add(adminMapper.selectCountsInWeek());
+        countsInMonth.add(adminMapper.selectTotalCounts());
 
         int prodCode = productsMapper.getLastProdCode();
         int productsSum = 0;
@@ -50,16 +57,20 @@ public class AdminService {
 
             }
 
-            int countProducts = counts.get(0).getCountsProducts();
+            int countProducts = countsInDate.get(0).getCountsProducts();
             int updatedCountProducts = countProducts + productsSum;
 
-            counts.get(0).setCountsProducts(updatedCountProducts);
+            countsInDate.get(0).setCountsProducts(updatedCountProducts);
         } catch (RedisConnectionFailureException e) {
             System.out.println("redis와 연결되지 않음");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return counts;
+        Map<String, Object> result = new HashMap<>();
+        result.put("Overview", countsInDate);
+        result.put("Summary", countsInMonth);
+
+        return result;
     }
 }

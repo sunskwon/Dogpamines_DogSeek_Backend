@@ -7,5 +7,13 @@ import java.util.List;
 
 @Mapper
 public interface AdminMapper {
-    List<CountsDTO> selectAllCounts();
+    List<CountsDTO> selectAllCountsInDate();
+
+    CountsDTO selectRemainCountsInDate();
+
+    CountsDTO selectCountsInWeek();
+
+    List<CountsDTO> selectCountsInMonth();
+
+    CountsDTO selectTotalCounts();
 }
