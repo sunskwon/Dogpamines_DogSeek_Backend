@@ -39,9 +39,9 @@
         , #{ userPass }
         , #{ userNick }
         , #{ userPhone }
-        , #{ userSignup}
-        , #{ userLatest }
-        , #{ userAuth }
+        , now()
+        , now()
+        , 'USER'
         )
     </insert>
 
