@@ -38,7 +38,8 @@
         , DOG_IMAGE
         FROM DOG
     </select>
-    <select id="selectByCode" resultMap="dictResultMap">
+
+    <select id="selectByName" resultMap="dictResultMap">
         SELECT
         DOG_CODE
         , DOG_NAME
@@ -67,6 +68,37 @@
         FROM DOG
         WHERE DOG_Name = #{ dogName }
     </select>
+
+    <select id="selectByCode" resultMap="dictResultMap">
+        SELECT
+        DOG_CODE
+        , DOG_NAME
+        , DOG_SIZE
+        , DOG_SUMMARY
+        , DOG_HEIGHT_M
+        , DOG_WEIGHT_M
+        , DOG_HEIGHT_F
+        , DOG_WEIGHT_F
+        , DOG_CHILD
+        , DOG_YOUTH
+        , DOG_ELD
+        , DOG_DISEASE
+        , DOG_DROOL
+        , DOG_SOCIAL
+        , DOG_SHED
+        , DOG_BARK
+        , DOG_PET
+        , DOG_HOT
+        , DOG_COLD
+        , DOG_HOUSE
+        , DOG_GROOM
+        , DOG_ACTI
+        , DOG_IMAGE
+        , DOG_DETAIL
+        FROM DOG
+        WHERE DOG_CODE = #{ dogCode }
+    </select>
+
     <select id="searchDog" resultMap="dictResultMap">
         SELECT
         DOG_CODE

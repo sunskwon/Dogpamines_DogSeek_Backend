@@ -1,6 +1,7 @@
 package com.dogpamines.dogseek.mypage.model.dao;
 
 import com.dogpamines.dogseek.curation.model.dto.CurationDTO;
+import com.dogpamines.dogseek.curation.model.dto.HistoryDTO;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -21,4 +22,6 @@ public interface MyPageMapper {
     String findUserAuth(int userCode);
 
     void deleteUser(String userAuth, int userCode);
+
+    List<HistoryDTO> selectMyCurationResult(int curationCode);
 }

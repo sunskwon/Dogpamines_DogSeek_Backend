@@ -1,6 +1,7 @@
 package com.dogpamines.dogseek.mypage.model.service;
 
 import com.dogpamines.dogseek.curation.model.dto.CurationDTO;
+import com.dogpamines.dogseek.curation.model.dto.HistoryDTO;
 import com.dogpamines.dogseek.mypage.model.dao.MyPageMapper;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +52,10 @@ public class MyPageService {
     public void deleteUser(String userAuth, int userCode) {
 
         myPageMapper.deleteUser(userAuth, userCode);
+    }
+
+    public List<HistoryDTO> selectMyCurationResult(int curationCode) {
+
+        return myPageMapper.selectMyCurationResult(curationCode);
     }
 }
