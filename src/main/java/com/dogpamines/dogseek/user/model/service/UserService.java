@@ -39,7 +39,7 @@ public class UserService {
 
     public String signUp(UserDTO user) {
 
-        UserRole userRole = user.getUserAuth();
+        UserRole userRole = UserRole.valueOf("USER");
         System.out.println("여기?");
 
         if (userRole == null || userRole.name().isEmpty()) {

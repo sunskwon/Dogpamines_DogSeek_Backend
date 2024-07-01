@@ -4,13 +4,10 @@ Content-Type: application/json
 Accept: */*
 
 {
-  "userId": "user01@gmail.com",
+  "userId": "user04@gmail.com",
   "userPass": "qwer1234",
-  "userNick": "시고르자브종",
-  "userPhone": "010-1234-2345",
-  "userSignup": "2024-06-16",
-  "userLatest": "2024-06-28",
-  "userAuth": "ADMIN"
+  "userNick": "티키타카",
+  "userPhone": "010-1234-3345"
 }
 
 ### 로그인
