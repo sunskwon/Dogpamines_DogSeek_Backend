@@ -9,7 +9,9 @@ import java.util.List;
 public interface DictMapper {
     List<DictDTO> selectAllDog();
 
-    DictDTO selectByCode(String dogName);
+    DictDTO selectByName(String dogName);
+
+    DictDTO selectByCode(int dogCode);
 
     List<DictDTO> searchDog(String dogName);
 
