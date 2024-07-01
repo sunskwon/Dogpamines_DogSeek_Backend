@@ -121,4 +121,15 @@
         WHERE USER_CODE = #{userCode}
     </update>
 
+    <select id="selectMyCurationResult" parameterType="com.dogpamines.dogseek.curation.model.dto.HistoryDTO" resultType="Integer">
+        SELECT
+            PROD_CODE
+        ,   CURATION_CODE
+        FROM CURATION_HISTORY
+        <where>
+        <if test="curationCode != null and curationCode != ''">
+            CURATION_CODE = #{ curationCode }
+        </if>
+        </where>
+    </select>
 </mapper>
