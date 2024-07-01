@@ -24,24 +24,8 @@ public class CustomAuthSuccessHandler extends SavedRequestAwareAuthenticationSuc
 
         UserDTO user = ((DetailsUser) authentication.getPrincipal()).getUser();
 
-        JSONObject jsonValue = (JSONObject) ConvertUtil.convertObjectToJsonObject(user);
-        HashMap<String, Object> responseMap = new HashMap<>();  // 반환값 설정을 위해 생성
-
-        JSONObject jsonObject;
-
         String token = TokenUtils.generateJwtToken(user);
-        responseMap.put("userInfo", jsonValue);
-        responseMap.put("message", "로그인 성공입니다.");
 
         response.addHeader(AuthConstants.AUTH_HEADER, AuthConstants.TOKEN_TYPE + " " + token);
-
-        jsonObject = new JSONObject(responseMap);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        PrintWriter printWriter = response.getWriter();
-        printWriter.print(jsonObject);
-        printWriter.flush();
-        printWriter.close();
-
     }
 }
