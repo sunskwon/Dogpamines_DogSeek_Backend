@@ -35,7 +35,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         return this.getAuthenticationManager().authenticate(authRequest);
     }
 
-    /* 사용자의 로그인 요청 시 오청 정보를 임시 토큰에 저장하는 메소드 */
+    /* 사용자의 로그인 요청 시 요청 정보를 임시 토큰에 저장하는 메소드 */
     private UsernamePasswordAuthenticationToken getAuthRequest(HttpServletRequest request) throws IOException{
 
         ObjectMapper objectMapper = new ObjectMapper();
