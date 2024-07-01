@@ -22,4 +22,6 @@ public interface UserMapper {
     void deleteUserByAdmin(String userAuth, int userCode);
 
     boolean checkInfo(String type, String info);
+
+    void updateLogin(int userCode);
 }

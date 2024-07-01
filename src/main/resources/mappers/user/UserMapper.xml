@@ -120,4 +120,10 @@
             WHERE USER_PHONE = #{ info }
         </if>
     </select>
+
+    <update id="updateLogin" parameterType="_int">
+        UPDATE USER
+           SET USER_LATEST = NOW()
+         WHERE USER_CODE = #{ userCode }
+    </update>
 </mapper>

@@ -102,4 +102,8 @@ public class UserService {
         return userMapper.checkInfo(type, info);
     }
 
+    public void updateLogin(int userCode) {
+
+        userMapper.updateLogin(userCode);
+    }
 }
