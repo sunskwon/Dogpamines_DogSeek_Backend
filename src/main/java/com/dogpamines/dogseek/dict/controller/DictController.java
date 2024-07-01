@@ -21,9 +21,9 @@ public class DictController {
     private DictService dictService;
 
     @Autowired
-    public DictController(DictService dictService){
+    public DictController(DictService dictService) {
 
-            this.dictService = dictService;
+        this.dictService = dictService;
     }
 
     @GetMapping("/dict")
@@ -41,21 +41,34 @@ public class DictController {
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
-    @GetMapping("/dict/{dogName}")
-    public ResponseEntity<Map<String, Object>> selectByCode(@PathVariable String dogName){
+//    @GetMapping("/dict/{dogName}")
+//    public ResponseEntity<Map<String, Object>> selectByName(@PathVariable String dogName) {
+//
+//        HttpHeaders headers = new HttpHeaders();
+//
+//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+//
+//        Map<String, Object> result = new HashMap<>();
+//        result.put("dict", dictService.selectByName(dogName));
+//
+//        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+//    }
+
+    @GetMapping("/dict/{dogCode}")
+    public ResponseEntity<Map<String, Object>> selectByCode(@PathVariable int dogCode) {
 
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
         Map<String, Object> result = new HashMap<>();
-        result.put("dict", dictService.selectByCode(dogName));
+        result.put("dict", dictService.selectByCode(dogCode));
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
     @GetMapping("/dict/search")
-    public ResponseEntity<Map<String, Object>> searchDog(@RequestParam("dogName") String dogName){
+    public ResponseEntity<Map<String, Object>> searchDog(@RequestParam("dogName") String dogName) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
