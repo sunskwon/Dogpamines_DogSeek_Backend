@@ -89,6 +89,10 @@ public class ProductsService {
         return productsMapper.searchProducts(value, prodRecom, prodAge, prodCook, prodSize, prodEffi, prodPrice);
     }
 
+    public List<ProductsDTO> mostProducts() {
+        return productsMapper.mostProducts();
+    }
+
     public List<ProductsDTO> productSearch(String type, String input) {
         return productsMapper.productSearch(type, input);
     }
