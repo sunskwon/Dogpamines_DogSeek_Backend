@@ -83,11 +83,24 @@ public class MyPageController {
     }
 
     /* 큐레이션 코드로 맞춤 사료 추천 페이지 넘어가기 */
-//    @GetMapping("/mycurationresult")
-//    public  ResponseEntity<Map<String, Object>> selectMyCurationResult(@RequestParam int curationCode) {
-//        List<HistoryDTO> historyDTOS = myPageService
-//                .selectMyCurationResult(curationCode);
-//    }
+    @GetMapping("/mycurationresult")
+    public  ResponseEntity<Map<String, Object>> selectMyCurationResult(@RequestParam int curationCode) {
+        List<HistoryDTO> historyDTOS = myPageService
+                .selectMyCurationResult(curationCode);
+        System.out.println("curationCode = " + curationCode);
+        /* 응답 헤더 설정 */
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        /* 응답 데이터 설정 */
+        Map<String, Object> result = new HashMap<>();
+        result.put("mycurationresult", historyDTOS);
+        System.out.println("result = " + result);
+
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+
+    }
 
     /* 회원 상세 정보 조회 */
     @GetMapping("/mypage")
