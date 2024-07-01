@@ -1,6 +1,6 @@
 package com.dogpamines.dogseek.common.controller;
 
-import com.dogpamines.dogseek.common.dto.ErrorDTO;
+import com.dogpamines.dogseek.common.model.dto.ErrorDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

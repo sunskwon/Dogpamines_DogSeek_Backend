@@ -1,4 +1,4 @@
-package com.dogpamines.dogseek.common.dto;
+package com.dogpamines.dogseek.common.model.dto;
 
 public class ErrorDTO {
 

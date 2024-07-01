@@ -1,0 +1,17 @@
+### Send Verification Email
+POST http://localhost:8080/api/auth/send-verification-email
+Content-Type: application/json
+
+{
+  "email": "juhee0629032@gmail.com"
+}
+
+### Verify Email
+POST http://localhost:8080/api/auth/verify-email
+Content-Type: application/json
+
+{
+  "email": "juhee0629032@gmail.com",
+  "token": "560568"
+}
+
