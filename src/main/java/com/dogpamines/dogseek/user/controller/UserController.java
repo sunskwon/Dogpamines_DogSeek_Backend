@@ -19,6 +19,7 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -156,4 +157,23 @@ public class UserController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
+
+    @PostMapping("/find-email")
+    public ResponseEntity<String> findEmailByPhone(@RequestBody Map<String, String> requestBody) {
+        String phoneNumber = requestBody.get("phoneNumber");
+        boolean result = userService.findUserByPhoneNumber(phoneNumber);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        headers.set("Access-Control-Expose-Headers", "Result"); // CORS 설정 추가
+
+        headers.set("Result", String.valueOf(result));
+        System.out.println("result = " + result);
+
+        if (result) {
+            return new ResponseEntity<>(headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(headers, HttpStatus.FORBIDDEN);
+        }
+    }
+
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -105,5 +106,9 @@ public class UserService {
     public void updateLogin(int userCode) {
 
         userMapper.updateLogin(userCode);
+    }
+
+    public boolean findUserByPhoneNumber(String phoneNumber) {
+        return userMapper.findByPhoneNumber(phoneNumber);
     }
 }

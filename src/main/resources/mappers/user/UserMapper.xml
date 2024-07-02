@@ -126,4 +126,10 @@
            SET USER_LATEST = NOW()
          WHERE USER_CODE = #{ userCode }
     </update>
+
+    <select id="findByPhoneNumber" parameterType="string" resultType="boolean">
+        SELECT count(*)
+          FROM USER
+         WHERE USER_PHONE = #{ phoneNumber }
+    </select>
 </mapper>
