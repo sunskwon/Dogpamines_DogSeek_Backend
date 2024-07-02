@@ -127,9 +127,16 @@
          WHERE USER_CODE = #{ userCode }
     </update>
 
-    <select id="findByPhoneNumber" parameterType="string" resultType="boolean">
-        SELECT count(*)
+    <select id="findEmailByPhone" parameterType="string" resultType="string">
+        SELECT
+               USER_ID
           FROM USER
          WHERE USER_PHONE = #{ phoneNumber }
     </select>
+
+    <update id="updateUserPwd" parameterType="string">
+        UPDATE USER
+           SET USER_PW = #{ encodePwd }
+         WHERE USER_ID = #{ id }
+    </update>
 </mapper>

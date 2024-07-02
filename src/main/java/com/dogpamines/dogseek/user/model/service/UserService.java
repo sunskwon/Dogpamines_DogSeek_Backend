@@ -48,13 +48,12 @@ public class UserService {
         }
 
         user.setUserPass(bCryptPasswordEncoder.encode(user.getUserPass()));
-        System.out.println("여기 오나?");
 
         try {
             UserRole role = UserRole.valueOf(userRole.name().toUpperCase());
             System.out.println("role = " + role);
             user.setUserAuth(role);
-            System.out.println("여기 오나??");
+
         } catch (IllegalArgumentException e) {
             return "회원 가입 실패: 올바르지 않은 사용자 역할입니다.";
         }
@@ -108,7 +107,14 @@ public class UserService {
         userMapper.updateLogin(userCode);
     }
 
-    public boolean findUserByPhoneNumber(String phoneNumber) {
-        return userMapper.findByPhoneNumber(phoneNumber);
+    public String findEmailByPhone(String phoneNumber) {
+        return userMapper.findEmailByPhone(phoneNumber);
+    }
+
+    public void updateUserPwd(String id, String pwd) {
+
+        String encodePwd = bCryptPasswordEncoder.encode(pwd);
+
+        userMapper.updateUserPwd(id, encodePwd);
     }
 }

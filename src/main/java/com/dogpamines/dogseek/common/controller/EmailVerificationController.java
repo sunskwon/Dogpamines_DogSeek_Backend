@@ -28,9 +28,18 @@ public class EmailVerificationController {
     @PostMapping("/send-verification-email")
     public ResponseEntity<String> sendVerificationEmail(@RequestBody Map<String, String> requestBody) {
         String email = requestBody.get("email");
+        String type = requestBody.get("type");
         String token = String.valueOf(100000 + random.nextInt(900000)); // 6자리 랜덤 숫자
         verificationService.createVerificationToken(email, token);
-        emailService.sendEmail(email, "이메일 인증번호", "인증번호는 " + token + " 입니다.");
+
+        String subject = switch (type) {
+            case "signup" -> "회원가입 인증번호";
+            case "findId" -> "아이디 찾기 인증번호";
+            case "findPw" -> "비밀번호 찾기 인증번호";
+            default -> "이메일 인증번호";
+        };
+
+        emailService.sendEmail(email, subject, "인증번호는 " + token + " 입니다.");
         return ResponseEntity.ok("Verification email sent successfully");
     }
 

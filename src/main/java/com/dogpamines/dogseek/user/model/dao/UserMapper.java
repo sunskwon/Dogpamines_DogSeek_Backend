@@ -26,5 +26,7 @@ public interface UserMapper {
 
     void updateLogin(int userCode);
 
-    boolean findByPhoneNumber(String phoneNumber);
+    String findEmailByPhone(String phoneNumber);
+
+    void updateUserPwd(String id, String encodePwd);
 }
