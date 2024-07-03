@@ -54,18 +54,18 @@ public class DictController {
        return new ResponseEntity<>(result, headers, HttpStatus.OK);
    }
 
-    // @GetMapping("/dict/{dogCode}")
-    // public ResponseEntity<Map<String, Object>> selectByCode(@PathVariable int dogCode) {
+     @GetMapping("/dict/get/{dogCode}")
+     public ResponseEntity<Map<String, Object>> selectByCode(@PathVariable int dogCode) {
 
-    //     HttpHeaders headers = new HttpHeaders();
+         HttpHeaders headers = new HttpHeaders();
 
-    //     headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
-    //     Map<String, Object> result = new HashMap<>();
-    //     result.put("dict", dictService.selectByCode(dogCode));
+         Map<String, Object> result = new HashMap<>();
+         result.put("dict", dictService.selectByCode(dogCode));
 
-    //     return new ResponseEntity<>(result, headers, HttpStatus.OK);
-    // }
+         return new ResponseEntity<>(result, headers, HttpStatus.OK);
+     }
 
     @GetMapping("/dict/search")
     public ResponseEntity<Map<String, Object>> searchDog(@RequestParam("dogName") String dogName) {
@@ -100,7 +100,7 @@ public class DictController {
         dictService.insertDict(dict);
 
         return ResponseEntity
-                .created(URI.create("/dict/" + newDictCode))
+                .created(URI.create("/dict/get/" + newDictCode))
                 .build();
     }
 
@@ -110,7 +110,7 @@ public class DictController {
         dictService.updateDict(dict);
 
         return ResponseEntity
-                .created(URI.create("/dict/" + dict.getDogCode()))
+                .created(URI.create("/dict/get/" + dict.getDogCode()))
                 .build();
     }
 

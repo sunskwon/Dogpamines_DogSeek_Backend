@@ -19,19 +19,16 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class UserController {
 
     private UserService userService;        // 생성자 주입으로 하기!!!
-    private CurationService curationService;
-    private BoardService boardService;
 
     @Autowired
-    public UserController(UserService userService, CurationService curationService, BoardService boardService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.curationService = curationService;
-        this.boardService = boardService;
     }
 
     @PostMapping("/signup")
@@ -58,36 +55,6 @@ public class UserController {
 
         Map<String, Object> result = new HashMap<>();
         result.put("user", userService.selectUserByCodeByAdmin(userCode));
-
-        List<String> dogList = curationService.findDogList(userCode);
-
-        if (dogList.size() > 0) {
-
-            result.put("dogList", dogList);
-
-            for (String dog : dogList) {
-
-                result.put(dog, curationService.selectDogsByCodeByAdmin(dog));
-            }
-        }
-
-        List<BoardDTO> boardList = boardService.selectBoardByCodeByAdmin(userCode);
-
-        if (boardList.size() > 0) {
-
-            result.put("boardList", boardList);
-
-            Map<String, String> commentCount = new HashMap<>();
-
-            for (BoardDTO board : boardList) {
-
-                int postCode = board.getPostCode();
-
-                commentCount.put(Integer.toString(postCode), Integer.toString(boardService.countCommentByPostCode(postCode)));
-            }
-
-            result.put("countList", commentCount);
-        }
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
@@ -128,7 +95,7 @@ public class UserController {
 
 
     @PostMapping("/user/check")
-    public ResponseEntity<Boolean> checkInfo(@RequestBody Map<String, String> user) {
+    public ResponseEntity<?> checkInfo(@RequestBody Map<String, String> user) {
 
         String type = user.get("type");
         String info = user.get("info");
@@ -156,4 +123,35 @@ public class UserController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
+
+    @PostMapping("/user/find/email")
+    public ResponseEntity<?> findEmailByPhone(@RequestBody Map<String, String> requestBody) {
+        String phoneNumber = requestBody.get("phoneNumber");
+        String result = userService.findEmailByPhone(phoneNumber);  // 조회된 userId
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        headers.set("Access-Control-Expose-Headers", "Result");
+
+        headers.set("Result", String.valueOf(result));
+        System.out.println("result = " + result);
+
+        if (result != null) {
+                return new ResponseEntity<>(headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @PutMapping("/user/change/pwd")
+    public ResponseEntity<?> updateUserPwd(@RequestBody Map<String, String> requestBody) {
+
+        String id = requestBody.get("id");
+        String pwd = requestBody.get("pwd");
+        userService.updateUserPwd(id, pwd);
+
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
 }
