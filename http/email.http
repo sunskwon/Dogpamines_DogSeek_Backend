@@ -3,6 +3,7 @@ POST http://localhost:8080/api/auth/send-verification-email
 Content-Type: application/json
 
 {
+  "type" : "findId",
   "email": "juhee0629032@gmail.com"
 }
 
@@ -12,6 +13,14 @@ Content-Type: application/json
 
 {
   "email": "juhee0629032@gmail.com",
-  "token": "560568"
+  "token": "552969"
+}
+
+### findEmailByPhone
+POST http://localhost:8080/user/find/email
+Content-Type: application/json
+
+{
+  "phoneNumber": "010-1234-4567"
 }
 

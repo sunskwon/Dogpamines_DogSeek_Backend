@@ -16,8 +16,8 @@ Content-Type: application/json
 Accept: */*
 
 {
-  "userId": "admin01@gmail.com",
-  "userPass": "qwer1234"
+  "userId": "user01@gmail.com",
+  "userPass": "qwer1233"
 }
 
 ### selectUserByCodeByAdmin
@@ -74,6 +74,16 @@ Content-Type: application/json
 {
   "type": "phone",
   "info": "010-1234-2345"
+}
+
+### updateUserPwd
+PUT http://localhost:8080/user/change/pwd
+Content-Type: application/json
+
+{
+  "id" : "user01@gmail.com",
+  "pwd" : "qwer1233"
+
 }
 
 
