@@ -1,27 +1,29 @@
 package com.dogpamines.dogseek.user.model.service;
 
+import com.dogpamines.dogseek.board.model.dto.BoardDTO;
 import com.dogpamines.dogseek.common.UserRole;
+import com.dogpamines.dogseek.curation.model.dao.CurationMapper;
+import com.dogpamines.dogseek.curation.model.dto.CurationDTO;
 import com.dogpamines.dogseek.user.model.dao.UserMapper;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class UserService {
 
-
     private final UserMapper userMapper;
-
+    private final CurationMapper curationMapper;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserService(UserMapper userMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    @Autowired
+    public UserService(UserMapper userMapper, CurationMapper curationMapper,BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userMapper = userMapper;
+        this.curationMapper = curationMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 
     }
@@ -69,9 +71,49 @@ public class UserService {
         }
     }
 
-    public UserDTO selectUserByCodeByAdmin(int userCode) {
+    public Map<String, Object> selectUserByCodeByAdmin(int userCode) {
 
-        return userMapper.selectUserByCodeByAdmin(userCode);
+        Map<String, Object> result = new HashMap<>();
+
+        UserDTO user = userMapper.selectUserByCodeByAdmin(userCode);
+        result.put("user", user);
+
+        List<String> dogs = curationMapper.findDogList(userCode);
+        result.put("dogs", dogs);
+
+        List<CurationDTO> dogList = new ArrayList<>();
+        List< BoardDTO> boardList = new ArrayList<>();
+
+        if (dogs.size() > 0) {
+
+            for (String dog : dogs) {
+
+                dogList = curationMapper.selectDogsByCodeByAdmin(dog);
+            }
+
+            result.put("dogList", dogList);
+        }
+
+        if (boardList.size() > 0) {
+
+            
+
+//            if (boardList.size() > 0) {
+//
+//                result.put("boardList", boardList);
+//
+//                Map<String, String> commentCount = new HashMap<>();
+//
+//                for (BoardDTO board : boardList) {
+//
+//                    int postCode = board.getPostCode();
+//
+//                    commentCount.put(Integer.toString(postCode), Integer.toString(boardService.countCommentByPostCode(postCode)));
+//                }
+
+        }
+
+        return result;
     }
 
     public List<UserDTO> selectAllUsersByAdmin(Map<String, String> search) {
