@@ -25,14 +25,10 @@ import java.util.Optional;
 public class UserController {
 
     private UserService userService;        // 생성자 주입으로 하기!!!
-    private CurationService curationService;
-    private BoardService boardService;
 
     @Autowired
-    public UserController(UserService userService, CurationService curationService, BoardService boardService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.curationService = curationService;
-        this.boardService = boardService;
     }
 
     @PostMapping("/signup")
@@ -59,36 +55,6 @@ public class UserController {
 
         Map<String, Object> result = new HashMap<>();
         result.put("user", userService.selectUserByCodeByAdmin(userCode));
-
-        List<String> dogList = curationService.findDogList(userCode);
-
-        if (dogList.size() > 0) {
-
-            result.put("dogList", dogList);
-
-            for (String dog : dogList) {
-
-                result.put(dog, curationService.selectDogsByCodeByAdmin(dog));
-            }
-        }
-
-        List<BoardDTO> boardList = boardService.selectBoardByCodeByAdmin(userCode);
-
-        if (boardList.size() > 0) {
-
-            result.put("boardList", boardList);
-
-            Map<String, String> commentCount = new HashMap<>();
-
-            for (BoardDTO board : boardList) {
-
-                int postCode = board.getPostCode();
-
-                commentCount.put(Integer.toString(postCode), Integer.toString(boardService.countCommentByPostCode(postCode)));
-            }
-
-            result.put("countList", commentCount);
-        }
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
