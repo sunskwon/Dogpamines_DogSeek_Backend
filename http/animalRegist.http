@@ -1,0 +1,2 @@
+### 동물 등록 번호 조회
+GET http://localhost:8080/registNumber
