@@ -16,7 +16,7 @@ public interface CurationMapper {
 
     List<String> findDogList(int userCode);
 
-    List<CurationDTO> selectDogsByCodeByAdmin(String dog);
+    CurationDTO selectDogByCodeByAdmin(String dog);
 
     List<CurationDTO> curationSelect(String curationAge, String curationIngra, String curationAllergy, String curationDisease, String curationBreed, String curationGender, String curationNeut, String curationWeight, String curationName, Date parsedDate, String curationSize, String curationCook, int userCode);
     void insertHistory(HistoryDTO historyDTO);

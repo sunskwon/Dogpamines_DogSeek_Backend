@@ -5,6 +5,7 @@ import com.dogpamines.dogseek.board.model.service.BoardService;
 import com.dogpamines.dogseek.curation.model.service.CurationService;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import com.dogpamines.dogseek.user.model.service.UserService;
+import com.sun.tools.jconsole.JConsoleContext;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -74,7 +75,7 @@ public class UserController {
     @PutMapping("/admin/users")
     public ResponseEntity<?> updateUserByAdmin(@RequestBody Map<String, String> object) {
 
-        String userCode = (String) object.get("userCode");
+        int userCode = Integer.parseInt(object.get("userCode"));
 
         userService.updateUserByAdmin(userCode);
 
@@ -86,9 +87,7 @@ public class UserController {
     @DeleteMapping("/admin/users/{userCode}")
     public ResponseEntity<?> deleteUserByAdmin(@PathVariable int userCode) {
 
-        String userAuth = userService.findUserAuth(userCode);
-
-        userService.deleteUserByAdmin(userAuth, userCode);
+        userService.deleteUserByAdmin(userCode);
 
         return ResponseEntity.noContent().build();
     }

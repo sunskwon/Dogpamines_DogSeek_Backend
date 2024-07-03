@@ -155,7 +155,7 @@
         GROUP BY CURATION_NAME
     </select>
 
-    <select id="selectDogsByCodeByAdmin" parameterType="String" resultMap="curationResultMap">
+    <select id="selectDogByCodeByAdmin" parameterType="String" resultMap="curationResultMap">
         SELECT
             CURATION_NAME
             , CURATION_BREED

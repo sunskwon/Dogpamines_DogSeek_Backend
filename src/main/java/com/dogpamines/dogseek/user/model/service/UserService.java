@@ -7,8 +7,11 @@ import com.dogpamines.dogseek.curation.model.dto.CurationDTO;
 import com.dogpamines.dogseek.user.model.dao.UserMapper;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -21,13 +24,18 @@ public class UserService {
 
     private final UserMapper userMapper;
     private final CurationMapper curationMapper;
+    private final RedisTemplate<String, String> redisTemplate;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    private final String REGIST_KEY = "regist";
+    private final String VISITANT_KEY = "visitant";
+
     @Autowired
-    public UserService(UserMapper userMapper, CurationMapper curationMapper,BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserService(UserMapper userMapper, CurationMapper curationMapper, RedisTemplate redisTemplate, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userMapper = userMapper;
         this.curationMapper = curationMapper;
+        this.redisTemplate = redisTemplate;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 
     }
@@ -67,6 +75,10 @@ public class UserService {
         int result = userMapper.regist(user);
         System.out.println("result = " + result);
 
+        // 회원가입 성공시 가입자 수 증가
+        SetOperations<String, String> countRegist = redisTemplate.opsForSet();
+        countRegist.add(REGIST_KEY, String.valueOf(user.getUserId()));
+
         if (result == 1) {
             return "회원 가입 성공";
         } else {
@@ -84,17 +96,15 @@ public class UserService {
         List<String> dogs = curationMapper.findDogList(userCode);
         result.put("dogs", dogs);
 
-        List<CurationDTO> dogList = new ArrayList<>();
         List< BoardDTO> boardList = new ArrayList<>();
 
         if (dogs.size() > 0) {
 
             for (String dog : dogs) {
 
-                dogList = curationMapper.selectDogsByCodeByAdmin(dog);
+                result.put(dog ,curationMapper.selectDogByCodeByAdmin(dog));
             }
 
-            result.put("dogList", dogList);
         }
 
         if (boardList.size() > 0) {
@@ -127,17 +137,16 @@ public class UserService {
         return userMapper.selectAllUsersByAdmin(type, input);
     }
 
-    public String findUserAuth(int userCode) {
+    public void updateUserByAdmin(int userCode) {
 
-        return userMapper.findUserAuth(userCode);
+        String userAuth = userMapper.findUserAuth(userCode);
+
+        userMapper.updateUserByAdmin(userCode, userAuth);
     }
 
-    public void updateUserByAdmin(String userCode) {
+    public void deleteUserByAdmin(int userCode) {
 
-        userMapper.updateUserByAdmin(userCode);
-    }
-
-    public void deleteUserByAdmin(String userAuth, int userCode) {
+        String userAuth = userMapper.findUserAuth(userCode);
 
         userMapper.deleteUserByAdmin(userAuth, userCode);
     }
@@ -147,7 +156,11 @@ public class UserService {
         return userMapper.checkInfo(type, info);
     }
 
+    @Transactional
     public void updateLogin(int userCode) {
+
+        SetOperations<String, String> countVisit = redisTemplate.opsForSet();
+        countVisit.add(VISITANT_KEY, String.valueOf(userCode));
 
         userMapper.updateLogin(userCode);
     }
