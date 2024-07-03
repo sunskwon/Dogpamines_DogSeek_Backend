@@ -1,10 +1,7 @@
 package com.dogpamines.dogseek.board.model.dao;
 
 
-import com.dogpamines.dogseek.board.model.dto.BoardDTO;
-import com.dogpamines.dogseek.board.model.dto.ChatBoardDTO;
-import com.dogpamines.dogseek.board.model.dto.CommentDTO;
-import com.dogpamines.dogseek.board.model.dto.BoardReportDTO;
+import com.dogpamines.dogseek.board.model.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -19,7 +16,7 @@ public interface BoardMapper {
 
     int getLastPostCode();
 
-    void newBoardPost(BoardDTO board);
+    void newBoardPost(BoardChatDTO board);
 
     List<BoardDTO> selectBoardByCodeByAdmin(int userCode);
 
@@ -50,4 +47,6 @@ public interface BoardMapper {
     void updatePost(BoardDTO notice);
 
     List<BoardReportDTO> selectCommentReportByCommentCode(int commentCode);
+
+    void updateBoard(BoardChatDTO board);
 }
