@@ -59,19 +59,19 @@ public class BoardController {
 
     }
 
-/*    @PostMapping("/boards")
-    public ResponseEntity<?> newBoardPost(@RequestBody BoardDTO board) {
+    /*    @PostMapping("/boards")
+        public ResponseEntity<?> newBoardPost(@RequestBody BoardDTO board) {
 
-        int newPostCode = boardService.getLastPostCode() + 1;
-        board.setPostCode(newPostCode);
+            int newPostCode = boardService.getLastPostCode() + 1;
+            board.setPostCode(newPostCode);
 
-        boardService.newBoardPost(board);
-        System.out.println("board" + board);
+            boardService.newBoardPost(board);
+            System.out.println("board" + board);
 
-        return ResponseEntity
-                .created(URI.create("/boards/" + newPostCode))
-                .build();
-    } */
+            return ResponseEntity
+                    .created(URI.create("/boards/" + newPostCode))
+                    .build();
+        } */
     @PostMapping("/boards")
     public ResponseEntity<?> newBoardPost(@RequestBody BoardChatDTO board) {
         LocalDateTime postDate = LocalDateTime.now();
@@ -97,17 +97,17 @@ public class BoardController {
     }
 
 
-        @GetMapping("/notice")
-        public ResponseEntity<Map<String, Object>> selectAllNotices() {
+    @GetMapping("/notice")
+    public ResponseEntity<Map<String, Object>> selectAllNotices() {
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
-            Map<String, Object> result = new HashMap<>();
-            result.put("notice", boardService.selectAllNotices());
+        Map<String, Object> result = new HashMap<>();
+        result.put("notice", boardService.selectAllNotices());
 
-            return new ResponseEntity<>(result, headers, HttpStatus.OK);
-        }
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
 
     @GetMapping("/notice/search")
     public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("type") String type, @RequestParam("input") String input) {
@@ -129,38 +129,7 @@ public class BoardController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
         Map<String, Object> result = new HashMap<>();
-
-        List<BoardDTO> boardList = boardService.selectAllBoards();
-        result.put("boardList", boardList);
-
-        if (boardList.size() > 0) {
-
-            Map<String, Object> commentList = new HashMap<>();
-            Map<String, Object> boardReportList = new HashMap<>();
-            Map<String, Object> commentReportList = new HashMap<>();
-
-            for (BoardDTO board : boardList) {
-
-                List<CommentDTO> commentListByPostCode = boardService.selectCommentsByPostCode(board.getPostCode());
-
-                if (commentListByPostCode.size() > 0) {
-
-                    System.out.println("commentListByPostCode = " + commentListByPostCode);
-//
-//                    for (CommentDTO comment : commentListByPostCode) {
-//
-//                        commentReportList.put(String.valueOf(comment.getCommentCode()), boardService.selectCommentReportByCommentCode(comment.getCommentCode()));
-//                    }
-                }
-
-                commentList.put(String.valueOf(board.getPostCode()), boardService.selectCommentsByPostCode(board.getPostCode()));
-
-                boardReportList.put(String.valueOf(board.getPostCode()), boardService.selectBoardReportsByPostCode(board.getPostCode()));
-            }
-
-            result.put("commentList", commentList);
-            result.put("boardReportList", boardReportList);
-        }
+        result.put("board", boardService.selectAllBoards());
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
@@ -173,24 +142,7 @@ public class BoardController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
         Map<String, Object> result = new HashMap<>();
-
-        List<BoardDTO> boardList = boardService.searchBoard(type, input);
-        result.put("boardList", boardList);
-
-        if (boardList.size() > 0) {
-
-            Map<String, Object> commentList = new HashMap<>();
-            Map<String, Object> boardReportList = new HashMap<>();
-
-            for (BoardDTO board : boardList) {
-
-                commentList.put(String.valueOf(board.getPostCode()), boardService.selectCommentsByPostCode(board.getPostCode()));
-                boardReportList.put(String.valueOf(board.getPostCode()), boardService.selectBoardReportsByPostCode(board.getPostCode()));
-            }
-
-            result.put("commentList", commentList);
-            result.put("boardReportList", boardReportList);
-        }
+        result.put("board", boardService.searchBoard(type, input));
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
@@ -223,8 +175,6 @@ public class BoardController {
     public ResponseEntity<?> deletePost(@PathVariable int postCode) {
 
         String postStatus = boardService.findPostStatus(postCode);
-        System.out.println("postCode = " + postCode);
-        System.out.println("postStatus = " + postStatus);
 
         boardService.deletePost(postCode, postStatus);
 
@@ -233,6 +183,8 @@ public class BoardController {
 
     @PutMapping("/post")
     public ResponseEntity<?> updatePost(@RequestBody BoardDTO notice) {
+
+        System.out.println("notice = " + notice);
 
         boardService.updatePost(notice);
 
