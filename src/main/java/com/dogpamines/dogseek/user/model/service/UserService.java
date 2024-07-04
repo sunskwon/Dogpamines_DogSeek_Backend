@@ -3,7 +3,6 @@ package com.dogpamines.dogseek.user.model.service;
 import com.dogpamines.dogseek.board.model.dto.BoardDTO;
 import com.dogpamines.dogseek.common.UserRole;
 import com.dogpamines.dogseek.curation.model.dao.CurationMapper;
-import com.dogpamines.dogseek.curation.model.dto.CurationDTO;
 import com.dogpamines.dogseek.user.model.dao.UserMapper;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.*;
 
 @Service
@@ -181,7 +179,7 @@ public class UserService {
         userMapper.updateLogin(userCode);
     }
 
-    public String findEmailByPhone(String phoneNumber) {
+    public UserDTO findEmailByPhone(String phoneNumber) {
         return userMapper.findEmailByPhone(phoneNumber);
     }
 

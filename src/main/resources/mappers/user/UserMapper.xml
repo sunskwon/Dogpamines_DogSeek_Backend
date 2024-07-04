@@ -134,9 +134,10 @@
          WHERE USER_CODE = #{ userCode }
     </update>
 
-    <select id="findEmailByPhone" parameterType="string" resultType="string">
+    <select id="findEmailByPhone" parameterType="string" resultMap="login">
         SELECT
                USER_ID
+             , USER_SIGNUP
           FROM USER
          WHERE USER_PHONE = #{ phoneNumber }
     </select>

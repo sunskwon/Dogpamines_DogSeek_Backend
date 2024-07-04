@@ -1,11 +1,8 @@
 package com.dogpamines.dogseek.user.controller;
 
-import com.dogpamines.dogseek.board.model.dto.BoardDTO;
-import com.dogpamines.dogseek.board.model.service.BoardService;
-import com.dogpamines.dogseek.curation.model.service.CurationService;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import com.dogpamines.dogseek.user.model.service.UserService;
-import com.sun.tools.jconsole.JConsoleContext;
+
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -18,9 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -126,16 +121,18 @@ public class UserController {
     @PostMapping("/user/find/email")
     public ResponseEntity<?> findEmailByPhone(@RequestBody Map<String, String> requestBody) {
         String phoneNumber = requestBody.get("phoneNumber");
-        String result = userService.findEmailByPhone(phoneNumber);  // 조회된 userId
+        UserDTO user = userService.findEmailByPhone(phoneNumber);  // 조회된 userId
+        Map<String, String> result = new HashMap<>();
+        result.put("userId", user.getUserId());
+        result.put("signupDate", user.getUserSignup());
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         headers.set("Access-Control-Expose-Headers", "Result");
 
-        headers.set("Result", String.valueOf(result));
-        System.out.println("result = " + result);
+        headers.set("Result", result.toString());
 
-        if (result != null) {
+        if (user.getUserId() != null) {
                 return new ResponseEntity<>(headers, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
