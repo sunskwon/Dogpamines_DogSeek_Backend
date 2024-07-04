@@ -33,9 +33,9 @@ public class ProductsService {
         try {
 
             String key = PRODUCT_VISIT + prodCode;
-            ValueOperations<String, String> countVisit = redisTemplate.opsForValue();
+            ValueOperations<String, String> countView = redisTemplate.opsForValue();
 
-            int count = Integer.parseInt(countVisit.get(key));
+            int count = Integer.parseInt(countView.get(key));
             int prevVisit = product.getProdVisit();
             int updatedVisit = count + prevVisit;
 
@@ -59,13 +59,13 @@ public class ProductsService {
 
                 int prodCode = product.getProdCode();
                 String key = PRODUCT_VISIT + prodCode;
-                ValueOperations<String, String> countVisit = redisTemplate.opsForValue();
+                ValueOperations<String, String> countView = redisTemplate.opsForValue();
 
-                Optional<String> tempVisit = Optional.ofNullable(countVisit.get(key));
+                Optional<String> tempVisit = Optional.ofNullable(countView.get(key));
 
                 if (!tempVisit.isEmpty()) {
 
-                    int count = Integer.parseInt(countVisit.get(key));
+                    int count = Integer.parseInt(countView.get(key));
                     int prevVisit = product.getProdVisit();
                     int updatedVisit = count + prevVisit;
 

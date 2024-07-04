@@ -90,9 +90,16 @@
         WHERE USER_CODE = #{ userCode }
     </select>
 
-    <update id="updateUserByAdmin" parameterType="String">
+    <update id="updateUserByAdmin">
         UPDATE USER
-            SET USER_AUTH = 'ADMIN'
+            <set>
+                <if test="userAuth == 'ADMIN'">
+                    USER_AUTH = 'USER'
+                </if>
+                <if test="userAuth == 'USER'">
+                    USER_AUTH = 'ADMIN'
+                </if>
+            </set>
         WHERE USER_CODE = #{ userCode }
     </update>
 

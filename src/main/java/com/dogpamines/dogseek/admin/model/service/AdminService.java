@@ -7,6 +7,7 @@ import com.dogpamines.dogseek.products.model.dto.ProductsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,8 @@ public class AdminService {
     private final AdminMapper adminMapper;
     private final ProductsMapper productsMapper;
     private final RedisTemplate<String, String> redisTemplate;
+    private final String REGIST_KEY = "regist";
+    private final String VISITANT_KEY = "visitant";
     private final String PRODUCT_VISIT = "product";
 
     @Autowired
@@ -41,7 +44,9 @@ public class AdminService {
 
         try {
 
-            ValueOperations<String, String> countVisit = redisTemplate.opsForValue();
+            ValueOperations<String, String> countView = redisTemplate.opsForValue();
+            SetOperations<String, String> countVisit = redisTemplate.opsForSet();
+            SetOperations<String, String> countRegist = redisTemplate.opsForSet();
 
             for (ProductsDTO product : productList) {
 
@@ -49,21 +54,31 @@ public class AdminService {
 
                 String key = PRODUCT_VISIT + prodCode;
 
-                Optional<String> tempVisit = Optional.ofNullable(countVisit.get(key));
+                Optional<String> tempView = Optional.ofNullable(countView.get(key));
 
-                if (!tempVisit.isEmpty()) {
+                if (!tempView.isEmpty()) {
 
-                    int prodVisit = product.getProdVisit();
-                    int redisVisit = Integer.parseInt(countVisit.get(key));
+                    int prodView = product.getProdVisit();
+                    int redisView = Integer.parseInt(countView.get(key));
 
-                    product.setProdVisit(prodVisit + redisVisit);
-                    productsSum += redisVisit;
+                    product.setProdVisit(prodView + redisView);
+                    productsSum += redisView;
                 }
             }
+
+            int countRegists = countsInDate.get(0).getCountsSignup();
+            int tempRegists = Integer.parseInt(String.valueOf(countRegist.size(REGIST_KEY)));
+            int updatedCountSignup = countRegists + tempRegists;
+
+            int countVisits = countsInDate.get(0).getCountsSignin();
+            int tempVisits = Integer.parseInt(String.valueOf(countVisit.size(VISITANT_KEY)));
+            int updatedCountSignin = countVisits + tempVisits;
 
             int countProducts = countsInDate.get(0).getCountsProducts();
             int updatedCountProducts = countProducts + productsSum;
 
+            countsInDate.get(0).setCountsSignup(updatedCountSignup);
+            countsInDate.get(0).setCountsSignin(updatedCountSignin);
             countsInDate.get(0).setCountsProducts(updatedCountProducts);
         } catch (RedisConnectionFailureException e) {
             System.out.println("redis와 연결되지 않음");

@@ -6,6 +6,7 @@ import com.dogpamines.dogseek.products.model.dao.ProductsMapper;
 import com.dogpamines.dogseek.products.model.dto.ProductsDTO;
 import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -21,6 +22,9 @@ public class ScheduledService {
     private final RedisTemplate redisTemplate;
     private final ScheduledMapper scheduledMapper;
     private final ProductsMapper productsMapper;
+
+    private final String REGIST_KEY = "regist";
+    private final String VISITANT_KEY = "visitant";
     private final String PRODUCT_VISIT = "product";
 
     public ScheduledService(RedisTemplate redisTemplate, ScheduledMapper scheduledMapper, ProductsMapper productsMapper) {
@@ -37,34 +41,44 @@ public class ScheduledService {
 
         String date = "yesterday";
 
-        int prodCode = productsMapper.getLastProdCode();
+        int signupSum = 0;
+        int signinSum = 0;
         int productsSum = 0;
+        int prodCode = productsMapper.getLastProdCode();
 
         try {
 
-            ValueOperations<String, String> countVisit = redisTemplate.opsForValue();
+            SetOperations<String, String> countRegist = redisTemplate.opsForSet();
+            SetOperations<String, String> countVisit = redisTemplate.opsForSet();
+            ValueOperations<String, String> countView = redisTemplate.opsForValue();
 
             for (int i = 1; i <= prodCode; i++) {
 
                 String key = PRODUCT_VISIT + i;
-                Optional<String> tempVisit = Optional.ofNullable(countVisit.get(key));
+                Optional<String> tempVisit = Optional.ofNullable(countView.get(key));
 
                 if (!tempVisit.isEmpty()) {
 
                     ProductsDTO product = productsMapper.selectFindByCode(i);
 
                     int visit = product.getProdVisit();
-                    int updatedVisit = visit + Integer.parseInt(countVisit.get(key));
+                    int updatedVisit = visit + Integer.parseInt(countView.get(key));
 
                     product.setProdVisit(updatedVisit);
 
                     productsMapper.updateProduct(product);
 
-                    productsSum += Integer.parseInt(countVisit.get(key));
+                    productsSum += Integer.parseInt(countView.get(key));
 
                     redisTemplate.delete(key);
                 }
             }
+
+            signupSum = Integer.parseInt(String.valueOf(countRegist.size(REGIST_KEY)));
+            signinSum = Integer.parseInt(String.valueOf(countVisit.size("visitant")));
+
+            redisTemplate.delete(REGIST_KEY);
+            redisTemplate.delete(VISITANT_KEY);
         } catch (RedisConnectionFailureException e) {
             System.out.println("redis와 연결되지 않음");
         } catch (Exception e) {
@@ -73,7 +87,12 @@ public class ScheduledService {
 
         CountsDTO prevCounts = scheduledMapper.selectCounts(date);
 
+        int signup = prevCounts.getCountsSignup();
+        int signin = prevCounts.getCountsSignin();
         int products = prevCounts.getCountsProducts();
+
+        prevCounts.setCountsSignup(signup + signupSum);
+        prevCounts.setCountsSignin(signin + signinSum);
         prevCounts.setCountsProducts(products + productsSum);
 
         scheduledMapper.updateCounts(prevCounts);
@@ -86,34 +105,44 @@ public class ScheduledService {
         System.out.println("updateCounts() 실행...");
         String date = "today";
 
-        int prodCode = productsMapper.getLastProdCode();
+        int signupSum = 0;
+        int signinSum = 0;
         int productsSum = 0;
+        int prodCode = productsMapper.getLastProdCode();
 
         try {
 
-            ValueOperations<String, String> countVisit = redisTemplate.opsForValue();
+            SetOperations<String, String> countRegist = redisTemplate.opsForSet();
+            SetOperations<String, String> countVisit = redisTemplate.opsForSet();
+            ValueOperations<String, String> countView = redisTemplate.opsForValue();
 
             for (int i = 1; i <= prodCode; i++) {
 
                 String key = PRODUCT_VISIT + i;
-                Optional<String> tempVisit = Optional.ofNullable(countVisit.get(key));
+                Optional<String> tempVisit = Optional.ofNullable(countView.get(key));
 
                 if (!tempVisit.isEmpty()) {
 
                     ProductsDTO product = productsMapper.selectFindByCode(i);
 
                     int visit = product.getProdVisit();
-                    int updatedVisit = visit + Integer.parseInt(countVisit.get(key));
+                    int updatedVisit = visit + Integer.parseInt(countView.get(key));
 
                     product.setProdVisit(updatedVisit);
 
                     productsMapper.updateProduct(product);
 
-                    productsSum += Integer.parseInt(countVisit.get(key));
+                    productsSum += Integer.parseInt(countView.get(key));
 
                     redisTemplate.delete(key);
                 }
             }
+
+            signupSum = Integer.parseInt(String.valueOf(countRegist.size(REGIST_KEY)));
+            signinSum = Integer.parseInt(String.valueOf(countVisit.size(VISITANT_KEY)));
+
+            redisTemplate.delete(REGIST_KEY);
+            redisTemplate.delete(VISITANT_KEY);
         } catch (RedisConnectionFailureException e) {
             System.out.println("redis와 연결되지 않음");
         } catch (Exception e) {
@@ -122,7 +151,12 @@ public class ScheduledService {
 
         CountsDTO prevCounts = scheduledMapper.selectCounts(date);
 
+        int signup = prevCounts.getCountsSignup();
+        int signin = prevCounts.getCountsSignin();
         int products = prevCounts.getCountsProducts();
+
+        prevCounts.setCountsSignup(signup + signupSum);
+        prevCounts.setCountsSignin(signin + signinSum);
         prevCounts.setCountsProducts(products + productsSum);
 
         scheduledMapper.updateCounts(prevCounts);

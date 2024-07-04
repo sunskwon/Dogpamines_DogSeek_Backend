@@ -21,6 +21,8 @@ public class ProductsController {
     private final ProductsService productsService;
     private final RedisService redisService;
 
+    private final String PRODUCTS_KEY = "product";
+
     @Autowired
     public ProductsController(ProductsService productsService, RedisService redisService) {
         this.productsService = productsService;
@@ -46,8 +48,8 @@ public class ProductsController {
         headers.setContentType(new MediaType("application", "JSON", Charset.forName("UTF-8")));
 
         // 상세 정보 호출시 redis에 조회수 추가
-        String key = "product" + prodCode;
-        redisService.countVisits(key);
+        String key = PRODUCTS_KEY + prodCode;
+        redisService.addViewCount(key);
 
         Map<String, Object> result = new HashMap<>();
         result.put("product", productsService.selectFindByCode(prodCode));
