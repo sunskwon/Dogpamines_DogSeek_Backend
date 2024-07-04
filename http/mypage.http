@@ -8,7 +8,7 @@ GET http://localhost:8080/curations?userCode=1
 GET http://localhost:8080/curationsDog?userCode=1&curationName=
 
 ### 사용자 정보 조회
-GET http://localhost:8080/mypage?userCode=
+GET http://localhost:8080/mypage?userCode=1
 
 ### 사용자 비밀번호, 닉네임 수정 (update)
 PUT http://localhost:8080/mypage
@@ -25,3 +25,6 @@ DELETE http://localhost:8080/mypage
 
 ### 사용자별 강아지별 맞춤 추천 사료 페이지 이동
 GET http://localhost:8080/mycurationresult?curationCode=1
+
+### 유저 닉네임 조회
+GET http://localhost:8080/mypage/check
