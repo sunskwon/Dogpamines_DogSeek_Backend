@@ -2,6 +2,7 @@ package com.dogpamines.dogseek.board.model.dao;
 
 
 import com.dogpamines.dogseek.board.model.dto.*;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -49,4 +50,6 @@ public interface BoardMapper {
     List<BoardReportDTO> selectCommentReportByCommentCode(int commentCode);
 
     void updateBoard(BoardChatDTO board);
+
+    void deleteBoard(int postCode);
 }
