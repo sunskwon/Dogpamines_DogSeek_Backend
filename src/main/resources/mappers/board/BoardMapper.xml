@@ -14,6 +14,15 @@
         <result property="userNick" column="USER_NICK"/>
     </resultMap>
 
+    <resultMap id="newPostResultMap" type="com.dogpamines.dogseek.board.model.dto.BoardChatDTO">
+        <id property="postCode" column="POST_CODE"/>
+        <result property="postContext" column="POST_CONTEXT"/>
+        <result property="postDate" column="POST_DATE"/>
+        <result property="postCategory" column="POST_CATEGORY"/>
+        <result property="postStatus" column="POST_STATUS"/>
+        <result property="userCode" column="USER_CODE"/>
+    </resultMap>
+
     <resultMap id="commentResultMap" type="com.dogpamines.dogseek.board.model.dto.CommentDTO">
         <id property="commentCode" column="COMMENT_CODE"/>
         <result property="commentContext" column="COMMENT_CONTEXT"/>
@@ -95,28 +104,39 @@
         WHERE POST_CODE = #{ postCode }
     </select>
 
-    <insert id="newBoardPost" parameterType="com.dogpamines.dogseek.board.model.dto.BoardDTO">
+    <insert id="newBoardPost" parameterType="com.dogpamines.dogseek.board.model.dto.BoardChatDTO">
         INSERT INTO POST
         (
         POST_CODE
-        , POST_TITLE
         , POST_CONTEXT
         , POST_DATE
         , POST_CATEGORY
         , POST_STATUS
         , USER_CODE
-        , USER_NICK)
+        )
         VALUES(
         #{ postCode }
-        , #{ postTitle }
         , #{ postContext }
-        , #{ postDate }
+        , #{postDate, jdbcType=TIMESTAMP}
         , #{ postCategory }
         , #{ postStatus }
         , #{ userCode }
-        , #{ userNick })
+        )
     </insert>
 
+    <update id="updateBoard" parameterType="com.dogpamines.dogseek.board.model.dto.BoardChatDTO">
+        UPDATE POST
+        <set>
+            POST_CODE = #{ postCode }
+            <if test="postContext != ''">
+                , POST_CONTEXT = #{ postContext }
+            </if>
+            <if test="postStatus != ''">
+                , POST_STATUS = #{ postStatus }
+            </if>
+        </set>
+        WHERE POST_CODE = #{ postCode }
+    </update>
 
     <select id="selectAllNotices" resultMap="boardResultMap">
         SELECT
