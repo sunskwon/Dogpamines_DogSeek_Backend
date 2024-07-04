@@ -16,7 +16,7 @@ public class AnimalRegistService {
 
     public String getAnimalInfo (String dogRegNo, String rfidCd, String ownerNm, String ownerBirth) throws IOException {
 
-        final String key = "cWQLIXqRtljq7xBRrn2LYC5eOfV3jhvQ%2BtZpUe5hXov%2B8TQcHIB7CoQIpcvo5mG5i9kL6wrWOJO5DMT8KsILKg%3D%3D"; //보안을 위하여 yml로 이동 필요
+        final String key = " "; //보안을 위하여 yml로 이동 필요
         /*String dogRegNo = "410000001513331";
         String rfidCd = "";
         String ownerNm = "홍길동";
