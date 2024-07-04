@@ -132,13 +132,13 @@
                 </if>
                 <if test="prodSize != null and prodSize != ''">
                     <choose>
-                        <when test="prodSize lt 8">
+                        <when test="prodSize == 8">
                             AND PROD_SIZE &lt; 8
                         </when>
-                        <when test="prodSize lte 8 and prodSize gte 13">
+                        <when test="prodSize == 10">
                             AND PROD_SIZE BETWEEN 8 AND 13
                         </when>
-                        <when test="prodSize gt 13">
+                        <when test="prodSize == 13">
                             AND PROD_SIZE &gt; 13
                         </when>
                     </choose>
