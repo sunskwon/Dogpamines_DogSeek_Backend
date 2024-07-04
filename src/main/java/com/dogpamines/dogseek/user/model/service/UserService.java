@@ -7,6 +7,7 @@ import com.dogpamines.dogseek.curation.model.dto.CurationDTO;
 import com.dogpamines.dogseek.user.model.dao.UserMapper;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -76,8 +77,16 @@ public class UserService {
         System.out.println("result = " + result);
 
         // 회원가입 성공시 가입자 수 증가
-        SetOperations<String, String> countRegist = redisTemplate.opsForSet();
-        countRegist.add(REGIST_KEY, String.valueOf(user.getUserId()));
+        try {
+
+            SetOperations<String, String> countRegist = redisTemplate.opsForSet();
+
+            countRegist.add(REGIST_KEY, String.valueOf(user.getUserId()));
+        } catch (RedisConnectionFailureException e) {
+            System.out.println("redis와 연결되지 않음");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (result == 1) {
             return "회원 가입 성공";
@@ -96,20 +105,19 @@ public class UserService {
         List<String> dogs = curationMapper.findDogList(userCode);
         result.put("dogs", dogs);
 
-        List< BoardDTO> boardList = new ArrayList<>();
+        List<BoardDTO> boardList = new ArrayList<>();
 
         if (dogs.size() > 0) {
 
             for (String dog : dogs) {
 
-                result.put(dog ,curationMapper.selectDogByCodeByAdmin(dog));
+                result.put(dog, curationMapper.selectDogByCodeByAdmin(dog));
             }
 
         }
 
         if (boardList.size() > 0) {
 
-            
 
 //            if (boardList.size() > 0) {
 //
@@ -159,8 +167,16 @@ public class UserService {
     @Transactional
     public void updateLogin(int userCode) {
 
-        SetOperations<String, String> countVisit = redisTemplate.opsForSet();
-        countVisit.add(VISITANT_KEY, String.valueOf(userCode));
+        try {
+
+            SetOperations<String, String> countVisit = redisTemplate.opsForSet();
+
+            countVisit.add(VISITANT_KEY, String.valueOf(userCode));
+        } catch (RedisConnectionFailureException e) {
+            System.out.println("redis와 연결되지 않음");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         userMapper.updateLogin(userCode);
     }
