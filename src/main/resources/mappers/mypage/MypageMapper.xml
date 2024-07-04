@@ -132,4 +132,9 @@
         </if>
         </where>
     </select>
+
+    <select id="checkInfo" resultType="com.dogpamines.dogseek.user.model.dto.UserDTO">
+        SELECT USER_NICK
+        FROM USER
+    </select>
 </mapper>

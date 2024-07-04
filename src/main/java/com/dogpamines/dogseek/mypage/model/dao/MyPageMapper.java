@@ -24,4 +24,6 @@ public interface MyPageMapper {
     void deleteUser(String userAuth, int userCode);
 
     List<HistoryDTO> selectMyCurationResult(int curationCode);
+
+    List<UserDTO> checkInfo();
 }

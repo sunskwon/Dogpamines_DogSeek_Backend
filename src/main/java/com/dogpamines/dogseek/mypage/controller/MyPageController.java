@@ -133,6 +133,24 @@ public class MyPageController {
                 .build();
     }
 
+    /* 유저 닉네임 조회 */
+    @GetMapping("/mypage/check")
+    public ResponseEntity<Map<String, Object>> checkInfo() {
+
+        List<UserDTO> userDTOS = myPageService.checkInfo();
+
+        /* 응답 헤더 설정 */
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        /* 응답 데이터 설정 */
+        Map<String, Object> result = new HashMap<>();
+        result.put("users", userDTOS);
+
+        return new ResponseEntity<>(result,headers, HttpStatus.OK);
+    }
+
     /* 회원 탈퇴(휴면 변경) */
     @DeleteMapping("/mypage")
     public ResponseEntity<?> deleteUser(@RequestParam(value = "userCode", required = false, defaultValue = "2") int userCode) {

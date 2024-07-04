@@ -58,4 +58,9 @@ public class MyPageService {
 
         return myPageMapper.selectMyCurationResult(curationCode);
     }
+
+
+    public List<UserDTO> checkInfo() {
+        return myPageMapper.checkInfo();
+    }
 }
