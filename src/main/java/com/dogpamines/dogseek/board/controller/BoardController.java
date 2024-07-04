@@ -1,5 +1,6 @@
 package com.dogpamines.dogseek.board.controller;
 
+import com.dogpamines.dogseek.board.model.dto.BoardChatDTO;
 import com.dogpamines.dogseek.board.model.dto.BoardDTO;
 import com.dogpamines.dogseek.board.model.dto.CommentDTO;
 import com.dogpamines.dogseek.board.model.service.BoardService;
@@ -13,10 +14,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.nio.charset.Charset;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+
 
 @RestController
 public class BoardController {
@@ -57,7 +59,7 @@ public class BoardController {
 
     }
 
-    @PostMapping("/boards")
+/*    @PostMapping("/boards")
     public ResponseEntity<?> newBoardPost(@RequestBody BoardDTO board) {
 
         int newPostCode = boardService.getLastPostCode() + 1;
@@ -69,32 +71,43 @@ public class BoardController {
         return ResponseEntity
                 .created(URI.create("/boards/" + newPostCode))
                 .build();
+    } */
+    @PostMapping("/boards")
+    public ResponseEntity<?> newBoardPost(@RequestBody BoardChatDTO board) {
+        LocalDateTime postDate = LocalDateTime.now();
+        board.setPostDate(postDate);
+
+        int postCode = boardService.findLastPostCode() + 1;
+
+        board.setPostCode(postCode);
+
+        boardService.newBoardPost(board);
+
+        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/comments")
-    public ResponseEntity<Map<String, Object>> chatCommentAll() {
+    @PutMapping("/boards")
+    public ResponseEntity<?> updateBoard(@RequestBody BoardChatDTO board) {
 
-        HttpHeaders headers = new HttpHeaders();
+        boardService.updateBoard(board);
 
-        headers.setContentType(new MediaType("application", "JSON", Charset.forName("UTF-8")));
-
-        Map<String, Object> result = new HashMap<>();
-        result.put("comments", boardService.chatAllComment());
-      
-          return new ResponseEntity<>(result, headers, HttpStatus.OK);
+        return ResponseEntity
+                .created(URI.create("/boards/" + board.getPostCode()))
+                .build();
     }
 
-    @GetMapping("/notice")
-    public ResponseEntity<Map<String, Object>> selectAllNotices() {
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        @GetMapping("/notice")
+        public ResponseEntity<Map<String, Object>> selectAllNotices() {
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("notice", boardService.selectAllNotices());
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
-        return new ResponseEntity<>(result, headers, HttpStatus.OK);
-    }
+            Map<String, Object> result = new HashMap<>();
+            result.put("notice", boardService.selectAllNotices());
+
+            return new ResponseEntity<>(result, headers, HttpStatus.OK);
+        }
 
     @GetMapping("/notice/search")
     public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("type") String type, @RequestParam("input") String input) {

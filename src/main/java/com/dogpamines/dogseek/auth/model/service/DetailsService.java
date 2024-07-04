@@ -33,7 +33,11 @@ public class DetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("해당하는 회원 정보가 존재하지 않습니다.");
         }
 
-        userService.updateLogin(login.getUserCode());
+        String userAuth = String.valueOf(login.getUserAuth());
+
+        if (Objects.equals(userAuth, "USER") || Objects.equals(userAuth, "ADMIN")) {
+            userService.updateLogin(login.getUserCode());
+        }
 
         return new DetailsUser(login);
     }

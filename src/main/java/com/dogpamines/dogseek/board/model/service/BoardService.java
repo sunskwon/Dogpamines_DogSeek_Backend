@@ -1,10 +1,7 @@
 package com.dogpamines.dogseek.board.model.service;
 
 import com.dogpamines.dogseek.board.model.dao.BoardMapper;
-import com.dogpamines.dogseek.board.model.dto.BoardDTO;
-import com.dogpamines.dogseek.board.model.dto.ChatBoardDTO;
-import com.dogpamines.dogseek.board.model.dto.CommentDTO;
-import com.dogpamines.dogseek.board.model.dto.BoardReportDTO;
+import com.dogpamines.dogseek.board.model.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +32,7 @@ public class BoardService {
         return boardMapper.getLastPostCode();
     }
 
-    public void newBoardPost(BoardDTO board) {
+    public void newBoardPost(BoardChatDTO board) {
 
         boardMapper.newBoardPost(board);
     }
@@ -119,5 +116,10 @@ public class BoardService {
 
         return boardMapper.selectCommentReportByCommentCode(commentCode);
 
+    }
+
+    public void updateBoard(BoardChatDTO board) {
+
+         boardMapper.updateBoard(board);
     }
 }
