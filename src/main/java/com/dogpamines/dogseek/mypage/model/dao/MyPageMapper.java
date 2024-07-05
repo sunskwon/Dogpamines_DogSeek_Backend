@@ -2,6 +2,7 @@ package com.dogpamines.dogseek.mypage.model.dao;
 
 import com.dogpamines.dogseek.curation.model.dto.CurationDTO;
 import com.dogpamines.dogseek.curation.model.dto.HistoryDTO;
+import com.dogpamines.dogseek.products.model.dto.ProductsDTO;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -25,5 +26,9 @@ public interface MyPageMapper {
 
     List<HistoryDTO> selectMyCurationResult(int curationCode);
 
-    List<UserDTO> checkInfo();
+    boolean checkInfo(String type, String info);
+
+    List<Integer> findProdCodesByCurationCode(int curationCode);
+
+    List<ProductsDTO> findProductsByProdCodes(List<Integer> prodCodes);
 }

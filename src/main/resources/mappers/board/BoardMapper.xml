@@ -206,10 +206,13 @@
         JOIN USER B ON (A.USER_CODE = B.USER_CODE)
         WHERE POST_CATEGORY = '공지'
         <if test="type == 'postTitle'">
-            AND POST_TITLE LIKE CONCAT('%', #{ input }, '%')
+            AND A.POST_TITLE LIKE CONCAT('%', #{ input }, '%')
         </if>
         <if test="type == 'postContext'">
-            AND POST_CONTEXT LIKE CONCAT('%', #{ input }, '%')
+            AND A.POST_CONTEXT LIKE CONCAT('%', #{ input }, '%')
+        </if>
+        <if test="type == 'userNick'">
+            AND B.USER_NICK CONCAT('%', #{ input }, '%')
         </if>
         ORDER BY A.POST_DATE DESC, A.POST_CODE DESC
     </select>
@@ -262,7 +265,7 @@
             #{ postCode }
             , #{ postTitle }
             , #{ postContext }
-            , #{ postDate }
+            , NOW()
             , #{ postCategory }
             , #{ postStatus }
             , #{ userCode })
@@ -307,6 +310,8 @@
                 <if test="postStatus != ''">
                     , POST_STATUS = #{ postStatus }
                 </if>
+                , USER_CODE = #{ userCode }
+                , POST_DATE = NOW()
             </set>
         WHERE POST_CODE = #{ postCode }
     </update>
