@@ -54,7 +54,9 @@
         , B.USER_NICK
         FROM POST A
         LEFT JOIN USER B ON (A.USER_CODE = B.USER_CODE)
-        WHERE POST_CATEGORY IN ('공지', '자유')
+        WHERE A.POST_CATEGORY IN ('공지', '자유')
+        AND A.POST_STATUS = 'Y'
+        ORDER BY A.POST_DATE ASC
     </select>
 
     <select id="selectPost" resultMap="boardResultMap">
@@ -70,6 +72,7 @@
         FROM POST A
         LEFT JOIN USER B ON (A.USER_CODE = B.USER_CODE)
         WHERE POST_CODE = #{ postCode }
+
     </select>
 
     <select id="selectBoardByCodeByAdmin" parameterType="_int" resultMap="boardResultMap">
