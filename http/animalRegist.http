@@ -1,2 +1,0 @@
-### 동물 등록 번호 조회
-GET http://localhost:8080/animalRegist?dogRegNo=410000001513331&ownerNm=홍길동
