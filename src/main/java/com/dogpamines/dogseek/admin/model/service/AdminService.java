@@ -22,6 +22,7 @@ public class AdminService {
     private final String REGIST_KEY = "regist";
     private final String VISITANT_KEY = "visitant";
     private final String PRODUCT_VISIT = "product";
+    private final String BOARD_KEY = "board";
 
     @Autowired
     public AdminService(AdminMapper adminMapper, ProductsMapper productsMapper, RedisTemplate redisTemplate) {
@@ -41,12 +42,14 @@ public class AdminService {
         List<ProductsDTO> productList = productsMapper.selectAllProducts();
 
         int productsSum = 0;
+        int boardSum = 0;
 
         try {
 
-            ValueOperations<String, String> countView = redisTemplate.opsForValue();
             SetOperations<String, String> countVisit = redisTemplate.opsForSet();
             SetOperations<String, String> countRegist = redisTemplate.opsForSet();
+            ValueOperations<String, String> countView = redisTemplate.opsForValue();
+            ValueOperations<String, String> countBoard = redisTemplate.opsForValue();
 
             for (ProductsDTO product : productList) {
 
@@ -66,6 +69,13 @@ public class AdminService {
                 }
             }
 
+            Optional<String> tempBoard = Optional.ofNullable(countBoard.get(BOARD_KEY));
+
+            if (!tempBoard.isEmpty()) {
+
+                boardSum = Integer.parseInt(countBoard.get(BOARD_KEY));
+            }
+
             int countRegists = countsInDate.get(0).getCountsSignup();
             int tempRegists = Integer.parseInt(String.valueOf(countRegist.size(REGIST_KEY)));
             int updatedCountSignup = countRegists + tempRegists;
@@ -77,9 +87,13 @@ public class AdminService {
             int countProducts = countsInDate.get(0).getCountsProducts();
             int updatedCountProducts = countProducts + productsSum;
 
+            int countBoards = countsInDate.get(0).getCountsBoards();
+            int updatedCountBoards = countBoards + boardSum;
+
             countsInDate.get(0).setCountsSignup(updatedCountSignup);
             countsInDate.get(0).setCountsSignin(updatedCountSignin);
             countsInDate.get(0).setCountsProducts(updatedCountProducts);
+            countsInDate.get(0).setCountsBoards(updatedCountBoards);
         } catch (RedisConnectionFailureException e) {
             System.out.println("redis와 연결되지 않음");
         } catch (Exception e) {

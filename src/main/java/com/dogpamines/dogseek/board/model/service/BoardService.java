@@ -3,21 +3,28 @@ package com.dogpamines.dogseek.board.model.service;
 import com.dogpamines.dogseek.board.model.dao.BoardMapper;
 import com.dogpamines.dogseek.board.model.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.RedisConnectionFailureException;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class BoardService {
 
     private static BoardMapper boardMapper;
+    private final RedisTemplate redisTemplate;
+    private final String BOARD_KEY = "board";
 
     @Autowired
-    public BoardService(BoardMapper boardMapper) {
+    public BoardService(BoardMapper boardMapper, RedisTemplate redisTemplate) {
         this.boardMapper = boardMapper;
+        this.redisTemplate = redisTemplate;
     }
 
 
@@ -35,7 +42,36 @@ public class BoardService {
         return boardMapper.getLastPostCode();
     }
 
+    @Transactional
     public void newBoardPost(BoardChatDTO board) {
+
+        // 새 게시물 작성시 게시물 작성 수 +1
+
+        try {
+
+            ValueOperations<String, String> countBoard = redisTemplate.opsForValue();
+
+            Optional<String> tempVisit = Optional.ofNullable(countBoard.get(BOARD_KEY));
+
+            if (!tempVisit.isEmpty()) {
+
+                int count = Integer.parseInt(countBoard.get(BOARD_KEY));
+
+                String updatedCount = String.valueOf(count + 1);
+
+                countBoard.set(BOARD_KEY, updatedCount);
+            } else {
+
+                String firstBoard = String.valueOf(1);
+
+                countBoard.set(BOARD_KEY, firstBoard);
+            }
+
+        } catch (RedisConnectionFailureException e) {
+            System.out.println("redis와 연결되지 않음");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         boardMapper.newBoardPost(board);
     }
