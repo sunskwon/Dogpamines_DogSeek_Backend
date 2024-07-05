@@ -1,5 +1,6 @@
 package com.dogpamines.dogseek.user.model.service;
 
+import com.dogpamines.dogseek.board.model.dao.BoardMapper;
 import com.dogpamines.dogseek.board.model.dto.BoardDTO;
 import com.dogpamines.dogseek.common.UserRole;
 import com.dogpamines.dogseek.curation.model.dao.CurationMapper;
@@ -23,6 +24,7 @@ public class UserService {
 
     private final UserMapper userMapper;
     private final CurationMapper curationMapper;
+    private final BoardMapper boardMapper;
     private final RedisTemplate<String, String> redisTemplate;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -31,9 +33,10 @@ public class UserService {
     private final String VISITANT_KEY = "visitant";
 
     @Autowired
-    public UserService(UserMapper userMapper, CurationMapper curationMapper, RedisTemplate redisTemplate, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserService(UserMapper userMapper, CurationMapper curationMapper, BoardMapper boardMapper, RedisTemplate redisTemplate, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userMapper = userMapper;
         this.curationMapper = curationMapper;
+        this.boardMapper = boardMapper;
         this.redisTemplate = redisTemplate;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 
@@ -101,11 +104,10 @@ public class UserService {
         result.put("user", user);
 
         List<String> dogs = curationMapper.findDogList(userCode);
-        result.put("dogs", dogs);
-
-        List<BoardDTO> boardList = new ArrayList<>();
 
         if (dogs.size() > 0) {
+
+            result.put("dogs", dogs);
 
             for (String dog : dogs) {
 
@@ -114,22 +116,18 @@ public class UserService {
 
         }
 
+        List<BoardDTO> boardList = boardMapper.selectBoardByCodeByAdmin(userCode);
+
         if (boardList.size() > 0) {
 
+            result.put("boardList", boardList);
 
-//            if (boardList.size() > 0) {
-//
-//                result.put("boardList", boardList);
-//
-//                Map<String, String> commentCount = new HashMap<>();
-//
-//                for (BoardDTO board : boardList) {
-//
-//                    int postCode = board.getPostCode();
-//
-//                    commentCount.put(Integer.toString(postCode), Integer.toString(boardService.countCommentByPostCode(postCode)));
-//                }
+            for (BoardDTO board : boardList) {
 
+                int postCode = board.getPostCode();
+
+                result.put(String.valueOf(postCode), boardMapper.selectBoardReportsByPostCode(postCode));
+            }
         }
 
         return result;

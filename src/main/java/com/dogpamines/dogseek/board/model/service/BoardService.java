@@ -5,7 +5,9 @@ import com.dogpamines.dogseek.board.model.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BoardService {
@@ -57,9 +59,26 @@ public class BoardService {
         return boardMapper.selectAllNotices();
     }
 
-    public List<BoardDTO> selectAllBoards() {
+    public Map<String, Object> selectAllBoards() {
 
-        return boardMapper.selectAllBoards();
+        Map<String, Object> result = new HashMap<>();
+
+        List<BoardDTO> boardList = boardMapper.selectAllBoards();
+        result.put("boardList", boardList);
+
+        for (BoardDTO board : boardList) {
+
+            int postCode = board.getPostCode();
+
+            List<BoardReportDTO> reportList = boardMapper.selectBoardReportsByPostCode(postCode);
+
+            if (reportList.size() > 0) {
+
+                result.put(String.valueOf(postCode), reportList);
+            }
+        }
+
+        return result;
     }
 
     public List<CommentDTO> selectCommentsByPostCode(int postCode) {
@@ -77,9 +96,26 @@ public class BoardService {
         return boardMapper.searchNotice(type, input);
     }
 
-    public List<BoardDTO> searchBoard(String type, String input) {
+    public Map<String, Object> searchBoard(String type, String input) {
 
-        return boardMapper.searchBoard(type, input);
+        Map<String, Object> result = new HashMap<>();
+
+        List<BoardDTO> boardList = boardMapper.searchBoard(type, input);
+        result.put("boardList", boardList);
+
+        for (BoardDTO board : boardList) {
+
+            int postCode = board.getPostCode();
+
+            List<BoardReportDTO> reportList = boardMapper.selectBoardReportsByPostCode(postCode);
+
+            if (reportList.size() > 0) {
+
+                result.put(String.valueOf(postCode), reportList);
+            }
+        }
+
+        return result;
     }
 
     public String findPostStatus(int postCode) {

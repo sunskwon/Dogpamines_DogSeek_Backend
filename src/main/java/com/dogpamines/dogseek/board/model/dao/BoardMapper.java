@@ -1,11 +1,9 @@
 package com.dogpamines.dogseek.board.model.dao;
 
-
 import com.dogpamines.dogseek.board.model.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-
 
 @Mapper
 public interface BoardMapper {
