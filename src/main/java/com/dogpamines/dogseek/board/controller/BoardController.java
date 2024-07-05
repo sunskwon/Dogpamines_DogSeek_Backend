@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -59,19 +61,6 @@ public class BoardController {
 
     }
 
-    /*    @PostMapping("/boards")
-        public ResponseEntity<?> newBoardPost(@RequestBody BoardDTO board) {
-
-            int newPostCode = boardService.getLastPostCode() + 1;
-            board.setPostCode(newPostCode);
-
-            boardService.newBoardPost(board);
-            System.out.println("board" + board);
-
-            return ResponseEntity
-                    .created(URI.create("/boards/" + newPostCode))
-                    .build();
-        } */
     @PostMapping("/boards")
     public ResponseEntity<?> newBoardPost(@RequestBody BoardChatDTO board) {
         LocalDateTime postDate = LocalDateTime.now();
@@ -91,11 +80,25 @@ public class BoardController {
 
         boardService.updateBoard(board);
 
+        System.out.println("board = " + board);
+
         return ResponseEntity
                 .created(URI.create("/boards/" + board.getPostCode()))
                 .build();
     }
 
+    @DeleteMapping("/boards/{postCode}")
+    public ResponseEntity<?> deleteBoard(@PathVariable int postCode) {
+
+        System.out.println("postCode = " + postCode);
+
+        boardService.deleteBoard(postCode);
+
+        System.out.println("postCode = " + postCode);
+
+
+        return ResponseEntity.noContent().build();
+    }
 
     @GetMapping("/notice")
     public ResponseEntity<Map<String, Object>> selectAllNotices() {

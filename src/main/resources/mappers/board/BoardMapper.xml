@@ -72,18 +72,6 @@
         WHERE POST_CODE = #{ postCode }
     </select>
 
-    <select id="chatAllComment" resultMap="commentResultMap">
-        SELECT
-        COMMENT
-        ,   COMMENT_CODE
-        ,   COMMENT_CONTEXT
-        ,   COMMENT_DATE
-        ,   COMMENT_STATUS
-        ,   POST_CODE
-        ,   USER_CODE
-        FROM COMMENT
-  </select>
-
     <select id="selectBoardByCodeByAdmin" parameterType="_int" resultMap="boardResultMap">
         SELECT
         POST_CODE
@@ -137,6 +125,11 @@
         </set>
         WHERE POST_CODE = #{ postCode }
     </update>
+
+    <delete id="deleteBoard" parameterType="com.dogpamines.dogseek.board.model.dto.BoardChatDTO">
+        DELETE FROM POST
+        WHERE POST_CODE = #{ postCode }
+    </delete>
 
     <select id="selectAllNotices" resultMap="boardResultMap">
         SELECT

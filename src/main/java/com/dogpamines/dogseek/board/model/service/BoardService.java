@@ -4,6 +4,7 @@ import com.dogpamines.dogseek.board.model.dao.BoardMapper;
 import com.dogpamines.dogseek.board.model.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -157,5 +158,12 @@ public class BoardService {
     public void updateBoard(BoardChatDTO board) {
 
          boardMapper.updateBoard(board);
+    }
+
+
+    public void deleteBoard(int postCode) {
+
+        System.out.println("postCode = " + postCode);
+        boardMapper.deleteBoard(postCode);
     }
 }
