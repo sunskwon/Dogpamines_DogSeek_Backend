@@ -26,6 +26,7 @@ public class ScheduledService {
     private final String REGIST_KEY = "regist";
     private final String VISITANT_KEY = "visitant";
     private final String PRODUCT_VISIT = "product";
+    private final String BOARD_KEY = "board";
 
     public ScheduledService(RedisTemplate redisTemplate, ScheduledMapper scheduledMapper, ProductsMapper productsMapper) {
         this.redisTemplate = redisTemplate;
@@ -44,6 +45,7 @@ public class ScheduledService {
         int signupSum = 0;
         int signinSum = 0;
         int productsSum = 0;
+        int boardSum = 0;
         int prodCode = productsMapper.getLastProdCode();
 
         try {
@@ -51,6 +53,7 @@ public class ScheduledService {
             SetOperations<String, String> countRegist = redisTemplate.opsForSet();
             SetOperations<String, String> countVisit = redisTemplate.opsForSet();
             ValueOperations<String, String> countView = redisTemplate.opsForValue();
+            ValueOperations<String, String> countBoard = redisTemplate.opsForValue();
 
             for (int i = 1; i <= prodCode; i++) {
 
@@ -74,26 +77,37 @@ public class ScheduledService {
                 }
             }
 
+            Optional<String> tempBoard = Optional.ofNullable(countBoard.get(BOARD_KEY));
+
+            if (!tempBoard.isEmpty()) {
+
+                boardSum = Integer.parseInt(countBoard.get(BOARD_KEY));
+            }
+
             signupSum = Integer.parseInt(String.valueOf(countRegist.size(REGIST_KEY)));
             signinSum = Integer.parseInt(String.valueOf(countVisit.size("visitant")));
 
             redisTemplate.delete(REGIST_KEY);
             redisTemplate.delete(VISITANT_KEY);
+            redisTemplate.delete(BOARD_KEY);
         } catch (RedisConnectionFailureException e) {
             System.out.println("redis와 연결되지 않음");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+
         CountsDTO prevCounts = scheduledMapper.selectCounts(date);
 
         int signup = prevCounts.getCountsSignup();
         int signin = prevCounts.getCountsSignin();
         int products = prevCounts.getCountsProducts();
+        int board = prevCounts.getCountsBoards();
 
         prevCounts.setCountsSignup(signup + signupSum);
         prevCounts.setCountsSignin(signin + signinSum);
         prevCounts.setCountsProducts(products + productsSum);
+        prevCounts.setCountsBoards(board + boardSum);
 
         scheduledMapper.updateCounts(prevCounts);
         scheduledMapper.createNewRow();
@@ -108,6 +122,7 @@ public class ScheduledService {
         int signupSum = 0;
         int signinSum = 0;
         int productsSum = 0;
+        int boardSum = 0;
         int prodCode = productsMapper.getLastProdCode();
 
         try {
@@ -115,6 +130,7 @@ public class ScheduledService {
             SetOperations<String, String> countRegist = redisTemplate.opsForSet();
             SetOperations<String, String> countVisit = redisTemplate.opsForSet();
             ValueOperations<String, String> countView = redisTemplate.opsForValue();
+            ValueOperations<String, String> countBoard = redisTemplate.opsForValue();
 
             for (int i = 1; i <= prodCode; i++) {
 
@@ -138,11 +154,19 @@ public class ScheduledService {
                 }
             }
 
+            Optional<String> tempBoard = Optional.ofNullable(countBoard.get(BOARD_KEY));
+
+            if (!tempBoard.isEmpty()) {
+
+                boardSum = Integer.parseInt(countBoard.get(BOARD_KEY));
+            }
+
             signupSum = Integer.parseInt(String.valueOf(countRegist.size(REGIST_KEY)));
             signinSum = Integer.parseInt(String.valueOf(countVisit.size(VISITANT_KEY)));
 
             redisTemplate.delete(REGIST_KEY);
             redisTemplate.delete(VISITANT_KEY);
+            redisTemplate.delete(BOARD_KEY);
         } catch (RedisConnectionFailureException e) {
             System.out.println("redis와 연결되지 않음");
         } catch (Exception e) {
@@ -154,10 +178,12 @@ public class ScheduledService {
         int signup = prevCounts.getCountsSignup();
         int signin = prevCounts.getCountsSignin();
         int products = prevCounts.getCountsProducts();
+        int board = prevCounts.getCountsBoards();
 
         prevCounts.setCountsSignup(signup + signupSum);
         prevCounts.setCountsSignin(signin + signinSum);
         prevCounts.setCountsProducts(products + productsSum);
+        prevCounts.setCountsBoards(board + boardSum);
 
         scheduledMapper.updateCounts(prevCounts);
     }
