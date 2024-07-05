@@ -21,11 +21,11 @@ PUT http://localhost:8080/boards
 Content-Type: application/json
 
 {
-  "postCode": 14,
-  "postContext": "푸들푸들 토이 푸들입니다.",
+  "postCode": 17,
+  "postContext": "17",
   "postCategory": "자유",
-  "postStatus": "Y",
-  "userCode": 2
+  "postStatus": "N",
+  "userCode": 1
 }
 
 ### deleteBoard(삭제)
