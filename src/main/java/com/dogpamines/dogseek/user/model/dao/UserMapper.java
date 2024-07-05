@@ -4,7 +4,6 @@ import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-import java.util.Optional;
 
 @Mapper
 public interface UserMapper {
@@ -26,7 +25,7 @@ public interface UserMapper {
 
     void updateLogin(int userCode);
 
-    String findEmailByPhone(String phoneNumber);
+    UserDTO findEmailByPhone(String phoneNumber);
 
     void updateUserPwd(String id, String encodePwd);
 }
