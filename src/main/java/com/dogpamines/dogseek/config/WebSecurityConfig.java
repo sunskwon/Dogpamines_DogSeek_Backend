@@ -6,7 +6,9 @@ import com.dogpamines.dogseek.auth.handler.CustomAuthFailureHandler;
 import com.dogpamines.dogseek.auth.handler.CustomAuthSuccessHandler;
 import com.dogpamines.dogseek.auth.handler.CustomAuthenticationProvider;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,12 +27,20 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
+
+    private final SecurityConfig securityConfig;
+
+    public WebSecurityConfig(SecurityConfig securityConfig) {
+        this.securityConfig = securityConfig;
+    }
 
     /* 정적 자원에 대한 이증된 사용자의 접근을 설정하는 메소드 */
     @Bean
@@ -50,7 +60,7 @@ public class WebSecurityConfig {
 
         http.authorizeHttpRequests((auth) ->
                 auth
-//                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
+                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
                         .requestMatchers("/**").permitAll() // 메인 페이지 요청 허가
                         .anyRequest().authenticated() // 그 외 모든 요청 허가 (인증으로 변경 필요)
         );
@@ -84,9 +94,10 @@ public class WebSecurityConfig {
     }
 
 
+    @Bean
     /* 사용자 요청(request) 시 수행되는 메소드 */
-    private JwtAuthorizationFilter jwtAuthorizationFilter() {   // jwtAuthorizationFilter은 authenticationManager가 필요함
-        return new JwtAuthorizationFilter(authenticationManager());
+    public JwtAuthorizationFilter jwtAuthorizationFilter() {   // jwtAuthorizationFilter은 authenticationManager가 필요함
+        return new JwtAuthorizationFilter(authenticationManager(), securityConfig);
     }
 
     /* Authentication의 인증 메소드를 제공하는 매니저(= Provider의 인터페이스)를 반환하는 메소드 */

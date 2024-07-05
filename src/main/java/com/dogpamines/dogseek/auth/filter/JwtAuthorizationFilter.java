@@ -4,6 +4,7 @@ import com.dogpamines.dogseek.auth.model.DetailsUser;
 import com.dogpamines.dogseek.common.AuthConstants;
 import com.dogpamines.dogseek.common.UserRole;
 import com.dogpamines.dogseek.common.utils.TokenUtils;
+import com.dogpamines.dogseek.config.SecurityConfig;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -20,6 +21,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,10 +30,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+@Component
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-    public JwtAuthorizationFilter(AuthenticationManager authenticationManager) {
+    private final SecurityConfig securityConfig;
+
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, SecurityConfig securityConfig) {
         super(authenticationManager);
+        this.securityConfig = securityConfig;
     }
 
     @Override
@@ -40,8 +46,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         System.out.println("doFilterInternal...1");
 
         // 권한 없이 접근 허용 url List
-        List<String> roleLessList = Arrays.asList("/signup", "/redistest/count", "/user/check", "/products/search", "/products", "/products/comparison", "/lastProds",
-                                                    "/api/auth/send-verification-email", "/api/auth/verify-email", "/products/mostProducts", "/mycurationresult", "/animalRegist", "/dict", "/user/match/phone", "/user/find/email", "/boards", "/mypage", "/mypage/check");
+        List<String> roleLessList = securityConfig.getList();
+        List<String> adminList = Arrays.asList("/dashboard");
 
         if (roleLessList.contains(request.getRequestURI())) {
             chain.doFilter(request, response);
