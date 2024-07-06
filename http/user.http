@@ -16,9 +16,18 @@ Content-Type: application/json
 Accept: */*
 
 {
-  "userId": "user01@gmail.com",
-  "userPass": "qwer1233"
+  "userId": "user02@gmail.com",
+  "userPass": "qwer1234"
 }
+
+### 로그아웃
+POST http://localhost:8080/auth/logout
+Authorization: BEARER eyJkYXRlIjoxNzIwMjY3MTc4NTQ5LCJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiJEb2dwYW1pbmVzIHRva2VuIDogMiIsInVzZXJOaWNrIjoi6rCc6ruM7ZWY64KY65GQ6rCcIiwidXNlckF1dGgiOiJVU0VSIiwiZXhwIjoxNzIwMjcwNzc4LCJ1c2VyQ29kZSI6Mn0.3BFj_iCTuvYPsk_VQ1evngghwPBVlIluPXmJC61g_mc
+Refresh-Token: BEARER eyJkYXRlIjoxNzIwMjY3MTc4NTYyLCJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiJEb2dwYW1pbmVzIHJlZnJlc2ggdG9rZW4gOiAyIiwidXNlck5pY2siOiLqsJzqu4ztlZjrgpjrkZDqsJwiLCJ1c2VyQXV0aCI6IlVTRVIiLCJleHAiOjE3MjA4NzE5NzgsInVzZXJDb2RlIjoyfQ.g3vWti2S4J8NMAeVmbgpsipcke6IY0sl5RbireU3YMk
+
+### 토큰 재발급
+POST http://localhost:8080/auth/refresh
+Refresh-Token: BEARER eyJkYXRlIjoxNzIwMjY3OTQ3OTYwLCJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiJEb2dwYW1pbmVzIHJlZnJlc2ggdG9rZW4gOiAyIiwidXNlck5pY2siOiLqsJzqu4ztlZjrgpjrkZDqsJwiLCJ1c2VyQXV0aCI6IlVTRVIiLCJleHAiOjE3MjA4NzI3NDcsInVzZXJDb2RlIjoyfQ.SNZoMP-xHNSdgb1O31gHnUA3as5eFjfUFyBpJeNzNpY
 
 ### selectUserByCodeByAdmin
 GET http://localhost:8080/admin/users/1
