@@ -63,7 +63,7 @@ public class WebSecurityConfig {
 
                 corsConfiguration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
                 corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
-                corsConfiguration.setAllowCredentials(false);
+                corsConfiguration.setAllowCredentials(true);
                 corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
                 corsConfiguration.setMaxAge(3600L);
 
