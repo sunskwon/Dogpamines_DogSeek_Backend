@@ -57,16 +57,15 @@ public class AuthController {
         System.out.println("authToken = " + authToken);
         System.out.println("refreshToken = " + token);
         try {
-            // Parse userCode from refreshToken
+
             String userCode = TokenUtils.getClaimsFromToken(token).get("userCode").toString();
             System.out.println("userCode = " + userCode);
-            // Delete refresh token from service
+            
             refreshTokenService.deleteRefreshToken(userCode);
 
-            // Assuming successful logout, return 200 OK
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            // Handle any exceptions, return appropriate response
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

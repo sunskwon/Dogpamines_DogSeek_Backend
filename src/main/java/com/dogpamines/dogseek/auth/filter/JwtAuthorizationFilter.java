@@ -26,15 +26,9 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
-
-    private TokenUtils tokenUtils;
-
-    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, TokenUtils tokenUtils) {
-        super(authenticationManager);
-        this.tokenUtils = tokenUtils;
-    }
 
     public JwtAuthorizationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
@@ -42,6 +36,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+
+        System.out.println("doFilterInternal...1");
 
         // 권한 없이 접근 허용 url List
         List<String> roleLessList = Arrays.asList("/signup", "/redistest/count", "/user/check", "/products/search", "/products", "/products/comparison", "/lastProds", "/user/change/pwd", "/auth/refresh",
@@ -66,12 +62,15 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                     // 유저 정보 가져오기
                     DetailsUser authentication = new DetailsUser();
                     UserDTO user = new UserDTO();
+
                     user.setUserCode((Integer) claims.get("userCode"));
                     user.setUserNick(claims.get("userNick").toString());
                     user.setUserAuth(UserRole.valueOf(claims.get("userAuth").toString()));
                     authentication.setUser(user);
 
-                    AbstractAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(authentication, null, authentication.getAuthorities());
+                    AbstractAuthenticationToken authenticationToken
+                            = UsernamePasswordAuthenticationToken
+                            .authenticated(authentication, token, authentication.getAuthorities());
                     authenticationToken.setDetails(new WebAuthenticationDetails(request));
 
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
@@ -79,28 +78,48 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                     chain.doFilter(request, response);
 
                 } else {
-                    throw new JwtException("Invalid token.");
+                    System.out.println("Token이 유효하지 않다니까?");
                 }
             } else {
-                throw new JwtException("Missing token.");
+                System.out.println("token이 유효하지 않아");
+                /* 개발시에만 TOKEN 없어도 접근 허용 */
+//                chain.doFilter(request, response);
+//                return;
             }
-        } catch (JwtException e) {
-            handleJwtException(response, e);
+        } catch (Exception e) {
+            System.out.println("Token 검증 중 예외 발생: " + e.getMessage());
+            response.setContentType("application/json");
+            PrintWriter printWriter = response.getWriter();
+
+            JSONObject jsonObject = jsonResponseWrapper(e);
+
+            printWriter.print(jsonObject);
+            printWriter.flush();
+            printWriter.close();
         }
+
+        System.out.println("doFilterInternal...2");
     }
 
-    private void handleJwtException(HttpServletResponse response, JwtException e) throws IOException {
-        response.setContentType("application/json");
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+    private JSONObject jsonResponseWrapper(Exception e) {
 
-        JSONObject jsonResponse = new JSONObject();
-        jsonResponse.put("status", HttpServletResponse.SC_UNAUTHORIZED);
-        jsonResponse.put("message", "Unauthorized");
-        jsonResponse.put("reason", e.getMessage());
+        String resultMsg = "";
 
-        PrintWriter writer = response.getWriter();
-        writer.println(jsonResponse.toJSONString());
-        writer.flush();
-        writer.close();
+        if (e instanceof ExpiredJwtException) {
+            resultMsg = "Token Expired";
+        } else if (e instanceof SignatureException) {
+            resultMsg = "Token SignatureException";
+        } else if (e instanceof JwtException) {
+            resultMsg = "Token Parsing JwtException";
+        } else {
+            resultMsg = "other Token error";
+        }
+
+        HashMap<String, Object> jsonMap = new HashMap<>();
+        jsonMap.put("status", 401);
+        jsonMap.put("message", resultMsg);
+        jsonMap.put("reason", e.getMessage());
+
+        return new JSONObject(jsonMap);
     }
 }
