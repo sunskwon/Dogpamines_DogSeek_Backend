@@ -53,14 +53,12 @@ public class AuthController {
             @RequestHeader(name = "Refresh-Token") String refreshToken) {
 
         String token = TokenUtils.splitHeader(refreshToken);
-        System.out.println("여기ㅣ 로그아웃 오냐");
-        System.out.println("authToken = " + authToken);
-        System.out.println("refreshToken = " + token);
+
         try {
 
             String userCode = TokenUtils.getClaimsFromToken(token).get("userCode").toString();
             System.out.println("userCode = " + userCode);
-            
+
             refreshTokenService.deleteRefreshToken(userCode);
 
             return ResponseEntity.ok().build();
