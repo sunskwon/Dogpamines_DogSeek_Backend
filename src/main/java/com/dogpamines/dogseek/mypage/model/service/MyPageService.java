@@ -48,9 +48,7 @@ public class MyPageService {
 
     public void updateUser(UserDTO updateInfo) {
 
-        String encodePwd = bCryptPasswordEncoder.encode(updateInfo.getUserPass());
-
-        myPageMapper.updateUser(updateInfo, encodePwd);
+        myPageMapper.updateUser(updateInfo);
     }
 
     public String findUserAuth(int userCode) {
@@ -79,5 +77,12 @@ public class MyPageService {
 
     public List<ProductsDTO> selectProductsByProdCodes(List<Integer> prodCodes) {
         return myPageMapper.findProductsByProdCodes(prodCodes);
+    }
+
+    public void updateUserPwd(String id, String pwd) {
+
+        String encodePwd = bCryptPasswordEncoder.encode(pwd);
+
+        myPageMapper.updateUserPwd(id, encodePwd);
     }
 }
