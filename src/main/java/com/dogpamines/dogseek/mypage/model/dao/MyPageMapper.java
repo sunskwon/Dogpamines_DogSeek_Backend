@@ -18,11 +18,11 @@ public interface MyPageMapper {
 
     List<UserDTO> selectUserDetail(int userCode);
 
-    void updateUser(UserDTO updateInfo);
+    void updateUser(UserDTO updateInfo, String encodePwd);
     
     String findUserAuth(int userCode);
 
-    void deleteUser(String userAuth, int userCode);
+    void deleteUser(int userCode);
 
     List<HistoryDTO> selectMyCurationResult(int curationCode);
 

@@ -188,12 +188,10 @@ public class MyPageController {
 
 
     /* 회원 탈퇴(휴면 변경) */
-    @DeleteMapping("/mypage")
-    public ResponseEntity<?> deleteUser(@RequestParam(value = "userCode", required = false, defaultValue = "2") int userCode) {
+    @DeleteMapping("/mypage/{userCode}")
+    public ResponseEntity<?> deleteUser(@PathVariable int userCode) {
 
-        String userAuth = myPageService.findUserAuth(userCode);
-
-        myPageService.deleteUser(userAuth, userCode);
+        myPageService.deleteUser(userCode);
 
         return ResponseEntity.noContent().build();
     }

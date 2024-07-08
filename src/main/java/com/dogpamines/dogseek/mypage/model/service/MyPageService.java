@@ -6,6 +6,7 @@ import com.dogpamines.dogseek.mypage.model.dao.MyPageMapper;
 import com.dogpamines.dogseek.products.model.dto.ProductsDTO;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +18,12 @@ public class MyPageService {
 
     private MyPageMapper myPageMapper;
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Autowired
-    public MyPageService(MyPageMapper myPageMapper) {
+    public MyPageService(MyPageMapper myPageMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.myPageMapper = myPageMapper;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public List<CurationDTO> findAllCuration() {
@@ -44,7 +48,9 @@ public class MyPageService {
 
     public void updateUser(UserDTO updateInfo) {
 
-        myPageMapper.updateUser(updateInfo);
+        String encodePwd = bCryptPasswordEncoder.encode(updateInfo.getUserPass());
+
+        myPageMapper.updateUser(updateInfo, encodePwd);
     }
 
     public String findUserAuth(int userCode) {
@@ -52,9 +58,9 @@ public class MyPageService {
         return myPageMapper.findUserAuth(userCode);
     }
 
-    public void deleteUser(String userAuth, int userCode) {
+    public void deleteUser(int userCode) {
 
-        myPageMapper.deleteUser(userAuth, userCode);
+        myPageMapper.deleteUser(userCode);
     }
 
     public boolean checkInfo(String type, String info) {
