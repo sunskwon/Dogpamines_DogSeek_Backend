@@ -5,6 +5,7 @@ import com.dogpamines.dogseek.curation.model.dto.HistoryDTO;
 import com.dogpamines.dogseek.products.model.dto.ProductsDTO;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public interface MyPageMapper {
     
     String findUserAuth(int userCode);
 
-    void deleteUser(String userAuth, int userCode);
+    void deleteUser(int userCode);
 
     List<HistoryDTO> selectMyCurationResult(int curationCode);
 
@@ -31,4 +32,6 @@ public interface MyPageMapper {
     List<Integer> findProdCodesByCurationCode(int curationCode);
 
     List<ProductsDTO> findProductsByProdCodes(List<Integer> prodCodes);
+
+    void updateUserPwd(String id, String encodePwd);
 }

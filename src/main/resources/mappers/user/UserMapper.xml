@@ -147,4 +147,12 @@
            SET USER_PW = #{ encodePwd }
          WHERE USER_ID = #{ id }
     </update>
+
+    <select id="selectUserByCode" parameterType="_int" resultMap="login">
+        SELECT
+               USER_NICK
+             , USER_AUTH
+          FROM USER
+         WHERE USER_CODE = #{ userCode }
+    </select>
 </mapper>

@@ -38,12 +38,18 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         System.out.println("doFilterInternal...1");
+        String url = request.getRequestURI();
+
+//        System.out.println("url = " + url);
 
         // 권한 없이 접근 허용 url List
-        List<String> roleLessList = Arrays.asList("/signup", "/redistest/count", "/user/check", "/products/search", "/products", "/products/comparison", "/lastProds", "/user/change/pwd",
-                                                    "/api/auth/send-verification-email", "/api/auth/verify-email", "/products/mostProducts", "/mycurationresult", "/animalRegist", "/dict", "/user/match/phone", "/user/find/email", "/boards/**", "/boards", "/mypage", "/mypage/check", "/chat/**");
+        List<String> roleLessList = Arrays.asList("/signup", "/redistest/count", "/user/check", "/products/search", "/products", "/products/comparison", "/lastProds", "/user/change/pwd", "/auth/refresh",
+                "/api/auth/send-verification-email", "/api/auth/verify-email", "/products/mostProducts", "/mycurationresult", "/animalRegist", "/dict", "/user/match/phone", "/user/find/email", "/boards/**", "/boards", "/mypage", "/mypage/check", "/products/volume", "/curation");
 
         if (roleLessList.contains(request.getRequestURI())) {
+            chain.doFilter(request, response);
+            return;
+        } else if (url.contains("/products/") || url.contains("/dict/")) {
             chain.doFilter(request, response);
             return;
         }

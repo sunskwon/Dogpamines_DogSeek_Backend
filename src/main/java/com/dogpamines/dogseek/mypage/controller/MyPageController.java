@@ -186,15 +186,28 @@ public class MyPageController {
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
-
     /* 회원 탈퇴(휴면 변경) */
-    @DeleteMapping("/mypage")
-    public ResponseEntity<?> deleteUser(@RequestParam(value = "userCode", required = false, defaultValue = "2") int userCode) {
+    @DeleteMapping("/mypage/{userCode}")
+    public ResponseEntity<?> deleteUser(@PathVariable int userCode) {
 
-        String userAuth = myPageService.findUserAuth(userCode);
-
-        myPageService.deleteUser(userAuth, userCode);
+        myPageService.deleteUser(userCode);
 
         return ResponseEntity.noContent().build();
+    }
+
+    /* 비밀번호 수정 */
+    @PutMapping("/mypage/change/pwd")
+    public ResponseEntity<?> updateUserPwd(@RequestBody Map<String, String> requestBody) {
+
+        String id = requestBody.get("id");
+        String pwd = requestBody.get("pwd");
+
+        if (id == null || pwd == null) {
+            return ResponseEntity.badRequest().body("Invalid request payload");
+        }
+
+        myPageService.updateUserPwd(id, pwd);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

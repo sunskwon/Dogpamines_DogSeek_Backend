@@ -5,6 +5,7 @@ import com.dogpamines.dogseek.products.model.dto.ProductsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
@@ -33,9 +34,9 @@ public class ProductsService {
         try {
 
             String key = PRODUCT_VISIT + prodCode;
-            ValueOperations<String, String> countView = redisTemplate.opsForValue();
+            SetOperations<String, String> countView = redisTemplate.opsForSet();
 
-            int count = Integer.parseInt(countView.get(key));
+            int count = Integer.parseInt(String.valueOf(countView.size(key)));
             int prevVisit = product.getProdVisit();
             int updatedVisit = count + prevVisit;
 
@@ -59,13 +60,13 @@ public class ProductsService {
 
                 int prodCode = product.getProdCode();
                 String key = PRODUCT_VISIT + prodCode;
-                ValueOperations<String, String> countView = redisTemplate.opsForValue();
+                SetOperations<String, String> countView = redisTemplate.opsForSet();
 
-                Optional<String> tempVisit = Optional.ofNullable(countView.get(key));
+                Optional<String> tempVisit = Optional.ofNullable(String.valueOf(countView.size(key)));
 
                 if (!tempVisit.isEmpty()) {
 
-                    int count = Integer.parseInt(countView.get(key));
+                    int count = Integer.parseInt(String.valueOf(countView.size(key)));
                     int prevVisit = product.getProdVisit();
                     int updatedVisit = count + prevVisit;
 
@@ -111,5 +112,9 @@ public class ProductsService {
 
     public void deleteProduct(int prodCode) {
         productsMapper.deleteProduct(prodCode);
+    }
+
+    public List<ProductsDTO> findByName(String prodName) {
+        return productsMapper.findByName(prodName);
     }
 }

@@ -133,9 +133,7 @@
 
     <update id="deleteUser" parameterType="_int">
         UPDATE USER
-        <set>
-            USER_AUTH = 'SLEEP'
-        </set>
+        SET USER_AUTH = 'LEAVE'
         WHERE USER_CODE = #{userCode}
     </update>
 
@@ -184,7 +182,6 @@
         </foreach>
     </select>
 
-
     <select id="checkInfo" resultType="boolean">
         SELECT COUNT(*)
         FROM USER
@@ -192,4 +189,10 @@
             WHERE USER_NICK = #{ info }
         </if>
     </select>
+
+    <update id="updateUserPwd" parameterType="string">
+        UPDATE USER
+        SET USER_PW = #{ encodePwd }
+        WHERE USER_ID = #{ id }
+    </update>
 </mapper>

@@ -21,7 +21,7 @@ Content-Type: application/json
 }
 
 ### 회원 탈퇴 (update 휴면처리)
-DELETE http://localhost:8080/mypage
+PUT http://localhost:8080/mypage/sleep
 
 ### 사용자별 강아지별 맞춤 추천 사료 페이지 이동
 GET http://localhost:8080/mycurationresult?curationCode=1
@@ -31,6 +31,16 @@ POST http://localhost:8080/mypage/check
 Content-Type: application/json
 
 {
-  "type": "nick",
-  "info": "빨리굽기"
+  "type": "pass",
+  "info": "qwer1234"
+}
+
+### updateUserPwd
+PUT http://localhost:8080/mypage/change/pwd
+Content-Type: application/json
+
+{
+  "id" : "user01@gmail.com",
+  "pwd" : "1212qwer"
+
 }
