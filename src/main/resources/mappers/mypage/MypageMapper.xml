@@ -133,9 +133,7 @@
 
     <update id="deleteUser" parameterType="_int">
         UPDATE USER
-        <set>
-            USER_AUTH = 'SLEEP'
-        </set>
+        SET USER_AUTH = 'SLEEP'
         WHERE USER_CODE = #{userCode}
     </update>
 
