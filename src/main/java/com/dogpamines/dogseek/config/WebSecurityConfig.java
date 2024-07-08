@@ -72,7 +72,7 @@ public class WebSecurityConfig {
                 corsConfiguration.setMaxAge(3600L);
 
                 // CORS에 "Location" 항목 추가
-                corsConfiguration.setExposedHeaders(Collections.singletonList("Location, Authorization, Refresh-Token"));
+                corsConfiguration.setExposedHeaders(Collections.singletonList("Location, Authorization, Refresh-Token, Identifier"));
 
                 UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 //                source.registerCorsConfiguration("/**", corsConfiguration);
