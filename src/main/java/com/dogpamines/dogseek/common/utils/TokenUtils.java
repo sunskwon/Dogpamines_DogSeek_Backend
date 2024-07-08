@@ -52,23 +52,6 @@ public class TokenUtils {
         }
     }
 
-    public static boolean isTokenExpired(String token) {
-        try {
-            Claims claims = getClaimsFromToken(token);
-            Date expiration = claims.getExpiration();
-            return expiration.before(new Date());
-        } catch (ExpiredJwtException e) {
-            return true; // 토큰이 만료된 경우
-        } catch (JwtException | NullPointerException e) {
-            e.printStackTrace();
-            return true; // 예외 발생 시도 토큰을 만료된 것으로 처리
-        }
-    }
-
-    public static String getRefreshTokenFromClaims(Claims claims) {
-        return (String) claims.get("refreshToken");
-    }
-
 
     public static Claims getClaimsFromToken(String token) {
         return Jwts.parser()
@@ -92,7 +75,7 @@ public class TokenUtils {
         Date expireTime = new Date(System.currentTimeMillis() + refreshTokenValidateTime);
         JwtBuilder builder = Jwts.builder()
                 .setHeader(createHeader())
-                .setClaims(createClaims(user))
+                .setClaims(createRefreshClaims(user))
                 .setSubject("Dogpamines refresh token : " + user.getUserCode())
                 .signWith(SignatureAlgorithm.HS256, createSignature())
                 .setExpiration(expireTime);
@@ -111,6 +94,13 @@ public class TokenUtils {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userCode", user.getUserCode());
         claims.put("userNick", user.getUserNick());
+        claims.put("userAuth", user.getUserAuth());
+        return claims;
+    }
+
+    private static Map<String, Object> createRefreshClaims(UserDTO user) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userCode", user.getUserCode());
         claims.put("userAuth", user.getUserAuth());
         return claims;
     }

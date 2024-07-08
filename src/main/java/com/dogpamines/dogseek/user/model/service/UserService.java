@@ -187,4 +187,9 @@ public class UserService {
 
         userMapper.updateUserPwd(id, encodePwd);
     }
+
+    public UserDTO selectUserByCode(int userCode) {
+
+        return userMapper.selectUserByCode(userCode);
+    }
 }

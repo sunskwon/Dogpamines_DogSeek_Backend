@@ -4,6 +4,7 @@ import com.dogpamines.dogseek.auth.model.service.RefreshTokenService;
 import com.dogpamines.dogseek.common.AuthConstants;
 import com.dogpamines.dogseek.common.utils.TokenUtils;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
+import com.dogpamines.dogseek.user.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,10 +21,12 @@ import java.util.Map;
 public class AuthController {
 
     private final RefreshTokenService refreshTokenService;
+    private UserService userService;
 
     @Autowired
-    public AuthController(RefreshTokenService refreshTokenService) {
+    public AuthController(RefreshTokenService refreshTokenService, UserService userService) {
         this.refreshTokenService = refreshTokenService;
+        this.userService = userService;
     }
 
 
@@ -33,13 +36,14 @@ public class AuthController {
         String userCode = TokenUtils.getClaimsFromToken(refreshToken).get("userCode").toString();
 
         if (TokenUtils.isValidToken(refreshToken) && refreshToken.equals(refreshTokenService.getRefreshToken(userCode))) {
-            UserDTO user = new UserDTO();
+            UserDTO user = userService.selectUserByCode(Integer.parseInt(userCode));
             user.setUserCode(Integer.parseInt(userCode));
+            System.out.println("user = " + user);
             String newAccessToken = TokenUtils.generateJwtToken(user);
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-            headers.set("Access-Control-Expose-Headers", AuthConstants.AUTH_HEADER);
+//            headers.set("Access-Control-Expose-Headers", AuthConstants.AUTH_HEADER);
             headers.set(AuthConstants.AUTH_HEADER, AuthConstants.TOKEN_TYPE + " " + newAccessToken);
 
             return new ResponseEntity<>(headers, HttpStatus.OK);

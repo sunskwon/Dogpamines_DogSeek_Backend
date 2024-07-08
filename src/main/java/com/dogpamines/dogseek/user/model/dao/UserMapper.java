@@ -28,4 +28,6 @@ public interface UserMapper {
     UserDTO findEmailByPhone(String phoneNumber);
 
     void updateUserPwd(String id, String encodePwd);
+
+    UserDTO selectUserByCode(int userCode);
 }
