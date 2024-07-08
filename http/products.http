@@ -14,6 +14,9 @@ GET http://localhost:8080/products/search?value=&prodRecom=&prodAge=&prodCook=&p
 ### productSearch(사료 검색)
 GET http://localhost:8080/products/prodsearch?type=prodName&input=청어
 
+###
+GET http://localhost:8080/products/volume?prodName=고 네이티브 스몰브리드 청어 1.5kg
+
 ### insertProduct(사료 입력)
 POST http://localhost:8080/products
 Content-Type: application/json
