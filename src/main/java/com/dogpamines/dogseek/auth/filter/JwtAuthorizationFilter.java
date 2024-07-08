@@ -49,7 +49,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         if (roleLessList.contains(request.getRequestURI())) {
             chain.doFilter(request, response);
             return;
-        } else if (url.contains("/products/") || url.contains("/dict/")) {
+        } else if (url.contains("/products/") || url.contains("/dict/") || url.contains("/chat/")) {
             chain.doFilter(request, response);
             return;
         }
