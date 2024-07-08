@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface MyPageMapper {
@@ -34,4 +35,6 @@ public interface MyPageMapper {
     List<ProductsDTO> findProductsByProdCodes(List<Integer> prodCodes);
 
     void updateUserPwd(String id, String encodePwd);
+
+    Optional<Object> findById(int userCode);
 }

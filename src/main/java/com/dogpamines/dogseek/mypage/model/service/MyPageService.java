@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -84,5 +85,14 @@ public class MyPageService {
         String encodePwd = bCryptPasswordEncoder.encode(pwd);
 
         myPageMapper.updateUserPwd(id, encodePwd);
+    }
+
+    public boolean verifyPassword(int userCode, String rawPassword) {
+        Optional<Object> userOpt = myPageMapper.findById(userCode);
+        if (userOpt.isEmpty()) {
+            return false;
+        }
+        UserDTO user = (UserDTO) userOpt.get();
+        return bCryptPasswordEncoder.matches(rawPassword, user.getUserPass());
     }
 }
