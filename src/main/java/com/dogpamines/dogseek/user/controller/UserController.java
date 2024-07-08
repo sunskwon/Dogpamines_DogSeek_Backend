@@ -150,4 +150,14 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @PutMapping("/user/release/sleep")
+    public ResponseEntity<?> updateSleep(@RequestBody Map<String, String> requestBody) {
+
+        String id = requestBody.get("id");
+
+        userService.updateSleep(id);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
 }

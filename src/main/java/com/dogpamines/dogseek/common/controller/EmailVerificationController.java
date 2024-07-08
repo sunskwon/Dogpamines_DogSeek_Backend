@@ -36,6 +36,7 @@ public class EmailVerificationController {
             case "signup" -> "회원가입 인증번호";
             case "findId" -> "아이디 찾기 인증번호";
             case "findPw" -> "비밀번호 찾기 인증번호";
+            case "sleep" -> "휴면계정 해제 인증번호";
             default -> "이메일 인증번호";
         };
 
