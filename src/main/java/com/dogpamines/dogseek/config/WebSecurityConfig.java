@@ -48,11 +48,12 @@ public class WebSecurityConfig {
                 .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(basic -> basic.disable());
 
+
         http.authorizeHttpRequests((auth) ->
-                auth
+                        auth
 //                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
-                        .requestMatchers("/**").permitAll() // 메인 페이지 요청 허가
-                        .anyRequest().authenticated() // 그 외 모든 요청 허가 (인증으로 변경 필요)
+                                .requestMatchers("/**").permitAll() // 메인 페이지 요청 허가
+                                .anyRequest().authenticated() // 그 외 모든 요청 허가 (인증으로 변경 필요)
         );
 
         http.cors((corsCustomizer -> corsCustomizer.configurationSource(new CorsConfigurationSource() {
