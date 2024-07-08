@@ -24,4 +24,6 @@ public interface ProductsMapper {
     void updateProduct(ProductsDTO product);
 
     void deleteProduct(int prodCode);
+
+    List<ProductsDTO> findByName(String prodName);
 }

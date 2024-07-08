@@ -171,6 +171,30 @@
         LIMIT 10
     </select>
 
+    <select id="findByName" resultMap="productsResultMap">
+        SELECT
+            PROD_CODE
+            , PROD_NAME
+            , PROD_MANUFAC
+            , PROD_PRICE
+            , PROD_AGE
+            , PROD_EFFI
+            , PROD_RECOM
+            , PROD_SITE
+            , PROD_COOK
+            , PROD_VOLUME
+            , PROD_GRADE
+            , PROD_INGRA
+            , PROD_SIZE
+            , PROD_DATE
+            , PROD_STATUS
+            , PROD_IMAGE
+            , PROD_VISIT
+        FROM PROD
+        WHERE PROD_NAME LIKE CONCAT('%',
+        REGEXP_REPLACE(#{prodName}, '\\s[0-9]+(\\.[0-9]+)?[a-zA-Z]*$', ''), '%')
+    </select>
+
     <select id="productSearch" parameterType="String" resultMap="productsResultMap">
         SELECT
         PROD_CODE

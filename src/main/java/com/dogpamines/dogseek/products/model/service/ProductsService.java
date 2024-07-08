@@ -112,4 +112,8 @@ public class ProductsService {
     public void deleteProduct(int prodCode) {
         productsMapper.deleteProduct(prodCode);
     }
+
+    public List<ProductsDTO> findByName(String prodName) {
+        return productsMapper.findByName(prodName);
+    }
 }

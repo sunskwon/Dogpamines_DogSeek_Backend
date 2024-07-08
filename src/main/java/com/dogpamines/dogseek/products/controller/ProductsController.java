@@ -57,6 +57,19 @@ public class ProductsController {
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
+    @GetMapping("/products/volume")
+    public ResponseEntity<Map<String, Object>> findByName(@RequestParam String prodName) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "JSON", Charset.forName("UTF-8")));
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("product", productsService.findByName(prodName));
+
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
+
+
     @GetMapping("/products/comparison")
     public ResponseEntity<Map<String, Object>> comparisonProducts(@RequestParam int prodCode1, int prodCode2) {
 
