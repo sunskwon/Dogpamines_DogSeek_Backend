@@ -43,6 +43,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         List<String> roleLessList = Arrays.asList("/signup", "/redistest/count", "/user/check", "/products/search", "/products", "/products/comparison", "/lastProds", "/user/change/pwd", "/auth/refresh",
                 "/api/auth/send-verification-email", "/api/auth/verify-email", "/products/mostProducts", "/mycurationresult", "/animalRegist", "/dict", "/user/match/phone", "/user/find/email", "/boards/**", "/boards", "/mypage", "/mypage/check", "/products/volume", "/curation");
 
+
         if (roleLessList.contains(request.getRequestURI())) {
             chain.doFilter(request, response);
             return;

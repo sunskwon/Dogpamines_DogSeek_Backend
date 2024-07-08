@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Component
 @EnableScheduling
@@ -52,26 +53,26 @@ public class ScheduledService {
 
             SetOperations<String, String> countRegist = redisTemplate.opsForSet();
             SetOperations<String, String> countVisit = redisTemplate.opsForSet();
-            ValueOperations<String, String> countView = redisTemplate.opsForValue();
+            SetOperations<String, String> countView = redisTemplate.opsForSet();
             ValueOperations<String, String> countBoard = redisTemplate.opsForValue();
 
             for (int i = 1; i <= prodCode; i++) {
 
                 String key = PRODUCT_VISIT + i;
-                Optional<String> tempVisit = Optional.ofNullable(countView.get(key));
+                Optional<String> tempVisit = Optional.ofNullable(String.valueOf(countView.size(key)));
 
                 if (!tempVisit.isEmpty()) {
 
                     ProductsDTO product = productsMapper.selectFindByCode(i);
 
                     int visit = product.getProdVisit();
-                    int updatedVisit = visit + Integer.parseInt(countView.get(key));
+                    int updatedVisit = visit + Integer.parseInt(String.valueOf(countView.size(key)));
 
                     product.setProdVisit(updatedVisit);
 
                     productsMapper.updateProduct(product);
 
-                    productsSum += Integer.parseInt(countView.get(key));
+                    productsSum += Integer.parseInt(String.valueOf(countView.size(key)));
 
                     redisTemplate.delete(key);
                 }
@@ -129,26 +130,26 @@ public class ScheduledService {
 
             SetOperations<String, String> countRegist = redisTemplate.opsForSet();
             SetOperations<String, String> countVisit = redisTemplate.opsForSet();
-            ValueOperations<String, String> countView = redisTemplate.opsForValue();
+            SetOperations<String, String> countView = redisTemplate.opsForSet();
             ValueOperations<String, String> countBoard = redisTemplate.opsForValue();
 
             for (int i = 1; i <= prodCode; i++) {
 
                 String key = PRODUCT_VISIT + i;
-                Optional<String> tempVisit = Optional.ofNullable(countView.get(key));
+                Optional<String> tempVisit = Optional.ofNullable(String.valueOf(countView.size(key)));
 
                 if (!tempVisit.isEmpty()) {
 
                     ProductsDTO product = productsMapper.selectFindByCode(i);
 
                     int visit = product.getProdVisit();
-                    int updatedVisit = visit + Integer.parseInt(countView.get(key));
+                    int updatedVisit = visit + Integer.parseInt(String.valueOf(countView.size(key)));
 
                     product.setProdVisit(updatedVisit);
 
                     productsMapper.updateProduct(product);
 
-                    productsSum += Integer.parseInt(countView.get(key));
+                    productsSum += Integer.parseInt(String.valueOf(countView.size(key)));
 
                     redisTemplate.delete(key);
                 }

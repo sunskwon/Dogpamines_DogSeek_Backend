@@ -48,7 +48,7 @@ public class AdminService {
 
             SetOperations<String, String> countVisit = redisTemplate.opsForSet();
             SetOperations<String, String> countRegist = redisTemplate.opsForSet();
-            ValueOperations<String, String> countView = redisTemplate.opsForValue();
+            SetOperations<String, String> countView = redisTemplate.opsForSet();
             ValueOperations<String, String> countBoard = redisTemplate.opsForValue();
 
             for (ProductsDTO product : productList) {
@@ -57,12 +57,12 @@ public class AdminService {
 
                 String key = PRODUCT_VISIT + prodCode;
 
-                Optional<String> tempView = Optional.ofNullable(countView.get(key));
+                Optional<String> tempView = Optional.ofNullable(String.valueOf(countView.size(key)));
 
                 if (!tempView.isEmpty()) {
 
                     int prodView = product.getProdVisit();
-                    int redisView = Integer.parseInt(countView.get(key));
+                    int redisView = Integer.parseInt(String.valueOf(countView.size(key)));
 
                     product.setProdVisit(prodView + redisView);
                     productsSum += redisView;
