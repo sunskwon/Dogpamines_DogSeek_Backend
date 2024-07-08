@@ -14,6 +14,7 @@ import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 public class ProductsController {
@@ -41,19 +42,40 @@ public class ProductsController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
+
     @GetMapping("/products/{prodCode}")
-    public ResponseEntity<Map<String, Object>> selectFindByCode(@PathVariable int prodCode) {
-        
+    public ResponseEntity<Map<String, Object>> selectFindByCode(@PathVariable int prodCode, @RequestHeader Map<String, String> req) {
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "JSON", Charset.forName("UTF-8")));
 
+        String identifier = "";
+
+        try {
+
+            System.out.println(req.get("identifier"));
+
+            if (req.get("identifier") == "") {
+
+                String uuidString = UUID.randomUUID().toString();
+                headers.set("Identifier", uuidString);
+                identifier = uuidString;
+            } else {
+
+                identifier = req.get("identifier");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // 상세 정보 호출시 redis에 조회수 추가
         String key = PRODUCTS_KEY + prodCode;
-        redisService.addViewCount(key);
+
+        redisService.addCount(key, identifier);
 
         Map<String, Object> result = new HashMap<>();
         result.put("product", productsService.selectFindByCode(prodCode));
-          
+
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
@@ -65,7 +87,7 @@ public class ProductsController {
         headers.setContentType(new MediaType("application", "JSON", Charset.forName("UTF-8")));
 
         Map<String, Object> result = new HashMap<>();
-        result.put("products", productsService.productsComparison(prodCode1,prodCode2));
+        result.put("products", productsService.productsComparison(prodCode1, prodCode2));
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }

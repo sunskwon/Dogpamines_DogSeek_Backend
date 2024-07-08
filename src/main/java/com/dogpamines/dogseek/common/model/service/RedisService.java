@@ -17,27 +17,29 @@ public class RedisService {
         this.redisTemplate = redisTemplate;
     }
 
-    public void addViewCount(String key) {
+    public void addCount(String key, String identifier) {
 
         try {
 
-            ValueOperations<String, String> countView = redisTemplate.opsForValue();
+            SetOperations<String, String> countView = redisTemplate.opsForSet();
 
-            Optional<String> tempVisit = Optional.ofNullable(countView.get(key));
+            countView.add(key, identifier);
 
-            if (!tempVisit.isEmpty()) {
-
-                int count = Integer.parseInt(countView.get(key));
-
-                String updatedCount = String.valueOf(count + 1);
-
-                countView.set(key, updatedCount);
-            } else {
-
-                String firstVisit = String.valueOf(1);
-
-                countView.set(key, firstVisit);
-            }
+//            Optional<String> tempVisit = Optional.ofNullable(countView.get(key));
+//
+//            if (!tempVisit.isEmpty()) {
+//
+//                int count = Integer.parseInt(countView.get(key));
+//
+//                String updatedCount = String.valueOf(count + 1);
+//
+//                countView.set(key, updatedCount);
+//            } else {
+//
+//                String firstVisit = String.valueOf(1);
+//
+//                countView.set(key, firstVisit);
+//            }
         } catch (RedisConnectionFailureException e) {
             System.out.println("redis와 연결되지 않음");
         } catch (Exception e) {
