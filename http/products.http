@@ -3,7 +3,7 @@
 GET http://localhost:8080/products
 
 ### selectProductsByNo(사료 상세 조회)
-GET http://localhost:8080/products/3
+GET http://localhost:8080/products/30
 
 ### comparisonProducts(사료 비교)
 GET http://localhost:8080/products/comparison?prodCode1=2&prodCode2=30
@@ -14,7 +14,10 @@ GET http://localhost:8080/products/search?value=&prodRecom=&prodAge=&prodCook=&p
 ### productSearch(사료 검색)
 GET http://localhost:8080/products/prodsearch?type=prodName&input=청어
 
-###
+### mostProducts
+GET http://localhost:8080/products/mostProducts
+
+### volumeProducts
 GET http://localhost:8080/products/volume?prodName=고 네이티브 스몰브리드 청어 1.5kg
 
 ### insertProduct(사료 입력)

@@ -167,8 +167,6 @@
             , PROD_IMAGE
             , PROD_VISIT
         FROM PROD
-        ORDER BY PROD_VISIT DESC
-        LIMIT 10
     </select>
 
     <select id="findByName" resultMap="productsResultMap">
