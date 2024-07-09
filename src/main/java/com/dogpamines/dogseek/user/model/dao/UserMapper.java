@@ -30,4 +30,6 @@ public interface UserMapper {
     void updateUserPwd(String id, String encodePwd);
 
     UserDTO selectUserByCode(int userCode);
+
+    void updateSleep(String id);
 }

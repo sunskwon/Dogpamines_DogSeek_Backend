@@ -155,4 +155,10 @@
           FROM USER
          WHERE USER_CODE = #{ userCode }
     </select>
+
+    <update id="updateSleep" parameterType="string">
+        UPDATE USER
+           SET USER_AUTH = 'USER'
+         WHERE USER_ID = #{ id }
+    </update>
 </mapper>

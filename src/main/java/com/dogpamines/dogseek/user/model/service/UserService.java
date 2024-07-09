@@ -192,4 +192,9 @@ public class UserService {
 
         return userMapper.selectUserByCode(userCode);
     }
+
+    public void updateSleep(String id) {
+
+        userMapper.updateSleep(id);
+    }
 }
