@@ -42,6 +42,11 @@ public class UserService {
 
     }
 
+    public void updateRefreshToken(String refreshToken, String userId) {
+
+        userMapper.updateRefreshToken(refreshToken, userId);
+    }
+
     public UserDTO findByUsername(String username) {
 
         UserDTO login = userMapper.findByUsername(username);
@@ -196,5 +201,10 @@ public class UserService {
     public void updateSleep(String id) {
 
         userMapper.updateSleep(id);
+    }
+
+    public boolean selectRefreshToken(String refreshToken) {
+
+       return userMapper.selectRefreshToken(refreshToken);
     }
 }

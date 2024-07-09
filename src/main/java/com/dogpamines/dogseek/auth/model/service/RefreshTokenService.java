@@ -26,7 +26,6 @@ public class RefreshTokenService {
     }
 
     public void deleteRefreshToken(String userCode) {
-        System.out.println("오니?");
         redisTemplate.delete(userCode);
     }
 }
