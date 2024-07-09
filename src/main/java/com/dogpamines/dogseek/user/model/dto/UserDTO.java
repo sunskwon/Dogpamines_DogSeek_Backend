@@ -36,10 +36,11 @@ public class UserDTO {
     private String userSignup;
     private String userLatest;
     private UserRole userAuth;
+    private String userLeave;
 
     public UserDTO(){}
 
-    public UserDTO(int userCode, String userPlatform, String userId, String userPass, String userNick, String userPhone, String userSignup, String userLatest, UserRole userAuth) {
+    public UserDTO(int userCode, String userPlatform, String userId, String userPass, String userNick, String userPhone, String userSignup, String userLatest, UserRole userAuth, String userLeave) {
         this.userCode = userCode;
         this.userPlatform = userPlatform;
         this.userId = userId;
@@ -49,6 +50,7 @@ public class UserDTO {
         this.userSignup = userSignup;
         this.userLatest = userLatest;
         this.userAuth = userAuth;
+        this.userLeave = userLeave;
     }
 
     public List<String> getRole() {
@@ -130,6 +132,14 @@ public class UserDTO {
         this.userPhone = userPhone;
     }
 
+    public String getUserLeave() {
+        return userLeave;
+    }
+
+    public void setUserLeave(String userLeave) {
+        this.userLeave = userLeave;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -139,9 +149,10 @@ public class UserDTO {
                 ", userPass='" + userPass + '\'' +
                 ", userNick='" + userNick + '\'' +
                 ", userPhone='" + userPhone + '\'' +
-                ", userSignup=" + userSignup +
-                ", userLatest=" + userLatest +
+                ", userSignup='" + userSignup + '\'' +
+                ", userLatest='" + userLatest + '\'' +
                 ", userAuth=" + userAuth +
+                ", userLeave='" + userLeave + '\'' +
                 '}';
     }
 }

@@ -14,6 +14,7 @@
         <result property="userSignup" column="USER_SIGNUP"/>
         <result property="userLatest" column="USER_LATEST"/>
         <result property="userAuth" column="USER_AUTH"/>
+        <result property="userLeave" column="USER_LEAVE"/>
     </resultMap>
 
     <select id="findByUsername" resultMap="login">
@@ -54,6 +55,7 @@
             , USER_SIGNUP
             , USER_LATEST
             , USER_AUTH
+            , USER_LEAVE
         FROM USER
         WHERE USER_CODE = #{userCode}
     </select>
@@ -67,6 +69,7 @@
             , USER_SIGNUP
             , USER_LATEST
             , USER_AUTH
+            , USER_LEAVE
         FROM USER
         <if test="type == 'userNick'">
             WHERE USER_NICK LIKE CONCAT('%', #{ input }, '%')
@@ -79,6 +82,9 @@
         </if>
         <if test="type == 'sleep'">
             WHERE USER_AUTH = 'SLEEP'
+        </if>
+        <if test="type == 'leave'">
+            WHERE USER_AUTH = 'LEAVE'
         </if>
         ORDER BY USER_CODE
     </select>

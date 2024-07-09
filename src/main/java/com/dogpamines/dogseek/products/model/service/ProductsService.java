@@ -6,12 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
-import java.net.ConnectException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -90,8 +87,44 @@ public class ProductsService {
         return productsMapper.searchProducts(value, prodRecom, prodAge, prodCook, prodSize, prodEffi, prodPrice);
     }
 
-    public List<ProductsDTO> mostProducts() {
-        return productsMapper.mostProducts();
+    public Map<String, Object> mostProducts() {
+
+        List<ProductsDTO> productList = productsMapper.mostProducts();
+
+        int productsSum = 0;
+
+        try {
+            SetOperations<String, String> countView = redisTemplate.opsForSet();
+
+            for (ProductsDTO product : productList) {
+
+                int prodCode = product.getProdCode();
+
+                String key = PRODUCT_VISIT + prodCode;
+
+                Optional<String> tempView = Optional.ofNullable(String.valueOf(countView.size(key)));
+
+                if (!tempView.isEmpty()) {
+
+                    int prodView = product.getProdVisit();
+                    int redisView = Integer.parseInt(String.valueOf(countView.size(key)));
+
+                    product.setProdVisit(prodView + redisView);
+                    productsSum += redisView;
+                }
+            }
+        } catch (RedisConnectionFailureException e) {
+            System.out.println("redis와 연결되지 않음");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Collections.sort(productList);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("Popular", productList);
+
+        return result;
     }
 
     public List<ProductsDTO> productSearch(String type, String input) {
