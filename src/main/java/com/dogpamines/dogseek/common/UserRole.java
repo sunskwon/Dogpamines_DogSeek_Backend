@@ -2,7 +2,7 @@ package com.dogpamines.dogseek.common;
 
 public enum UserRole {
 
-    SLEEP("SLEEP"), USER("USER"), ADMIN("ADMIN"), ALL("SLEEP, USER, ADMIN");
+    SLEEP("SLEEP"), USER("USER"), ADMIN("ADMIN"), LEAVE("LEAVE"), ALL("SLEEP, USER, ADMIN, LEAVE");
 
     private String role;
 
