@@ -210,4 +210,21 @@ public class MyPageController {
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    /* 비밀번호 일치 여부 조회 */
+    @PostMapping("/mypage/verifyPassword")
+    public ResponseEntity<Map<String, Object>> verifyPassword(@RequestBody Map<String, String> request) {
+        int userCode = Integer.parseInt(request.get("userCode"));
+        String password = request.get("password");
+
+        boolean isValid = myPageService.verifyPassword(userCode, password);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("valid", isValid);
+
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
 }

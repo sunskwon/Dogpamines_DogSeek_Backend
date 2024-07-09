@@ -195,4 +195,11 @@
         SET USER_PW = #{ encodePwd }
         WHERE USER_ID = #{ id }
     </update>
+
+    <select id="findById" resultMap="userResultMap">
+        SELECT *
+        FROM USER
+        WHERE USER_CODE = #{ userCode }
+    </select>
+
 </mapper>
