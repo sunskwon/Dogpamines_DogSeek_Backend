@@ -7,12 +7,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SendToUser;
+import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -23,9 +24,12 @@ import java.util.Map;
 public class ChatController {
 
     private final ChatService chatService;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
-    public ChatController(ChatService chatService) {
+    @Autowired
+    public ChatController(ChatService chatService, SimpMessagingTemplate simpMessagingTemplate) {
         this.chatService = chatService;
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
     @GetMapping("/chat/prev")
@@ -40,6 +44,18 @@ public class ChatController {
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
+    @GetMapping("/chat/check")
+    public ResponseEntity<Map<String, Object>> callCheckList() {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("check", chatService.callCheckList());
+
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
+
     @MessageMapping("/chat.sendMessage")
     @SendTo("/topic/public")
     public ChatMessageDTO sendMessage(ChatMessageDTO chatMessage) {
@@ -49,11 +65,29 @@ public class ChatController {
         return chatMessage;
     }
 
-    @MessageMapping("/chat.addUser")
-    @SendTo("/topic/public")
-    public ChatMessageDTO addUser(ChatMessageDTO chatMessageDTO, SimpMessageHeaderAccessor headerAccessor) {
+    @MessageMapping("/chat.sendMessage/room/{userCode}")
+    @SendTo("/topic/room/{userCode}")
+    public ChatMessageDTO sendPrivateMessage(@DestinationVariable int userCode, ChatMessageDTO chatMessage) {
 
-        headerAccessor.getSessionAttributes().put("username", chatMessageDTO.getUserNick());
-        return chatMessageDTO;
+        int code = userCode;
+
+        chatService.savePrivateMessage(code, chatMessage);
+
+        return chatMessage;
+    }
+
+    @PostMapping("/chat/adminleave")
+    public void adminLeaveMessage(@RequestBody ChatMessageDTO chatMessage) {
+
+        if (chatMessage.getUserNick() != null) {
+
+            System.out.println("adminLeaveMessage");
+            System.out.println("chatMessage = " + chatMessage);
+
+            chatService.adminLeave(chatMessage);
+
+            simpMessagingTemplate.convertAndSend(chatMessage.getRoomId(), chatMessage);
+        }
     }
 }
+
