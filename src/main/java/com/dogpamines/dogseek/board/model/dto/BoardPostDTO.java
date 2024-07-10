@@ -1,26 +1,29 @@
 package com.dogpamines.dogseek.board.model.dto;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
-public class BoardChatDTO {
+public class BoardPostDTO {
 
     private int postCode;
+    private String postTitle;
     private String postContext;
     private LocalDateTime postDate;
     private String postCategory;
     private String postStatus;
     private int userCode;
+    private String userNick;
 
-    public BoardChatDTO() {}
+    public BoardPostDTO() {}
 
-    public BoardChatDTO(int postCode, String postContext, LocalDateTime postDate, String postCategory, String postStatus, int userCode) {
+    public BoardPostDTO(int postCode, String postTitle, String postContext, LocalDateTime postDate, String postCategory, String postStatus, int userCode, String userNick) {
         this.postCode = postCode;
+        this.postTitle = postTitle;
         this.postContext = postContext;
         this.postDate = postDate;
         this.postCategory = postCategory;
         this.postStatus = postStatus;
         this.userCode = userCode;
+        this.userNick = userNick;
     }
 
     public int getPostCode() {
@@ -29,6 +32,14 @@ public class BoardChatDTO {
 
     public void setPostCode(int postCode) {
         this.postCode = postCode;
+    }
+
+    public String getPostTitle() {
+        return postTitle;
+    }
+
+    public void setPostTitle(String postTitle) {
+        this.postTitle = postTitle;
     }
 
     public String getPostContext() {
@@ -71,15 +82,24 @@ public class BoardChatDTO {
         this.userCode = userCode;
     }
 
+    public String getUserNick() {
+        return userNick;
+    }
+
+    public void setUserNick(String userNick) {
+        this.userNick = userNick;
+    }
     @Override
     public String toString() {
-        return "BoardChatDTO{" +
+        return "BoardPostDTO{" +
                 "postCode=" + postCode +
+                ", postTitle='" + postTitle + '\'' +
                 ", postContext='" + postContext + '\'' +
                 ", postDate=" + postDate +
                 ", postCategory='" + postCategory + '\'' +
                 ", postStatus='" + postStatus + '\'' +
                 ", userCode=" + userCode +
+                ", userNick='" + userNick + '\'' +
                 '}';
     }
 }
