@@ -203,8 +203,8 @@ public class UserService {
         userMapper.updateSleep(id);
     }
 
-    public boolean selectRefreshToken(String refreshToken) {
+    public String selectRefreshToken(int userCode) {
 
-       return userMapper.selectRefreshToken(refreshToken);
+       return userMapper.selectRefreshToken(userCode);
     }
 }

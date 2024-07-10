@@ -36,8 +36,8 @@ public class AuthController {
         String userCode = TokenUtils.getClaimsFromToken(refreshToken).get("userCode").toString();
 
         if (TokenUtils.isValidToken(refreshToken)
-                && (refreshToken.equals(refreshTokenService.getRefreshToken(userCode)) || (userService.selectRefreshToken(refreshToken)))) {
-            System.out.println("디비토큰 boolean : " + userService.selectRefreshToken(refreshToken));
+                && (refreshToken.equals(refreshTokenService.getRefreshToken(userCode)) || refreshToken.equals(userService.selectRefreshToken(Integer.parseInt(userCode))))) {
+            System.out.println("디비토큰 boolean : " + refreshToken.equals(userService.selectRefreshToken(Integer.parseInt(userCode))));
             UserDTO user = userService.selectUserByCode(Integer.parseInt(userCode));
             user.setUserCode(Integer.parseInt(userCode));
             System.out.println("user = " + user);

@@ -35,5 +35,5 @@ public interface UserMapper {
 
     void updateRefreshToken(String refreshToken, String userId);
 
-    boolean selectRefreshToken(String refreshToken);
+    String selectRefreshToken(int userCode);
 }
