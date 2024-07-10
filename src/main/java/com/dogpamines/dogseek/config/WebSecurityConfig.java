@@ -14,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -53,6 +54,7 @@ public class WebSecurityConfig {
                 .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(basic -> basic.disable());
 
+
         http.authorizeHttpRequests((auth) ->
                         auth
 //                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
@@ -66,7 +68,7 @@ public class WebSecurityConfig {
                 CorsConfiguration corsConfiguration = new CorsConfiguration();
                 corsConfiguration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
                 corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
-                corsConfiguration.setAllowCredentials(false);
+                corsConfiguration.setAllowCredentials(true);
                 corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
                 corsConfiguration.setMaxAge(3600L);
 
