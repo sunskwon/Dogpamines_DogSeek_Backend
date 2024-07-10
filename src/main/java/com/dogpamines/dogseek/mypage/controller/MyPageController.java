@@ -227,4 +227,5 @@ public class MyPageController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
+
 }

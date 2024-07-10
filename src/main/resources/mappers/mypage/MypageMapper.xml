@@ -31,6 +31,7 @@
         <result property="userSignup" column="USER_SIGNUP"/>
         <result property="userLatest" column="USER_LATEST"/>
         <result property="userAuth" column="USER_AUTH"/>
+        <result property="userLeave" column="USER_LEAVE"/>
     </resultMap>
 
     <resultMap id="productsResultMap" type="com.dogpamines.dogseek.products.model.dto.ProductsDTO">
@@ -133,7 +134,10 @@
 
     <update id="deleteUser" parameterType="_int">
         UPDATE USER
-        SET USER_AUTH = 'LEAVE'
+        <set>
+            USER_AUTH = 'LEAVE'
+            , USER_LEAVE = NOW()
+        </set>
         WHERE USER_CODE = #{userCode}
     </update>
 
