@@ -1,5 +1,7 @@
 package com.dogpamines.dogseek.common.model.service;
 
+import io.lettuce.core.RedisException;
+import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
@@ -18,13 +20,25 @@ public class VerificationService {
     }
 
     public void createVerificationToken(String email, String token) {
-        ValueOperations<String, String> ops = redisTemplate.opsForValue();
-        ops.set(email, token, EXPIRATION_TIME, TimeUnit.MINUTES);
+        try {
+            ValueOperations<String, String> ops = redisTemplate.opsForValue();
+            ops.set(email, token, EXPIRATION_TIME, TimeUnit.MINUTES);
+        } catch (RedisConnectionFailureException | RedisException e) {
+            System.out.println("redis와 연결되지 않음");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public String getVerificationToken(String email) {
-        ValueOperations<String, String> ops = redisTemplate.opsForValue();
-        return ops.get(email);
+
+        try {
+            ValueOperations<String, String> ops = redisTemplate.opsForValue();
+            return ops.get(email);
+        } catch (RedisConnectionFailureException | RedisException e) {
+            System.out.println("redis와 연결되지 않음");
+            return "fail";
+        }
     }
 
     public boolean validateVerificationToken(String email, String token) {

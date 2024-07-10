@@ -1,7 +1,7 @@
 package com.dogpamines.dogseek.auth.model.service;
 
-import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +18,57 @@ public class RefreshTokenService {
     }
 
     public void saveRefreshToken(String userCode, String refreshToken, long duration) {
-        redisTemplate.opsForValue().set(userCode, refreshToken, duration, TimeUnit.MILLISECONDS);
+
+        try {
+            redisTemplate.opsForValue().set(userCode, refreshToken, duration, TimeUnit.MILLISECONDS);
+
+        } catch (RedisConnectionFailureException e) {
+
+            System.out.println("redis와 연결되지 않음");
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+
     }
 
     public String getRefreshToken(String userCode) {
-        return redisTemplate.opsForValue().get(userCode);
+
+        String refreshToken = "";
+
+        try {
+
+            refreshToken = redisTemplate.opsForValue().get(userCode);
+
+        } catch (RedisConnectionFailureException e) {
+
+            System.out.println("redis와 연결되지 않음");
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+
+        return refreshToken;
     }
 
     public void deleteRefreshToken(String userCode) {
-        redisTemplate.delete(userCode);
+
+        try {
+
+            redisTemplate.delete(userCode);
+
+        } catch (RedisConnectionFailureException e) {
+
+            System.out.println("redis와 연결되지 않음");
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
     }
 }
