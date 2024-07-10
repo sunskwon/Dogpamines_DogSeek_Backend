@@ -1,7 +1,6 @@
 package com.dogpamines.dogseek.board.model.dao;
 
 import com.dogpamines.dogseek.board.model.dto.*;
-import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -9,13 +8,12 @@ import java.util.List;
 @Mapper
 public interface BoardMapper {
     List<BoardDTO> selectAllPosts();
-    List<ChatBoardDTO> chatAllComment();
 
     BoardDTO selectPost(int postCode);
 
     int getLastPostCode();
 
-    void newBoardPost(BoardChatDTO board);
+    void newBoardPost(BoardPostDTO board);
 
     List<BoardDTO> selectBoardByCodeByAdmin(int userCode);
 
@@ -47,7 +45,7 @@ public interface BoardMapper {
 
     List<BoardReportDTO> selectCommentReportByCommentCode(int commentCode);
 
-    void updateBoard(BoardChatDTO board);
+    void updateBoard(BoardPostDTO board);
 
     void deleteBoard(int postCode);
 }

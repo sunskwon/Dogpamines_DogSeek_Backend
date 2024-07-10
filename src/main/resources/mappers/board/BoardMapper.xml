@@ -14,13 +14,15 @@
         <result property="userNick" column="USER_NICK"/>
     </resultMap>
 
-    <resultMap id="newPostResultMap" type="com.dogpamines.dogseek.board.model.dto.BoardChatDTO">
+    <resultMap id="newPostResultMap" type="com.dogpamines.dogseek.board.model.dto.BoardPostDTO">
         <id property="postCode" column="POST_CODE"/>
+        <result property="postTitle" column="POST_TITLE"/>
         <result property="postContext" column="POST_CONTEXT"/>
         <result property="postDate" column="POST_DATE"/>
         <result property="postCategory" column="POST_CATEGORY"/>
         <result property="postStatus" column="POST_STATUS"/>
         <result property="userCode" column="USER_CODE"/>
+        <result property="userNick" column="USER_NICK"/>
     </resultMap>
 
     <resultMap id="commentResultMap" type="com.dogpamines.dogseek.board.model.dto.CommentDTO">
@@ -61,7 +63,7 @@
 
     <select id="selectPost" resultMap="boardResultMap">
         SELECT
-        A.POST_CODE
+          A.POST_CODE
         , A.POST_TITLE
         , A.POST_CONTEXT
         , A.POST_DATE
@@ -72,7 +74,6 @@
         FROM POST A
         LEFT JOIN USER B ON (A.USER_CODE = B.USER_CODE)
         WHERE POST_CODE = #{ postCode }
-
     </select>
 
     <select id="selectBoardByCodeByAdmin" parameterType="_int" resultMap="boardResultMap">
@@ -95,10 +96,11 @@
         WHERE POST_CODE = #{ postCode }
     </select>
 
-    <insert id="newBoardPost" parameterType="com.dogpamines.dogseek.board.model.dto.BoardChatDTO">
+    <insert id="newBoardPost" parameterType="com.dogpamines.dogseek.board.model.dto.BoardPostDTO">
         INSERT INTO POST
         (
-        POST_CODE
+          POST_CODE
+        , POST_TITLE
         , POST_CONTEXT
         , POST_DATE
         , POST_CATEGORY
@@ -106,7 +108,8 @@
         , USER_CODE
         )
         VALUES(
-        #{ postCode }
+          #{ postCode }
+        , #{ postTitle }
         , #{ postContext }
         , #{postDate, jdbcType=TIMESTAMP}
         , #{ postCategory }
@@ -115,10 +118,13 @@
         )
     </insert>
 
-    <update id="updateBoard" parameterType="com.dogpamines.dogseek.board.model.dto.BoardChatDTO">
+    <update id="updateBoard" parameterType="com.dogpamines.dogseek.board.model.dto.BoardPostDTO">
         UPDATE POST
         <set>
             POST_CODE = #{ postCode }
+            <if test="postTitle != ''">
+                , POST_TITLE = #{ postTitle }
+            </if>
             <if test="postContext != ''">
                 , POST_CONTEXT = #{ postContext }
             </if>
@@ -129,7 +135,7 @@
         WHERE POST_CODE = #{ postCode }
     </update>
 
-    <delete id="deleteBoard" parameterType="com.dogpamines.dogseek.board.model.dto.BoardChatDTO">
+    <delete id="deleteBoard" parameterType="com.dogpamines.dogseek.board.model.dto.BoardPostDTO">
         DELETE FROM POST
         WHERE POST_CODE = #{ postCode }
     </delete>

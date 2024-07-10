@@ -1,8 +1,7 @@
 package com.dogpamines.dogseek.board.controller;
 
-import com.dogpamines.dogseek.board.model.dto.BoardChatDTO;
+import com.dogpamines.dogseek.board.model.dto.BoardPostDTO;
 import com.dogpamines.dogseek.board.model.dto.BoardDTO;
-import com.dogpamines.dogseek.board.model.dto.CommentDTO;
 import com.dogpamines.dogseek.board.model.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -15,11 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -62,7 +58,7 @@ public class BoardController {
     }
 
     @PostMapping("/boards")
-    public ResponseEntity<?> newBoardPost(@RequestBody BoardChatDTO board) {
+    public ResponseEntity<?> newBoardPost(@RequestBody BoardPostDTO board) {
         LocalDateTime postDate = LocalDateTime.now();
         board.setPostDate(postDate);
 
@@ -76,7 +72,9 @@ public class BoardController {
     }
 
     @PutMapping("/boards")
-    public ResponseEntity<?> updateBoard(@RequestBody BoardChatDTO board) {
+    public ResponseEntity<?> updateBoard(@RequestBody BoardPostDTO board) {
+        LocalDateTime postDate = LocalDateTime.now();
+        board.setPostDate(postDate);
 
         boardService.updateBoard(board);
 

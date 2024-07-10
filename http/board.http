@@ -3,14 +3,16 @@ GET http://localhost:8080/boards
 
 
 ### selectPost(게시글 상세 조회)
-GET http://localhost:8080/boards/213
+GET http://localhost:8080/boards/15
 
 ### insertBoard(생성)
 POST http://localhost:8080/boards
 Content-Type: application/json
 
 {
+  "postTitle": "안녕하세요인가요",
   "postContext": "지리니까 청춘이다 그만 지려!",
+  "postDate": "2024-07-10T10:23:10",
   "postCategory": "자유",
   "postStatus": "Y",
   "userCode": 1
@@ -21,15 +23,16 @@ PUT http://localhost:8080/boards
 Content-Type: application/json
 
 {
-  "postCode": 17,
-  "postContext": "17",
+  "postCode": 21,
+  "postTitle": "안돼 돌아가",
+  "postContext": "안에서 밖으로 나가는 시간",
   "postCategory": "자유",
-  "postStatus": "N",
+  "postStatus": "Y",
   "userCode": 1
 }
 
 ### deleteBoard(삭제)
-DELETE http://localhost:8080/boards/1
+DELETE http://localhost:8080/boards/20
 
 ### selectAllNotices
 GET http://localhost:8080/notice

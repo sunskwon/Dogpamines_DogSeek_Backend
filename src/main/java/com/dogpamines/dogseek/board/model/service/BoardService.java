@@ -43,7 +43,7 @@ public class BoardService {
     }
 
     @Transactional
-    public void newBoardPost(BoardChatDTO board) {
+    public void newBoardPost(BoardPostDTO board) {
 
         // 새 게시물 작성시 게시물 작성 수 +1
 
@@ -74,11 +74,6 @@ public class BoardService {
         }
 
         boardMapper.newBoardPost(board);
-    }
-
-    public List<ChatBoardDTO> chatAllComment() {
-
-        return boardMapper.chatAllComment();
     }
 
     public List<BoardDTO> selectBoardByCodeByAdmin(int userCode) {
@@ -191,7 +186,7 @@ public class BoardService {
 
     }
 
-    public void updateBoard(BoardChatDTO board) {
+    public void updateBoard(BoardPostDTO board) {
 
          boardMapper.updateBoard(board);
     }
