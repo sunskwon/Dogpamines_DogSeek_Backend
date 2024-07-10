@@ -35,7 +35,9 @@ public class AuthController {
         String refreshToken = TokenUtils.splitHeader(request);
         String userCode = TokenUtils.getClaimsFromToken(refreshToken).get("userCode").toString();
 
-        if (TokenUtils.isValidToken(refreshToken) && refreshToken.equals(refreshTokenService.getRefreshToken(userCode))) {
+        if (TokenUtils.isValidToken(refreshToken)
+                && (refreshToken.equals(refreshTokenService.getRefreshToken(userCode)) || refreshToken.equals(userService.selectRefreshToken(Integer.parseInt(userCode))))) {
+            System.out.println("디비토큰 boolean : " + refreshToken.equals(userService.selectRefreshToken(Integer.parseInt(userCode))));
             UserDTO user = userService.selectUserByCode(Integer.parseInt(userCode));
             user.setUserCode(Integer.parseInt(userCode));
             System.out.println("user = " + user);
@@ -43,12 +45,13 @@ public class AuthController {
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-//            headers.set("Access-Control-Expose-Headers", AuthConstants.AUTH_HEADER);
+
             headers.set(AuthConstants.AUTH_HEADER, AuthConstants.TOKEN_TYPE + " " + newAccessToken);
 
             return new ResponseEntity<>(headers, HttpStatus.OK);
+        } else {
+            return ResponseEntity.status(403).body(null);
         }
-        return ResponseEntity.status(403).body(null);
     }
 
     @PostMapping("/logout")

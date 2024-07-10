@@ -32,4 +32,8 @@ public interface UserMapper {
     UserDTO selectUserByCode(int userCode);
 
     void updateSleep(String id);
+
+    void updateRefreshToken(String refreshToken, String userId);
+
+    String selectRefreshToken(int userCode);
 }
