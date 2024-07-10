@@ -37,10 +37,11 @@ public class UserDTO {
     private String userLatest;
     private UserRole userAuth;
     private String userLeave;
+    private String userToken;
 
     public UserDTO(){}
 
-    public UserDTO(int userCode, String userPlatform, String userId, String userPass, String userNick, String userPhone, String userSignup, String userLatest, UserRole userAuth, String userLeave) {
+    public UserDTO(int userCode, String userPlatform, String userId, String userPass, String userNick, String userPhone, String userSignup, String userLatest, UserRole userAuth, String userLeave, String userToken) {
         this.userCode = userCode;
         this.userPlatform = userPlatform;
         this.userId = userId;
@@ -51,6 +52,7 @@ public class UserDTO {
         this.userLatest = userLatest;
         this.userAuth = userAuth;
         this.userLeave = userLeave;
+        this.userToken = userToken;
     }
 
     public List<String> getRole() {
@@ -140,6 +142,14 @@ public class UserDTO {
         this.userLeave = userLeave;
     }
 
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -153,6 +163,7 @@ public class UserDTO {
                 ", userLatest='" + userLatest + '\'' +
                 ", userAuth=" + userAuth +
                 ", userLeave='" + userLeave + '\'' +
+                ", userToken='" + userToken + '\'' +
                 '}';
     }
 }

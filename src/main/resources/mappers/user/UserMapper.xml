@@ -167,4 +167,17 @@
            SET USER_AUTH = 'USER'
          WHERE USER_ID = #{ id }
     </update>
+
+    <update id="updateRefreshToken" parameterType="string">
+        UPDATE USER
+           SET USER_TOKEN = #{ refreshToken }
+         WHERE USER_ID = #{ userId }
+    </update>
+
+    <select id="selectRefreshToken" resultType="string">
+        SELECT
+               USER_TOKEN
+          FROM USER
+         WHERE USER_CODE = #{ userCode }
+    </select>
 </mapper>
