@@ -49,7 +49,7 @@ public class EmailService {
                     <title>Email Verification</title>
                     <style>
                         body {
-                            font-family: Arial, sans-serif;
+                            font-family: Noto Sans KR, Poppins;
                             line-height: 1.6;
                         }
                         .email-container {
