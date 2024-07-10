@@ -4,6 +4,7 @@ import com.dogpamines.dogseek.auth.model.DetailsUser;
 import com.dogpamines.dogseek.common.AuthConstants;
 import com.dogpamines.dogseek.common.UserRole;
 import com.dogpamines.dogseek.common.utils.TokenUtils;
+import com.dogpamines.dogseek.config.SecurityConfig;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -23,15 +24,17 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
+
 
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-    public JwtAuthorizationFilter(AuthenticationManager authenticationManager) {
+    private final SecurityConfig securityConfig;
+
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, SecurityConfig securityConfig) {
         super(authenticationManager);
+        this.securityConfig = securityConfig;
     }
 
     @Override
@@ -40,11 +43,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         System.out.println("doFilterInternal...1");
         String url = request.getRequestURI();
 
-//        System.out.println("url = " + url);
-
         // 권한 없이 접근 허용 url List
-        List<String> roleLessList = Arrays.asList("/signup", "/redistest/count", "/user/check", "/products/search", "/products", "/products/comparison", "/lastProds", "/user/change/pwd", "/auth/refresh", "/user/release/sleep",
-                "/api/auth/send-verification-email", "/api/auth/verify-email", "/products/mostProducts", "/mycurationresult", "/animalRegist", "/dict", "/user/match/phone", "/user/find/email", "/boards/**", "/boards", "/mypage", "/mypage/check", "/products/volume", "/curation");
+        List<String> roleLessList = securityConfig.getList();
 
         if (roleLessList.contains(request.getRequestURI())) {
             chain.doFilter(request, response);

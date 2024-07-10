@@ -33,9 +33,11 @@ import java.util.Collections;
 public class WebSecurityConfig {
 
     private final RefreshTokenService refreshTokenService;
+    private SecurityConfig securityConfig;
 
-    public WebSecurityConfig(RefreshTokenService refreshTokenService) {
+    public WebSecurityConfig(RefreshTokenService refreshTokenService, SecurityConfig securityConfig) {
         this.refreshTokenService = refreshTokenService;
+        this.securityConfig = securityConfig;
     }
 
     /* 정적 자원에 대한 인증된 사용자의 접근을 설정하는 메소드 */
@@ -87,7 +89,7 @@ public class WebSecurityConfig {
 
     /* 사용자 요청(request) 시 수행되는 메소드 */
     private JwtAuthorizationFilter jwtAuthorizationFilter() {
-        return new JwtAuthorizationFilter(authenticationManager());
+        return new JwtAuthorizationFilter(authenticationManager(), securityConfig);
     }
 
     /* Authentication의 인증 메소드를 제공하는 매니저(= Provider의 인터페이스)를 반환하는 메소드 */
