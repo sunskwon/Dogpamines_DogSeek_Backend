@@ -41,40 +41,34 @@ public class ChatService {
 
         String roomId = chatMessage.getRoomId();
 
-        if (roomId == "/topic/public") {
+        try {
 
-            try {
+            if (tempMessages.containsKey(roomId)) {
 
-                if (tempMessages.containsKey(roomId)) {
+                Queue<ChatMessageDTO> tempMessage = tempMessages.get(roomId);
 
-                    Queue<ChatMessageDTO> tempMessage = tempMessages.get(roomId);
+                if (tempMessage.size() > 50) {
 
-                    if (tempMessage.size() > 50) {
+                    tempMessage.remove();
+                    tempMessage.add(chatMessage);
 
-                        tempMessage.remove();
-                        tempMessage.add(chatMessage);
-
-                        tempMessages.put(roomId, tempMessage);
-                    } else {
-
-                        tempMessage.add(chatMessage);
-
-                        tempMessages.put(roomId, tempMessage);
-                    }
-
+                    tempMessages.put(roomId, tempMessage);
                 } else {
 
-                    Queue<ChatMessageDTO> tempMessage = new LinkedList<>();
                     tempMessage.add(chatMessage);
 
                     tempMessages.put(roomId, tempMessage);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
 
-            return;
+            } else {
+
+                Queue<ChatMessageDTO> tempMessage = new LinkedList<>();
+                tempMessage.add(chatMessage);
+
+                tempMessages.put(roomId, tempMessage);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -137,11 +131,11 @@ public class ChatService {
 
     public void adminLeave(ChatMessageDTO chatMessage) {
 
-            String roomId = chatMessage.getRoomId();
+        String roomId = chatMessage.getRoomId();
 
-            CheckDTO temp = checkList.get(roomId);
-            temp.setStatus(false);
+        CheckDTO temp = checkList.get(roomId);
+        temp.setStatus(false);
 
-            checkList.put(roomId, temp);
+        checkList.put(roomId, temp);
     }
 }
