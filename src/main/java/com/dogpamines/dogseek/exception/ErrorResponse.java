@@ -1,18 +1,20 @@
 package com.dogpamines.dogseek.exception;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public class ErrorResponse {
-    private HttpStatus status;
-    private ErrorCode code;
-    private String message;
-    private LocalDateTime date = LocalDateTime.now();
+    private HttpStatus status;  // HTTP 상태 코드
+    private ErrorCode code;     // 에러 코드
+    private String message;     // 에러 메시지
+    private String date;        // 에러 발생 시간 문자열 (포맷팅된 문자열)
 
     // 기본 생성자
     public ErrorResponse() {
+        this.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
     // 생성자
@@ -20,7 +22,7 @@ public class ErrorResponse {
         this.status = status;
         this.code = code;
         this.message = message;
-        this.date = LocalDateTime.now();
+        this.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
     // Getter 메서드
@@ -36,7 +38,7 @@ public class ErrorResponse {
         return message;
     }
 
-    public LocalDateTime getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -47,15 +49,15 @@ public class ErrorResponse {
                 "status=" + status +
                 ", code=" + code +
                 ", message='" + message + '\'' +
-                ", date=" + date +
+                ", date='" + date + '\'' +
                 '}';
     }
 
     // Builder 패턴을 위한 내부 static 클래스
     public static class Builder {
-        private HttpStatus status;
-        private ErrorCode code;
-        private String message;
+        private HttpStatus status;  // HTTP 상태 코드
+        private ErrorCode code;     // 에러 코드
+        private String message;     // 에러 메시지
 
         public Builder status(HttpStatus status) {
             this.status = status;
@@ -77,10 +79,12 @@ public class ErrorResponse {
         }
     }
 
+    // 빌더 인스턴스 반환 메서드
     public static Builder builder() {
         return new Builder();
     }
 
+    // ErrorResponse를 ResponseEntity로 변환하는 메서드
     public static ResponseEntity<ErrorResponse> toErrorResponseEntity(ErrorCode code, String message) {
         ErrorResponse response = ErrorResponse.builder()
                 .status(code.getStatus())
