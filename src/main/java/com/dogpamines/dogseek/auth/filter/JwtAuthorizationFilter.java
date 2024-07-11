@@ -45,6 +45,11 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         // 권한 없이 접근 허용 url List
         List<String> roleLessList = securityConfig.getList();
+        System.out.println("url = " + url);
+        if(url.startsWith("/swagger") || url.startsWith("/v3/api-docs") || url.startsWith("/signup")) {
+            chain.doFilter(request, response);
+            return;
+        }
 
         if (roleLessList.contains(request.getRequestURI())) {
             chain.doFilter(request, response);

@@ -56,6 +56,17 @@ public class BoardController {
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
 
     }
+    @GetMapping("/boards/search")
+    public ResponseEntity<Map<String, Object>> searchBoards(@RequestParam("type") String postTitle) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("boards", boardService.searchBoards(postTitle));
+
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
 
     @PostMapping("/boards")
     public ResponseEntity<?> newBoardPost(@RequestBody BoardPostDTO board) {
@@ -70,7 +81,6 @@ public class BoardController {
 
         return ResponseEntity.noContent().build();
     }
-
     @PutMapping("/boards")
     public ResponseEntity<?> updateBoard(@RequestBody BoardPostDTO board) {
         LocalDateTime postDate = LocalDateTime.now();
@@ -89,11 +99,12 @@ public class BoardController {
     public ResponseEntity<?> deleteBoard(@PathVariable int postCode) {
 
         System.out.println("postCode = " + postCode);
+        System.out.println("select One post delete");
 
         boardService.deleteBoard(postCode);
 
         System.out.println("postCode = " + postCode);
-
+        System.out.println("select One post delete");
 
         return ResponseEntity.noContent().build();
     }

@@ -5,6 +5,8 @@ import com.dogpamines.dogseek.curation.model.dto.HistoryDTO;
 import com.dogpamines.dogseek.mypage.model.service.MyPageService;
 import com.dogpamines.dogseek.products.model.dto.ProductsDTO;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+@Tag(name= "MYPAGE(회원페이지) Controller")
 @RestController
 public class MyPageController {
 
@@ -32,6 +34,7 @@ public class MyPageController {
     }
 
     /* 큐레이션 전체 조회 */
+    @Operation(summary = "큐레이션 내역 조회", description = "모든 회원의 전체 큐레이션 내역을 조회한다.")
     @GetMapping("/curationList")
     public ResponseEntity<Map<String, Object>> allCurationList(){
 
@@ -50,6 +53,7 @@ public class MyPageController {
     }
 
     /* 큐레이션 유저별 상세 조회 */
+    @Operation(summary = "회원별 큐레이션 내역 조회", description = "회원별 전체 큐레이션 내역을 조회한다.")
     @GetMapping("/curations")
     public ResponseEntity<Map<String, Object>> userCurationList(@RequestParam int userCode){
 
@@ -68,6 +72,7 @@ public class MyPageController {
     }
 
     /* 큐레이션 유저별 반려견별 상세 조회 */
+    @Operation(summary = "회원의 반려견별 큐레이션 내역 조회", description = "회원의 반려견별 큐레이션 내역을 조회한다.")
     @GetMapping("/curationsDog")
     public ResponseEntity<Map<String, Object>> selectUserDogCurationList(@RequestParam int userCode, String curationName){
         List<CurationDTO> curationDTOList = myPageService.selectUserDogCurationList(userCode, curationName);
@@ -103,7 +108,7 @@ public class MyPageController {
 //        return new ResponseEntity<>(result, headers, HttpStatus.OK);
 //
 //    }
-
+    @Operation(summary = "큐레이션 내역별 맞춤 사료 조회", description = "회원의 이전 큐레이션 내역별 맞춤 사료를 조회할 수 있다.")
     @GetMapping("/mycurationresult")
     public ResponseEntity<Map<String, Object>> selectMyCurationResult(@RequestParam int curationCode) throws NotFoundException {
         List<Integer> prodCodes = myPageService.selectProdCodesByCurationCode(curationCode);
@@ -123,6 +128,7 @@ public class MyPageController {
     }
 
     /* 회원 상세 정보 조회 */
+    @Operation(summary = "회원 정보 조회", description = "회원은 마이페이지에서 본인의 정보를 조회할 수 있다.")
     @GetMapping("/mypage")
     public ResponseEntity<Map<String, Object>> selectUserDetail(@RequestParam int userCode) {
         List<UserDTO> userDTOS = myPageService.selectUserDetail(userCode);
@@ -140,6 +146,7 @@ public class MyPageController {
     }
 
     /* 회원 정보 수정 */
+    @Operation(summary = "회원 정보 수정", description = "회원은 본인의 비밀번호,닉네임을 수정할 수 있다.")
     @PutMapping("/mypage")
     public ResponseEntity<?> updateUser(@RequestBody UserDTO updateInfo){
         try {
@@ -157,6 +164,7 @@ public class MyPageController {
     }
 
     /* 유저 닉네임 조회 */
+    @Operation(summary = "닉네임 중복 조회", description = "회원의 닉네임 변경 시 중복되는 닉네임이 있는지 조회한다.")
     @PostMapping("/mypage/check")
     public ResponseEntity<?> checkInfo(@RequestBody Map<String, String> user) {
         String type = user.get("type");
@@ -187,6 +195,7 @@ public class MyPageController {
     }
 
     /* 회원 탈퇴(휴면 변경) */
+    @Operation(summary = "회원 탈퇴", description = "회원은 사이트를 탈퇴할 수 있다.")
     @DeleteMapping("/mypage/{userCode}")
     public ResponseEntity<?> deleteUser(@PathVariable int userCode) {
 
@@ -196,6 +205,7 @@ public class MyPageController {
     }
 
     /* 비밀번호 수정 */
+    @Operation(summary = "비밀번호 암호화 수정", description = "회원 비밀번호 수정 시 DB에 암호화하여 저장할 수 있다.")
     @PutMapping("/mypage/change/pwd")
     public ResponseEntity<?> updateUserPwd(@RequestBody Map<String, String> requestBody) {
 
@@ -212,6 +222,7 @@ public class MyPageController {
     }
 
     /* 비밀번호 일치 여부 조회 */
+    @Operation(summary = "큐레이션 내역 조회", description = "모든 사용자의 전체 큐레이셔 내역을 조회한다.")
     @PostMapping("/mypage/verifyPassword")
     public ResponseEntity<Map<String, Object>> verifyPassword(@RequestBody Map<String, String> request) {
         int userCode = Integer.parseInt(request.get("userCode"));
