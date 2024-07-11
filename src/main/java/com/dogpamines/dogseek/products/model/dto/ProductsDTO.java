@@ -1,23 +1,41 @@
 package com.dogpamines.dogseek.products.model.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+@Schema(description = "사료 정보 DTO")
 public class ProductsDTO implements Comparable<ProductsDTO> {
-
+    @Schema(description = "사료 코드(PK)")
     private int prodCode;
+    @Schema(description = "사료 이름")
     private String prodName;
+    @Schema(description = "사료 제조사")
     private String prodManufac;
+    @Schema(description = "사료 가격")
     private Integer prodPrice;
+    @Schema(description = "사료 연령대")
     private String prodAge;
+    @Schema(description = "사료 기능")
     private String prodEffi;
+    @Schema(description = "사료 추천견종")
     private String prodRecom;
+    @Schema(description = "사료 사이트")
     private String prodSite;
+    @Schema(description = "사료 제조방식")
     private String prodCook;
+    @Schema(description = "사료 용량")
     private String prodVolume;
+    @Schema(description = "사료 평점")
     private int prodGrade;
+    @Schema(description = "사료 재료")
     private String prodIngra;
+    @Schema(description = "사료 입자크기")
     private String prodSize;
+    @Schema(description = "사료 등록일")
     private String prodDate;
+    @Schema(description = "사료 게시여부")
     private String prodStatus;
+    @Schema(description = "사료 이미지")
     private String prodImage;
+    @Schema(description = "사료 누적조회수")
     private int prodVisit;
 
     public ProductsDTO() {

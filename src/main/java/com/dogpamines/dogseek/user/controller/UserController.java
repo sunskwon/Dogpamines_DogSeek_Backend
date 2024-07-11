@@ -3,6 +3,8 @@ package com.dogpamines.dogseek.user.controller;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import com.dogpamines.dogseek.user.model.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -16,7 +18,7 @@ import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
-
+@Tag(name = "USER(회원) Controller")
 @RestController
 public class UserController {
 
@@ -27,6 +29,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @Operation(summary = "회원 가입" , description = "회원 정보를 입력하여 회원 가입을한다.")
     @PostMapping("/signup")
     public ResponseEntity<Boolean> signup(@Valid @RequestBody UserDTO user) {
 
@@ -41,7 +44,7 @@ public class UserController {
 
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }
-
+    @Operation(summary = "관리자 회원 코드로 조회" , description = "관리자는 회원을 코드로 조회한다.")
     @GetMapping("/admin/users/{userCode}")
     @Transactional
     public ResponseEntity<Map<String, Object>> selectUserByCodeByAdmin(@PathVariable int userCode) {
@@ -54,7 +57,7 @@ public class UserController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
-
+    @Operation(summary = "회원 전체 조회" , description = "관리자는 전체 회원을 조회한다.")
     @PostMapping("/admin/users")
     public ResponseEntity<Map<String, Object>> selectAllUsersByAdmin(@RequestBody Map<String, String> search) {
 
@@ -66,7 +69,7 @@ public class UserController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
-
+    @Operation(summary = "회원 정보 수정" , description = "관리자는 회원의 정보를 수정한다.")
     @PutMapping("/admin/users")
     public ResponseEntity<?> updateUserByAdmin(@RequestBody Map<String, String> object) {
 
@@ -78,7 +81,7 @@ public class UserController {
                 .created(URI.create("/admin/users/" + userCode))
                 .build();
     }
-
+    @Operation(summary = "회원 휴면 처리" , description = "관리자는 회원을 휴면회원 처리한다.")
     @DeleteMapping("/admin/users/{userCode}")
     public ResponseEntity<?> deleteUserByAdmin(@PathVariable int userCode) {
 
@@ -87,7 +90,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-
+    @Operation(summary = "회원 정보 중복확인" , description = "회원 정보 변경 시 중복 값을 확인한다.")
     @PostMapping("/user/check")
     public ResponseEntity<?> checkInfo(@RequestBody Map<String, String> user) {
 
@@ -117,7 +120,7 @@ public class UserController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
-
+    @Operation(summary = "이메일 찾기" , description = "가입 시 입력한 휴대폰 번호로 아이디(이메일)을 확인한다.")
     @PostMapping("/user/find/email")
     public ResponseEntity<?> findEmailByPhone(@RequestBody Map<String, String> requestBody) {
         String phoneNumber = requestBody.get("phoneNumber");
@@ -138,7 +141,7 @@ public class UserController {
             return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
         }
     }
-
+    @Operation(summary = "비밀번호 수정" , description = "회원은 비밀번호를 수정한다.")
     @PutMapping("/user/change/pwd")
     public ResponseEntity<?> updateUserPwd(@RequestBody Map<String, String> requestBody) {
 
@@ -149,7 +152,7 @@ public class UserController {
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
+    @Operation(summary = "휴면 회원 정상 회원으로 변경" , description = "휴면회원에서 정보 입력을 한 뒤 정상회원으로 권한이 수정된다.")
     @PutMapping("/user/release/sleep")
     public ResponseEntity<?> updateSleep(@RequestBody Map<String, String> requestBody) {
 
