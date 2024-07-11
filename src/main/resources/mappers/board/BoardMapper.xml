@@ -76,6 +76,22 @@
         WHERE POST_CODE = #{ postCode }
     </select>
 
+    <select id="searchBoards" resultMap="newPostResultMap">
+        SELECT
+          POST_CODE
+        , POST_TITLE
+        , POST_CONTEXT
+        , POST_DATE
+        , POST_CATEGORY
+        , POST_STATUS
+        , USER_CODE
+        , USER_NICK
+        FROM POST
+        <if test="postTitle != null and postTitle != ''">
+            WHERE POST_TITLE LIKE CONCAT('%', #{ postTitle }, '%')
+        </if>
+    </select>
+
     <select id="selectBoardByCodeByAdmin" parameterType="_int" resultMap="boardResultMap">
         SELECT
         POST_CODE

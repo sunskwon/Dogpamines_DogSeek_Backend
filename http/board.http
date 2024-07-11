@@ -3,7 +3,10 @@ GET http://localhost:8080/boards
 
 
 ### selectPost(게시글 상세 조회)
-GET http://localhost:8080/boards/15
+GET http://localhost:8080/boards/24
+
+### searchBoards(게시글 검색)
+GET http://localhost:8080/boards/search?postTitle=제목을
 
 ### insertBoard(생성)
 POST http://localhost:8080/boards
@@ -32,7 +35,7 @@ Content-Type: application/json
 }
 
 ### deleteBoard(삭제)
-DELETE http://localhost:8080/boards/20
+DELETE http://localhost:8080/boards/24
 
 ### selectAllNotices
 GET http://localhost:8080/notice

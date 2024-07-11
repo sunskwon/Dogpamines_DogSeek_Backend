@@ -197,4 +197,9 @@ public class BoardService {
         System.out.println("postCode = " + postCode);
         boardMapper.deleteBoard(postCode);
     }
+
+    public List<BoardPostDTO> searchBoards(String postTitle) {
+
+        return boardMapper.searchBoards(postTitle);
+    }
 }

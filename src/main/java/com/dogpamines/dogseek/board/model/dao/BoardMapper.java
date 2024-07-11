@@ -48,4 +48,6 @@ public interface BoardMapper {
     void updateBoard(BoardPostDTO board);
 
     void deleteBoard(int postCode);
+
+    List<BoardPostDTO> searchBoards(String postTitle);
 }
