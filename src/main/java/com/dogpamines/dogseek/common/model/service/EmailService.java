@@ -47,91 +47,53 @@ public class EmailService {
                 <head>
                     <meta charset="UTF-8">
                     <title>Email Verification</title>
-                    <style>
-                        body {
-                            font-family: Noto Sans KR, Poppins;
-                            line-height: 1.6;
-                        }
-                        .email-container {
-                            max-width: 600px;
+                </head>
+                <body style="font-family: Noto Sans KR, Poppins; line-height: 1.6;">
+                    <div class="email-container" style="max-width: 570px;
                             padding: 20px;
                             border: 1px solid #ddd;
                             border-radius: 5px;
                             background-color: #fff;
-                            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-                        }
-                        .email-header {
-                            display: flex;
+                            box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+                        <div class="email-header" style="display: flex;
                             background-color: #f8f9fa;
                             padding: 10px;
                             text-align: center;
-                            border-bottom: 1px solid #ddd;
-                        }
-                        .email-header h1 {
-                            margin: 0;
-                            margin-top: 10px;
-                            font-size: 24px;
-                            color: #333;
-                        }
-                        .email-body {
-                            padding: 30px;
-                            font-size: 14px;
-                            color: #555;
-                        }
-                
-                        .email-body span {
-                            font-weight: 400;
-                            color: #000000;
-                        }
-                
-                        .email {
-                            font-weight: bold;
-                        }
-                
-                        .email-footer {
-                            padding: 10px;
-                            text-align: center;
-                            color: #777;
-                            font-size: 12px;
-                        }
-                
-                        .content {
-                            margin-top: 20px;
-                            margin-bottom: 20px;
-                        }
-                
-                        .content p {
-                            margin-right: 20px;
-                        }
-                
-                        .email-header img {
-                            max-width: 100%%;
+                            border-bottom: 1px solid #ddd;">
+                            <img src="https://avatars.githubusercontent.com/u/170599791?s=200&v=4" alt="logo Image"
+                                style="max-width: 100%%;
                             width: 50px;
                             height: auto;
                             margin-right: 40px;
-                            margin-left: 20px;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="email-container">
-                        <div class="email-header">
-                            <img src="https://avatars.githubusercontent.com/u/170599791?s=200&v=4" alt="logo Image">
-                            <h1>DogSeek 이메일 인증 안내</h1>
+                            margin-left: 20px;">
+                            <h1 style="margin: 0;
+                            margin-top: 10px;
+                            font-size: 24px;
+                            color: #333;">DogSeek 이메일 인증 안내</h1>
                         </div>
-                        <div class="email-body">
-                            <span>안녕하세요, <span type=text class="email">%s<span> 고객님.<span><br/>
-                            <span>'<strong>%s</strong>'를 위해 이메일 인증을 진행합니다.</span><br/>
-                            <span>아래 발급된 이메일 인증번호를 복사하거나 직접 입력하여 인증을 완료해주세요.<span><br/>
-                            <span>개인정보 보호를 위해 인증번호는 5분 간 유효합니다.<span><br/>
-                            <div class="content">
+                        <div class="email-body" style="padding: 30px;
+                            font-size: 14px;
+                            color: #555;">
+                            <span style="font-weight: 400;
+                            color: #000000;">안녕하세요, <span type=text class="email" style="font-weight: bold;">%s<span> 고객님.<span><br/>
+                            <span style="font-weight: 400;
+                            color: #000000;">'<strong>%s</strong>'를 위해 이메일 인증을 진행합니다.</span><br/>
+                            <span style="font-weight: 400;
+                            color: #000000;">아래 발급된 이메일 인증번호를 복사하거나 직접 입력하여 인증을 완료해주세요.<span><br/>
+                            <span style="font-weight: 400;
+                            color: #000000;">개인정보 보호를 위해 인증번호는 5분 간 유효합니다.<span><br/>
+                            <div class="content" style="margin-top: 20px;
+                            margin-bottom: 20px;">
                                 <hr/>
-                                <p>인증번호 &nbsp;&nbsp;&nbsp;<strong class="number">%s</strong></p>
+                                <p style="margin-right: 20px; font-size: 16px;">인증번호 &nbsp;&nbsp;&nbsp;<strong class="number" style="font-size: 18px;">%s</strong></p>
                                 <hr/>
                             </div>
                         </div>
-                        <div class="email-footer">
-                            <p>이 메일은 자동으로 발송된 메일입니다. 궁금하신 사항은 DogSeek으로 문의 바랍니다.</p>
+                        <div class="email-footer" style="padding: 10px;
+                            text-align: center;
+                            color: #777;
+                            font-size: 12px;">
+                            <p style="margin-right: 20px;">이 메일은 자동으로 발송된 메일입니다. 궁금하신 사항은 DogSeek으로 문의 바랍니다.</p>
                         </div>
                     </div>
                 </body>
