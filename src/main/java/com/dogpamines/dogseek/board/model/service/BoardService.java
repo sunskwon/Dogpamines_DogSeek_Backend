@@ -198,8 +198,21 @@ public class BoardService {
         boardMapper.deleteBoard(postCode);
     }
 
-    public List<BoardPostDTO> searchBoards(String postTitle) {
+    @Transactional
+    public void reportPost(BoardReportDTO report) {
 
-        return boardMapper.searchBoards(postTitle);
+        int postCode = report.getPostCode();
+        boardMapper.reportPost(postCode);
+        incrementReportCount(postCode); // 증가
+        historyReport(report); // 저장
+    }
+
+    // 게시물 신고 횟수 증가 메서드
+    public void incrementReportCount(int postCode) {
+        boardMapper.incrementReportCount(postCode);
+    }
+    // 게시물 신고 내역 저장 메서드
+    public void historyReport(BoardReportDTO report) {
+        boardMapper.historyReport(report);
     }
 }

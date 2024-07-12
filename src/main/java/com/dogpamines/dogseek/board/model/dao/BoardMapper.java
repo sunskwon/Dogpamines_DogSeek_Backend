@@ -49,5 +49,9 @@ public interface BoardMapper {
 
     void deleteBoard(int postCode);
 
-    List<BoardPostDTO> searchBoards(String postTitle);
+    void reportPost(int postCode);
+
+    void incrementReportCount(int postCode);
+
+    void historyReport(BoardReportDTO report);
 }

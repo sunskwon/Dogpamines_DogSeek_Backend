@@ -2,6 +2,7 @@ package com.dogpamines.dogseek.board.controller;
 
 import com.dogpamines.dogseek.board.model.dto.BoardPostDTO;
 import com.dogpamines.dogseek.board.model.dto.BoardDTO;
+import com.dogpamines.dogseek.board.model.dto.BoardReportDTO;
 import com.dogpamines.dogseek.board.model.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -55,17 +56,6 @@ public class BoardController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
 
-    }
-    @GetMapping("/boards/search")
-    public ResponseEntity<Map<String, Object>> searchBoards(@RequestParam("type") String postTitle) {
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-
-        Map<String, Object> result = new HashMap<>();
-        result.put("boards", boardService.searchBoards(postTitle));
-
-        return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
     @PostMapping("/boards")
@@ -205,4 +195,22 @@ public class BoardController {
                 .build();
     }
 
+    @PostMapping("/report/post")
+    public ResponseEntity<String> reportPost(@RequestBody BoardReportDTO report) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        try {
+            boardService.reportPost(report); // 신고 서비스 메서드 호출
+            System.out.println("Received report data: " + report);
+            System.out.println("headers = " + headers);
+
+            return ResponseEntity.ok("신고가 접수되었습니다"); // 성공시
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage()); // 잘못된 요청 처리
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("신고에 실패하셨습니다."); // 실패 시
+        }
+    }
 }

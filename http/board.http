@@ -37,6 +37,38 @@ Content-Type: application/json
 ### deleteBoard(삭제)
 DELETE http://localhost:8080/boards/24
 
+### reportPost(게시물 신고)
+POST http://localhost:8080/report/post
+Content-Type: application/json
+
+{
+  "reportReason": "도배",
+  "reportDate": "2024-07-12",
+  "reportUser": 2,
+  "reportNick": "개껌하나두개",
+  "postCode": 20
+}
+
+### historyReport(게시물 신고 내역 저장)
+POST http://localhost:8080/historyReport
+Content-Type: application/json
+
+{
+  "reportReason": "도배",
+  "reportDate": "2024-07-12",
+  "reportUser": 2,
+  "reportNick": "개껌하나두개",
+  "postCode": 20
+}
+
+### incrementReportCount(게시물 신고 횟수 증가)
+POST http://localhost:8080/boards/20/incrementReportCount
+Content-Type: application/json
+
+{
+  "postCode": 20
+}
+
 ### selectAllNotices
 GET http://localhost:8080/notice
 
