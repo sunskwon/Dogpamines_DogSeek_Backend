@@ -3,11 +3,14 @@ package com.dogpamines.dogseek.common.model.service;
 import com.dogpamines.dogseek.common.model.dto.ChatMessageDTO;
 import com.dogpamines.dogseek.common.model.dto.CheckDTO;
 import com.sun.tools.jconsole.JConsoleContext;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
+@EnableScheduling
 public class ChatService {
 
     private Map<String, Queue<ChatMessageDTO>> tempMessages;
@@ -47,7 +50,7 @@ public class ChatService {
 
                 Queue<ChatMessageDTO> tempMessage = tempMessages.get(roomId);
 
-                if (tempMessage.size() > 50) {
+                if (tempMessage.size() > 30) {
 
                     tempMessage.remove();
                     tempMessage.add(chatMessage);
@@ -137,5 +140,20 @@ public class ChatService {
         temp.setStatus(false);
 
         checkList.put(roomId, temp);
+    }
+
+    @Scheduled(cron = "0 1 0 * * ?")
+    public void clearPrevMessages() {
+
+        System.out.println("clearPrevMessages()...");
+
+        Set<String> keySets = checkList.keySet();
+
+        for (String key : keySets) {
+
+            tempMessages.remove(key);
+        }
+
+        checkList.clear();
     }
 }

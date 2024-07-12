@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.dogpamines.dogseek.common.model.dto.ChatMessageDTO.MessageType.JOIN;
+
 @RestController
 public class ChatController {
 
@@ -74,6 +76,18 @@ public class ChatController {
         chatService.savePrivateMessage(code, chatMessage);
 
         return chatMessage;
+    }
+
+    @PostMapping("/chat/comeandgo")
+    public void comeAndLeaveMessage(@RequestBody ChatMessageDTO chatMessage) {
+
+        System.out.println("comeandleave");
+        System.out.println("chatMessage = " + chatMessage);
+
+        if (chatMessage.getUserNick() != null) {
+
+            simpMessagingTemplate.convertAndSend(chatMessage.getRoomId(), chatMessage);
+        }
     }
 
     @PostMapping("/chat/adminleave")
