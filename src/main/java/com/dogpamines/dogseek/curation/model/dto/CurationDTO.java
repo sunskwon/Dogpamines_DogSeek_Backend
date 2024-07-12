@@ -1,22 +1,37 @@
 package com.dogpamines.dogseek.curation.model.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.Date;
-
+@Schema(description = "큐레이션 정보 DTO")
 public class CurationDTO {
-
+    @Schema(description = "큐레이션 코드(PK)")
     private Integer curationCode;
+    @Schema(description = "연령대")
     private String curationAge;
+    @Schema(description = "재료")
     private String curationIngra;
+    @Schema(description = "질병")
     private String curationDisease;
+    @Schema(description = "알러지")
     private String curationAllergy;
+    @Schema(description = "견종")
     private String curationBreed;
+    @Schema(description = "성별")
     private String curationGender;
+    @Schema(description = "중성화 여부")
     private String curationNeut;
+    @Schema(description = "몸무게")
     private String curationWeight;
+    @Schema(description = "이름")
     private String curationName;
+    @Schema(description = "큐레이션 날짜")
     private String curationDate;
+    @Schema(description = "크기")
     private String curationSize;
+    @Schema(description = "조리방식")
     private String curationCook;
+    @Schema(description = "회원 코드(FK)")
     private int userCode;
 
     public CurationDTO() {}

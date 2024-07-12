@@ -5,6 +5,8 @@ import com.dogpamines.dogseek.common.AuthConstants;
 import com.dogpamines.dogseek.common.utils.TokenUtils;
 import com.dogpamines.dogseek.user.model.dto.UserDTO;
 import com.dogpamines.dogseek.user.model.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
-
+@Tag(name = "Token(토큰) Controller")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -29,7 +31,7 @@ public class AuthController {
         this.userService = userService;
     }
 
-
+    @Operation(summary = "토큰 재발급", description = "사용자에게 토큰을 재발급 한다.")
     @PostMapping("/refresh")
     public ResponseEntity<?> refresh(@RequestHeader(name = "Refresh-Token") String request) {
         String refreshToken = TokenUtils.splitHeader(request);
@@ -53,7 +55,7 @@ public class AuthController {
             return ResponseEntity.status(403).body(null);
         }
     }
-
+    @Operation(summary = "로그아웃", description = "회원이 로그아웃 시 토큰을 지운다.")
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(
             @RequestHeader(name = "Authorization") String authToken,

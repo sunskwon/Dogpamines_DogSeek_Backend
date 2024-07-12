@@ -2,6 +2,8 @@ package com.dogpamines.dogseek.main.controller;
 
 import com.dogpamines.dogseek.main.model.service.MainService;
 import com.dogpamines.dogseek.products.model.dto.ProductsDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,7 +17,7 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Tag(name = "MainPage(메인화면) Controller")
 @RestController
 public class MainController {
 
@@ -27,6 +29,7 @@ public class MainController {
     }
 
     /* 최신 사료 정보 가져오기 */
+    @Operation(summary = "최신 사료 조회", description = "최신 사료를 3가지 조회할 수 있다.")
     @GetMapping("/lastProds")
     public ResponseEntity<Map<String, Object>> selectLastProds(){
 

@@ -1,30 +1,56 @@
 package com.dogpamines.dogseek.dict.model.dto;
 
-public class DictDTO {
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(description = "견종 정보 DTO")
+public class DictDTO {
+    @Schema(description = "견종 코드(PK)")
     private int dogCode;           // 견종코드
+    @Schema(description = "견종 이름")
     private String dogName;        // 이름
+    @Schema(description = "견종 크기")
     private String dogSize;        // 크기
+    @Schema(description = "견종 개요")
     private String dogSummary;     // 개요
+    @Schema(description = "견종 수컷 체고")
     private String dogHeightM;     // 수체고
+    @Schema(description = "견종 수컷 체중")
     private String dogWeightM;     // 수체중
+    @Schema(description = "견종 암컷 체고")
     private String dogHeightF;     // 암체고
+    @Schema(description = "견종 암컷 체중")
     private String dogWeightF;     // 암체중
+    @Schema(description = "견종 유아기")
     private String dogChild;       // 유아기
+    @Schema(description = "견종 청년기")
     private String dogYouth;       // 청년기
+    @Schema(description = "견종 노년기")
     private String dogEld;         // 노년기
+    @Schema(description = "견종 취약질병")
     private String dogDisease;     // 취약질병
+    @Schema(description = "견종 침흘림")
     private int dogDrool;          // 침흘림
+    @Schema(description = "견종 공동생활")
     private int dogSocial;         // 다른동물과의 공동생활
+    @Schema(description = "견종 털빠짐")
     private int dogShed;           // 털빠짐
+    @Schema(description = "견종 짖음")
     private int dogBark;           // 짖음
+    @Schema(description = "견종 가족반려동물")
     private int dogPet;            // 가족반려동물
+    @Schema(description = "견종 더위 적응")
     private int dogHot;            // 더위 적응
+    @Schema(description = "견종 추위 적응")
     private int dogCold;           // 추위 적응
+    @Schema(description = "견종 실내 적합성")
     private int dogHouse;          // 실내 적합성
+    @Schema(description = "견종 그루밍 요구")
     private int dogGroom;          // 그루밍 요구
+    @Schema(description = "견종 활동량")
     private int dogActi;           // 활동량
+    @Schema(description = "견종 이미지")
     private String dogImage;       // 이미지
+    @Schema(description = "견종 상세 이미지")
     private String dogDetail;      // 상세 이미지
 
     public DictDTO(){};

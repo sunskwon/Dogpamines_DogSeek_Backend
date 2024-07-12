@@ -1,12 +1,21 @@
 package com.dogpamines.dogseek.common.model.dto;
 
-public class ChatMessageDTO {
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Schema(description = "채팅 정보 DTO")
+public class ChatMessageDTO {
+    @Schema(description = "채팅방 아이디(PK)")
     private String roomId;
+    @Schema(description = "회원 코드(FK)")
     private String userCode;
+    @Schema(description = "회원 닉네임(FK)")
     private String userNick;
+    @Schema(description = "메세지 종류:'입장/메세지/떠나기'")
     private MessageType type;
+    @Schema(description = "메세지 내용")
     private String message;
+    @Schema(description = "메세지 전송 날짜,시간")
     private String date;
 
     public enum MessageType {

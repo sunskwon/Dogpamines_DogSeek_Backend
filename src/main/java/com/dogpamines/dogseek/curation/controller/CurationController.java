@@ -3,6 +3,8 @@ package com.dogpamines.dogseek.curation.controller;
 import com.dogpamines.dogseek.curation.model.dto.CurationDTO;
 import com.dogpamines.dogseek.curation.model.dto.HistoryDTO;
 import com.dogpamines.dogseek.curation.model.service.CurationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,7 +20,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Tag(name = "Curation(큐레이션) Controller")
 @RestController
 public class CurationController {
 
@@ -26,7 +28,7 @@ public class CurationController {
 
     @Autowired
     public CurationController(CurationService curationService) {this.curationService = curationService;}
-
+    @Operation(summary = "큐레이션 내용 저장", description = "회원이 큐레이션 한 내용을 DB에 저장한다.")
     @PostMapping("/curation")
     public ResponseEntity<?> curation(@RequestBody CurationDTO curationDTO) {
 
@@ -51,7 +53,7 @@ public class CurationController {
                     .build();
         }
     }
-
+    @Operation(summary = "맞춤 사료 추천", description = "회원이 큐레이션 한 내용을 바탕으로 맞춤 사료를 추천한다.")
     @GetMapping("/curation")
     public ResponseEntity<Map<String, Object>> curationProducts(@RequestParam String curationAge, String curationIngra,
                                                                 String curationDisease, String curationAllergy,
@@ -65,7 +67,7 @@ public class CurationController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
-
+    @Operation(summary = "해당 큐레이션 코드 조회", description = "해당 큐레이션 히스토리 DB에 맞춤 사료 코드를 저장하기 위해 큐레이션 코드 조회")
     @GetMapping("/curationSelect")
     public ResponseEntity<Map<String, Object>> curationSelect(@RequestParam String curationAge, String curationIngra, String curationDisease,
                                             String curationAllergy, String curationBreed, String curationGender,
@@ -87,7 +89,7 @@ public class CurationController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
-
+    @Operation(summary = "맞춤사료 내용 저장", description = "해당 큐레이션 코드를 가져와 히스토리 DB에 맞춤 사료 코드를 저장한다.")
     @PostMapping("/curationProducts")
     public ResponseEntity<?> curationProductsInsert(@RequestBody HistoryDTO historyDTO) {
 

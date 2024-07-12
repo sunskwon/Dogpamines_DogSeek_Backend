@@ -1,16 +1,25 @@
 package com.dogpamines.dogseek.board.model.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.time.LocalDateTime;
-
+@Schema(description = "게시판 입력 DTO")
 public class BoardPostDTO {
-
+    @Schema(description = "게시물 코드(PK)")
     private int postCode;
+    @Schema(description = "게시물 제목")
     private String postTitle;
+    @Schema(description = "게시물 내용")
     private String postContext;
+    @Schema(description = "게시물 작성일,시간")
     private LocalDateTime postDate;
+    @Schema(description = "게시물 분류:공지,자유")
     private String postCategory;
+    @Schema(description = "게시물 게시여부")
     private String postStatus;
+    @Schema(description = "회원 코드(FK)")
     private int userCode;
+    @Schema(description = "회원 닉네임(FK)")
     private String userNick;
 
     public BoardPostDTO() {}
