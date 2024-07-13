@@ -354,4 +354,22 @@
         WHERE A.POST_CODE = #{ postCode }
         ORDER BY A.REPORT_DATE DESC, A.REPORT_CODE DESC
     </select>
+
+    <insert id="reportPost" parameterType="com.dogpamines.dogseek.board.model.dto.BoardReportDTO">
+        INSERT INTO POST_REPORT
+        (
+        REPORT_REASON,
+        REPORT_DATE,
+        REPORT_USER,
+        POST_CODE
+        )
+        VALUES
+        (
+        #{reportReason},
+        #{reportDate},
+        #{reportUser},
+        #{postCode}
+        )
+    </insert>
+
 </mapper>

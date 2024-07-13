@@ -50,4 +50,6 @@ public interface BoardMapper {
     void deleteBoard(int postCode);
 
     List<BoardPostDTO> searchBoards(String postTitle);
+
+    void reportPost(BoardReportDTO report);
 }

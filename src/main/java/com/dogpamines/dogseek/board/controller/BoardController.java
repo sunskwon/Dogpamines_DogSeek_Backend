@@ -2,6 +2,7 @@ package com.dogpamines.dogseek.board.controller;
 
 import com.dogpamines.dogseek.board.model.dto.BoardPostDTO;
 import com.dogpamines.dogseek.board.model.dto.BoardDTO;
+import com.dogpamines.dogseek.board.model.dto.BoardReportDTO;
 import com.dogpamines.dogseek.board.model.service.BoardService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -112,6 +113,26 @@ public class BoardController {
 
         return ResponseEntity.noContent().build();
     }
+    @Operation(summary = "게시물 신고", description = "회원은 다른 사용자가 작성한 게시물을 신고할 수 있다.")
+    @PostMapping("/report/{postCode}")
+    public ResponseEntity<String> reportPost(@PathVariable int postCode, @RequestBody BoardReportDTO report) {
+        LocalDateTime reportDate = LocalDateTime.now();
+        report.setPostCode(postCode);
+        report.setReportDate(reportDate.toString());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        try {
+            boardService.reportPost(report);
+            System.out.println("신고가 성공적으로 접수되었습니다.");
+            return ResponseEntity.ok().body("신고가 성공적으로 접수되었습니다.");
+        } catch (Exception e) {
+            System.out.println("신고 접수 중 오류 발생: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("신고 접수 중 오류가 발생했습니다.");
+        }
+    }
+    
     @Operation(summary = "관리자 전체 공지사항 조회", description = "관리자는 모든 공지사항을 조회할 수 있다.")
     @GetMapping("/notice")
     public ResponseEntity<Map<String, Object>> selectAllNotices() {

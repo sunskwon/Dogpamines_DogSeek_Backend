@@ -202,4 +202,9 @@ public class BoardService {
 
         return boardMapper.searchBoards(postTitle);
     }
+
+    public void reportPost(BoardReportDTO report) {
+
+        boardMapper.reportPost(report);
+    }
 }
