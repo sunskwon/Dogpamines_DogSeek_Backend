@@ -2,6 +2,8 @@ package com.dogpamines.dogseek.common.controller;
 
 import com.dogpamines.dogseek.common.model.service.EmailService;
 import com.dogpamines.dogseek.common.model.service.VerificationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.Map;
-
+@Tag(name = "Email 전송 Controller")
 @RestController
 @RequestMapping("/api/auth")
 public class EmailVerificationController {
@@ -24,7 +26,7 @@ public class EmailVerificationController {
         this.emailService = emailService;
         this.verificationService = verificationService;
     }
-
+    @Operation(summary = "이메일 전송", description = "이메일의 형식과 빈문자열 확인 후 이메일을 전송한다.")
     @PostMapping("/send-verification-email")
     public ResponseEntity<String> sendVerificationEmail(@RequestBody Map<String, String> requestBody) {
         String email = requestBody.get("email");
@@ -55,7 +57,7 @@ public class EmailVerificationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while sending the email");
         }
     }
-
+    @Operation(summary = "인증번호 확인" ,description = "해당 이메일로 전송되었던 인증번호와 동일한지 확인한다.")
     @PostMapping("/verify-email")
     public ResponseEntity<Boolean> verifyEmail(@RequestBody Map<String, String> requestBody) {
         String email = requestBody.get("email");

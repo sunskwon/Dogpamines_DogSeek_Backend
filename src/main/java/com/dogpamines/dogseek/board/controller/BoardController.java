@@ -3,6 +3,8 @@ package com.dogpamines.dogseek.board.controller;
 import com.dogpamines.dogseek.board.model.dto.BoardPostDTO;
 import com.dogpamines.dogseek.board.model.dto.BoardDTO;
 import com.dogpamines.dogseek.board.model.service.BoardService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Tag(name = "Board(게시판) Controller")
 @RestController
 public class BoardController {
 
@@ -27,7 +29,7 @@ public class BoardController {
     public BoardController(BoardService boardService) {
         this.boardService = boardService;
     }
-
+    @Operation(summary = "전체 게시물 조회", description = "모든 게시물을 조회한다.")
     @GetMapping("/boards")
     public ResponseEntity<Map<String, Object>> selectAllPosts() {
 
@@ -42,7 +44,7 @@ public class BoardController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
-
+    @Operation(summary = "게시물코드로 게시물 조회", description = "게시물 클릭 시 해당 게시물 상세 정보를 조회할 수 있다.")
     @GetMapping("/boards/{postCode}")
     public ResponseEntity<Map<String, Object>> selectPost(@PathVariable int postCode) {
 
@@ -56,6 +58,7 @@ public class BoardController {
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
 
     }
+    @Operation(summary = "게시물 검색", description = "게시물의 제목으로 게시물을 검색한다.")
     @GetMapping("/boards/search")
     public ResponseEntity<Map<String, Object>> searchBoards(@RequestParam("type") String postTitle) {
 
@@ -67,7 +70,7 @@ public class BoardController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
-
+    @Operation(summary = "게시물 입력", description = "회원은 게시물을 입력할 수 있다.")
     @PostMapping("/boards")
     public ResponseEntity<?> newBoardPost(@RequestBody BoardPostDTO board) {
         LocalDateTime postDate = LocalDateTime.now();
@@ -81,6 +84,7 @@ public class BoardController {
 
         return ResponseEntity.noContent().build();
     }
+    @Operation(summary = "게시물 내용 수정", description = "회원은 본인이 작성한 게시물의 내용을 수정할 수 있다.")
     @PutMapping("/boards")
     public ResponseEntity<?> updateBoard(@RequestBody BoardPostDTO board) {
         LocalDateTime postDate = LocalDateTime.now();
@@ -94,7 +98,7 @@ public class BoardController {
                 .created(URI.create("/boards/" + board.getPostCode()))
                 .build();
     }
-
+    @Operation(summary = "게시물 삭제", description = "회원은 본인이 작성한 게시물을 삭제할 수 있다.")
     @DeleteMapping("/boards/{postCode}")
     public ResponseEntity<?> deleteBoard(@PathVariable int postCode) {
 
@@ -108,7 +112,7 @@ public class BoardController {
 
         return ResponseEntity.noContent().build();
     }
-
+    @Operation(summary = "관리자 전체 공지사항 조회", description = "관리자는 모든 공지사항을 조회할 수 있다.")
     @GetMapping("/notice")
     public ResponseEntity<Map<String, Object>> selectAllNotices() {
 
@@ -120,7 +124,7 @@ public class BoardController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
-
+    @Operation(summary = "관리자 해당 공지사항 검색", description = "관리자는 제목,내용,닉네임으로 공지사항을 조회할 수 있다.")
     @GetMapping("/notice/search")
     public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("type") String type, @RequestParam("input") String input) {
 
@@ -132,7 +136,7 @@ public class BoardController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
-
+    @Operation(summary = "관리자 전체 게시물 조회", description = "관리자는 모든 게시물을 조회할 수 있다.")
     @GetMapping("/board")
     @Transactional
     public ResponseEntity<Map<String, Object>> selectAllBoards() {
@@ -145,7 +149,7 @@ public class BoardController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
-
+    @Operation(summary = "관리자 해당 게시물 검색", description = "관리자는 제목,내용,닉네임으로 공지사항을 조회할 수 있다.")
     @GetMapping("/board/search")
     @Transactional
     public ResponseEntity<Map<String, Object>> selectBoard(@RequestParam("type") String type, @RequestParam("input") String input) {
@@ -158,7 +162,7 @@ public class BoardController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
-
+    @Operation(summary = "관리자 게시물코드로 게시물 조회", description = "관리자는 게시물 클릭 시 해당 게시물의 상세 정보를 조회할 수 있다.")
     @GetMapping("/post/{postCode}")
     public ResponseEntity<Map<String, Object>> selectBoardByCode(@PathVariable int postCode) {
 
@@ -170,7 +174,7 @@ public class BoardController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
-
+    @Operation(summary = "관리자 게시물 등록", description = "관리자는 게시물을 등록할 수 있다.")
     @PostMapping("/post")
     public ResponseEntity<?> insertPost(@RequestBody BoardDTO notice) {
 
@@ -182,7 +186,7 @@ public class BoardController {
 
         return ResponseEntity.noContent().build();
     }
-
+    @Operation(summary = "관리자 게시물 삭제", description = "관리자는 게시물을 삭제할 수 있다.")
     @DeleteMapping("/post/{postCode}")
     public ResponseEntity<?> deletePost(@PathVariable int postCode) {
 
@@ -192,7 +196,7 @@ public class BoardController {
 
         return ResponseEntity.noContent().build();
     }
-
+    @Operation(summary = "관리자 게시물 수정", description = "관리자는 게시물을 수정할 수 있다.")
     @PutMapping("/post")
     public ResponseEntity<?> updatePost(@RequestBody BoardDTO notice) {
 
