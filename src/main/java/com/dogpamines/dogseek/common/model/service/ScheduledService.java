@@ -174,6 +174,10 @@ public class ScheduledService {
             e.printStackTrace();
         }
 
+        if (scheduledMapper.selectCounts(date) == null) {
+            scheduledMapper.createNewRow();
+        }
+
         CountsDTO prevCounts = scheduledMapper.selectCounts(date);
 
         int signup = prevCounts.getCountsSignup();
