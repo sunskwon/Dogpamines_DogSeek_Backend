@@ -35,7 +35,7 @@ public class MyPageController {
 
     /* 큐레이션 전체 조회 */
     @Operation(summary = "큐레이션 내역 조회", description = "모든 회원의 전체 큐레이션 내역을 조회한다.")
-    @GetMapping("/curationList")
+    @GetMapping("/mydog/curations")
     public ResponseEntity<Map<String, Object>> allCurationList(){
 
         List<CurationDTO> curationDTOList = myPageService.findAllCuration();
@@ -73,7 +73,7 @@ public class MyPageController {
 
     /* 큐레이션 유저별 반려견별 상세 조회 */
     @Operation(summary = "회원의 반려견별 큐레이션 내역 조회", description = "회원의 반려견별 큐레이션 내역을 조회한다.")
-    @GetMapping("/curationsDog")
+    @GetMapping("/mydog/curation")
     public ResponseEntity<Map<String, Object>> selectUserDogCurationList(@RequestParam int userCode, String curationName){
         List<CurationDTO> curationDTOList = myPageService.selectUserDogCurationList(userCode, curationName);
 
@@ -109,7 +109,7 @@ public class MyPageController {
 //
 //    }
     @Operation(summary = "큐레이션 내역별 맞춤 사료 조회", description = "회원의 이전 큐레이션 내역별 맞춤 사료를 조회할 수 있다.")
-    @GetMapping("/mycurationresult")
+    @GetMapping("/mydog/curation-result")
     public ResponseEntity<Map<String, Object>> selectMyCurationResult(@RequestParam int curationCode) throws NotFoundException {
         List<Integer> prodCodes = myPageService.selectProdCodesByCurationCode(curationCode);
         if (prodCodes == null || prodCodes.isEmpty()) {
@@ -223,7 +223,7 @@ public class MyPageController {
 
     /* 비밀번호 일치 여부 조회 */
     @Operation(summary = "비밀번호 일치 여부 조회", description = "회원의 비밀번호와 일치하는지 조회한다.")
-    @PostMapping("/mypage/verifyPassword")
+    @PostMapping("/mypage/verify-Password")
     public ResponseEntity<Map<String, Object>> verifyPassword(@RequestBody Map<String, String> request) {
         int userCode = Integer.parseInt(request.get("userCode"));
         String password = request.get("password");

@@ -122,7 +122,7 @@ public class ProductsController {
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
     @Operation(summary = "조회수가 많은 사료" , description = "사용자는 메인화면에서 조회수가 가장 높은 사료 순으로 조회할 수 있다.")
-    @GetMapping("/products/mostProducts")
+    @GetMapping("/products/most-products")
     public ResponseEntity<Map<String, Object>> mostProducts() {
 
         HttpHeaders headers = new HttpHeaders();
@@ -135,7 +135,7 @@ public class ProductsController {
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
     @Operation(summary = "관리자 사료 조회" , description = "관리자는 사료의 이름과 제조사로 사료를 검색할 수 있다.")
-    @GetMapping("/products/prodsearch")
+    @GetMapping("/products/prod/search")
     public ResponseEntity<Map<String, Object>> productSearch(@RequestParam("type") String type, @RequestParam("input") String input) {
 
         HttpHeaders headers = new HttpHeaders();

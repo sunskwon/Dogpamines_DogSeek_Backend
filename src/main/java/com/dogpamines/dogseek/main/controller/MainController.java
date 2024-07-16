@@ -30,7 +30,7 @@ public class MainController {
 
     /* 최신 사료 정보 가져오기 */
     @Operation(summary = "최신 사료 조회", description = "최신 사료를 3가지 조회할 수 있다.")
-    @GetMapping("/lastProds")
+    @GetMapping("/last-prods")
     public ResponseEntity<Map<String, Object>> selectLastProds(){
 
         List<ProductsDTO> productsDTOS = mainService.selectLastProds();
