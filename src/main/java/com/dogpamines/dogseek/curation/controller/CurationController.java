@@ -68,7 +68,7 @@ public class CurationController {
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
     @Operation(summary = "해당 큐레이션 코드 조회", description = "해당 큐레이션 히스토리 DB에 맞춤 사료 코드를 저장하기 위해 큐레이션 코드 조회")
-    @GetMapping("/curationSelect")
+    @GetMapping("/curation/search")
     public ResponseEntity<Map<String, Object>> curationSelect(@RequestParam String curationAge, String curationIngra, String curationDisease,
                                             String curationAllergy, String curationBreed, String curationGender,
                                             String curationNeut, String curationWeight, String curationName,
@@ -90,7 +90,7 @@ public class CurationController {
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
     @Operation(summary = "맞춤사료 내용 저장", description = "해당 큐레이션 코드를 가져와 히스토리 DB에 맞춤 사료 코드를 저장한다.")
-    @PostMapping("/curationProducts")
+    @PostMapping("/curation/products")
     public ResponseEntity<?> curationProductsInsert(@RequestBody HistoryDTO historyDTO) {
 
         HttpHeaders headers = new HttpHeaders();

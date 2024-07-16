@@ -57,7 +57,7 @@ public class DictController {
        return new ResponseEntity<>(result, headers, HttpStatus.OK);
    }
     @Operation(summary = "관리자 견종 코드로 조회" , description = "관리자는 견종을 코드로 조회한다.")
-     @GetMapping("/dict/get/{dogCode}")
+     @GetMapping("/admin/dict/{dogCode}")
      public ResponseEntity<Map<String, Object>> selectByCode(@PathVariable int dogCode) {
 
          HttpHeaders headers = new HttpHeaders();
