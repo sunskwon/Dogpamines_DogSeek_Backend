@@ -223,7 +223,7 @@ public class MyPageController {
 
     /* 비밀번호 일치 여부 조회 */
     @Operation(summary = "비밀번호 일치 여부 조회", description = "회원의 비밀번호와 일치하는지 조회한다.")
-    @PostMapping("/mypage/verify-Password")
+    @PostMapping("/mypage/verify-password")
     public ResponseEntity<Map<String, Object>> verifyPassword(@RequestBody Map<String, String> request) {
         int userCode = Integer.parseInt(request.get("userCode"));
         String password = request.get("password");
