@@ -103,7 +103,7 @@ public class DictController {
         dictService.insertDict(dict);
 
         return ResponseEntity
-                .created(URI.create("/dict/get/" + newDictCode))
+                .created(URI.create("/admin/dict/" + newDictCode))
                 .build();
     }
     @Operation(summary = "견종 정보 수정" , description = "관리자는 견종의 정보를 수정할 수 있다.")
@@ -113,7 +113,7 @@ public class DictController {
         dictService.updateDict(dict);
 
         return ResponseEntity
-                .created(URI.create("/dict/get/" + dict.getDogCode()))
+                .created(URI.create("/admin/dict/" + dict.getDogCode()))
                 .build();
     }
     @Operation(summary = "견종 정보 삭제" , description = "관리자는 견종의 정보를 삭제할 수 있다.")
